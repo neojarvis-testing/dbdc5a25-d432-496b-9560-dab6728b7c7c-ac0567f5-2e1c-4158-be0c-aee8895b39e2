@@ -9,7 +9,7 @@ namespace dotnetapp.Data
 {
     public class ApplicationDbContext: DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext>options): base(options){}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){}
 
         public DbSet<Feedback> Feedbacks { get; set; }
 
@@ -19,12 +19,5 @@ namespace dotnetapp.Data
 
         public DbSet<Announcement> Announcements { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder){
-            modelBuilder.Entity<BlogPost>()
-            .HasOne(a=>a.User)
-            .WithMany(a=>a.BlogPosts)
-            .HasForeignKey(a=>a.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
-        }
     }
 }
