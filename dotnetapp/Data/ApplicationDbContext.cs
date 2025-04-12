@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
 
+
 namespace dotnetapp.Data
 {
     public class ApplicationDbContext: DbContext
@@ -18,6 +19,5 @@ namespace dotnetapp.Data
         public DbSet<BlogPost> BlogPosts { get; set; }
 
         public DbSet<Announcement> Announcements { get; set; }
-
     }
 }
