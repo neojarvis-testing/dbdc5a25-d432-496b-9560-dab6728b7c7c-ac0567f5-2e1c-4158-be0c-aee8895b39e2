@@ -10,6 +10,6 @@ namespace dotnetapp.Controllers
     [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {  
-        //gagan
+        //ga
     }
 }
