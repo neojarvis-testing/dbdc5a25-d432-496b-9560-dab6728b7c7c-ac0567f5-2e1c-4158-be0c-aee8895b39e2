@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using dotnetapp.Services;
 using dotnetapp.Exceptions;
 using dotnetapp.Models;
-
+ 
 namespace dotnetapp.Controllers
 {
     [ApiController]
@@ -13,19 +13,19 @@ namespace dotnetapp.Controllers
     public class BlogPostController : ControllerBase
     {
         private readonly BlogPostService _blogPostService;
-
+ 
         public BlogPostController(BlogPostService blogPostService)
         {
             _blogPostService = blogPostService;
         }
-
+ 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogPosts()
         {
             var blogPosts = await _blogPostService.GetAllBlogPosts();
             return Ok(blogPosts);
         }
-
+ 
         [HttpGet("{postId}")]
         public async Task<ActionResult<BlogPost>> GetBlogPostById(int postId)
         {
@@ -36,7 +36,7 @@ namespace dotnetapp.Controllers
             }
             return Ok(blogPost);
         }
-
+ 
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPostsByUserId(int userId)
         {
@@ -47,7 +47,7 @@ namespace dotnetapp.Controllers
             }
             return Ok(blogPosts);
         }
-
+ 
         [HttpPost]
         public async Task<ActionResult> AddBlogPost([FromBody] BlogPost blogPost)
         {
@@ -61,7 +61,7 @@ namespace dotnetapp.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+ 
         [HttpPut("{postId}")]
         public async Task<ActionResult> UpdateBlogPost(int postId, [FromBody] BlogPost blogPost)
         {
@@ -79,7 +79,7 @@ namespace dotnetapp.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
+ 
         [HttpDelete("{postId}")]
         public async Task<ActionResult> DeleteBlogPost(int postId)
         {

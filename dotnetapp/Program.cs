@@ -1,5 +1,7 @@
 using System;
 using dotnetapp.Services;
+using dotnetapp.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +39,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<BlogPostService>();
 
 var app = builder.Build();
 
