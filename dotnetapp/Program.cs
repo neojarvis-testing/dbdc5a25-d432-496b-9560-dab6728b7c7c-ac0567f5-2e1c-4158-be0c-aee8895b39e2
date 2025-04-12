@@ -1,13 +1,12 @@
 using System;
 using dotnetapp.Services;
-using dotnetapp.Data;
-using dotnetapp.Models;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<ApplicationDbContext>(db=>{
+    db.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +26,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+builder.Services.AddScoped<BlogPostService>();
 
 var app = builder.Build();
 

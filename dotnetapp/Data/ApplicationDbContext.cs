@@ -4,16 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using dotnetapp.Models;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace dotnetapp.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext: DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options){ }
-        public DbSet<Feedback> Feedbacks {get; set;}
-        public DbSet<User> Users {get; set;}
-        public DbSet<BlogPost> BlogPosts {get; set;}
-        public DbSet<Announcement> Announcements {get; set;}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){}
+
+        public DbSet<Feedback> Feedbacks { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<BlogPost> BlogPosts { get; set; }
+
+        public DbSet<Announcement> Announcements { get; set; }
     }
 }

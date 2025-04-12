@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Json.Serialization;
-using System.ComponentModel.DataAnnotations;
 
 namespace dotnetapp.Models
 {
     public class BlogPost
     {
-        [Key]   
         public int BlogPostId { get; set; }
         public int UserId { get; set; }
         [JsonIgnore]
