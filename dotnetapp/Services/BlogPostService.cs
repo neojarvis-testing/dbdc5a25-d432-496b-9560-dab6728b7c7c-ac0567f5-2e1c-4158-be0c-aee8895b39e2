@@ -70,6 +70,10 @@ namespace dotnetapp.Services
             existingBlogPost.Content = blogPost.Content;
             existingBlogPost.Status = blogPost.Status;
             existingBlogPost.PublishedDate = blogPost.PublishedDate;
+            
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<bool> DeleteBlogPost(int blogPostId)
         {
