@@ -7,16 +7,15 @@ using System.Text.Json.Serialization;
 
 namespace dotnetapp.Models
 {
-    public class BlogPost
+    public class Feedback
     {
-        public int BlogPostId { get; set; }
+        [Key]
+        public int FeedbackId { get; set; }
         public int UserId { get; set; }
         [JsonIgnore]
         public User? User { get; set; } // Nullable User object
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Status { get; set; }
-        public DateTime PublishedDate { get; set; }
+        public string FeedbackText { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }
