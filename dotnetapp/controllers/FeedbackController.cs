@@ -1,0 +1,84 @@
+using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
+using dotnetapp.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+ 
+namespace dotnetapp.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class FeedbackController : ControllerBase
+    {
+        private readonly FeedbackService _feedbackService;
+ 
+        public FeedbackController(FeedbackService feedbackService)
+        {
+            _feedbackService = feedbackService;
+        }
+ 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetAllFeedbacks()
+        {
+            try
+            {
+                var feedbacks = await _feedbackService.GetAllFeedbacks();
+                return Ok(feedbacks);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+ 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Feedback>>> GetFeedbacksByUserId(int userId)
+        {
+            try
+            {
+                var feedbacks = await _feedbackService.GetFeedbacksByUserId(userId);
+                if (feedbacks == null || !feedbacks.Any())
+                {
+                    return NotFound("No feedbacks found for this user");
+                }
+                return Ok(feedbacks);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+ 
+        [HttpPost]
+        public async Task<ActionResult> AddFeedback([FromBody] Feedback feedback)
+        {
+            try
+            {
+                await _feedbackService.AddFeedback(feedback);
+                return Ok("Feedback added successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+ 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteFeedback(int id)
+        {
+            try
+            {
+                var result = await _feedbackService.DeleteFeedback(id);
+                if (!result)
+                {
+                    return NotFound("Cannot find any feedback");
+                }
+                return Ok("Feedback deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+    }
+}
