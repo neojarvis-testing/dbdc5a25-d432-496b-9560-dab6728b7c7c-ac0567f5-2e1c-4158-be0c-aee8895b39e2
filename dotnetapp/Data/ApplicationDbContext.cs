@@ -18,6 +18,6 @@ namespace dotnetapp.Data
 
         public DbSet<BlogPost> BlogPosts { get; set; }
 
-        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<Announcement> Announcements { get; set; } // gagan
     }
 }
