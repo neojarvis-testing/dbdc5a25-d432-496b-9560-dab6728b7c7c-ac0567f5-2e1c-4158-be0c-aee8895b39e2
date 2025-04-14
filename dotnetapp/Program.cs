@@ -28,6 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddCors(options =>
 {
