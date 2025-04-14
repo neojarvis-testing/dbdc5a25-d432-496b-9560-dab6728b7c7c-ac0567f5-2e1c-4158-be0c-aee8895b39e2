@@ -89,9 +89,9 @@ builder.Services.AddSwaggerGen(c =>
  
 // Register Custom Services
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
-// builder.Services.AddTransient<LoanApplicationService>();
-// builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddScoped<FeedbackService>();
  
 builder.Services.AddEndpointsApiExplorer();
  
@@ -114,4 +114,3 @@ app.UseAuthorization();
 app.MapControllers();
  
 app.Run();
- 
