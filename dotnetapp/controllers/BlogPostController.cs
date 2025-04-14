@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using dotnetapp.Services;
 using dotnetapp.Exceptions;
 using dotnetapp.Models;
+using Microsoft.AspNetCore.Authorization;
  
 namespace dotnetapp.Controllers
 {
@@ -20,6 +21,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet]
+         [Authorize(Roles = "Admin")] // Enforces authorization for Admin role
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogPosts()
         {
             var blogPosts = await _blogPostService.GetAllBlogPosts();
@@ -27,6 +29,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet("{postId}")]
+        [Authorize(Roles = "Admin")] // Enforces authorization for Admin role
         public async Task<ActionResult<BlogPost>> GetBlogPostById(int postId)
         {
             var blogPost = await _blogPostService.GetBlogPostById(postId);

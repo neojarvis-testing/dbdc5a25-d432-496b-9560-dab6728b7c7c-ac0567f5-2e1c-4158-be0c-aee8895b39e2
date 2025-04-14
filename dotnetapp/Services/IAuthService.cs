@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using dotnetapp.Models;
 using System.Threading.Tasks;
-
+ 
 namespace dotnetapp.Services
 {
-    public class IAuthService
+    public interface IAuthService
     {
-        
+        Task<(int, string)> Registration(User model, string role);
+        Task<(int, string)> Login(LoginModel model);
     }
 }
