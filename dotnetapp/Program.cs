@@ -89,10 +89,10 @@ builder.Services.AddSwaggerGen(c =>
  
 // Register Custom Services
 builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddTransient<AuthService>();
-builder.Services.AddTransient<BookingService>();
-builder.Services.AddTransient<FeedbackService>();
-builder.Services.AddTransient<RoomService>();
+builder.Services.AddTransient<AnnouncementService>();
+builder.Services.AddTransient<BlogPostService>();
+
+builder.Services.AddScoped<FeedbackService>();
  
 builder.Services.AddEndpointsApiExplorer();
  
