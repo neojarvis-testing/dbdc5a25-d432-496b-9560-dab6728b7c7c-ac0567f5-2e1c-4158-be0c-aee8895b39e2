@@ -22,7 +22,6 @@ namespace dotnetapp.Controllers
  
         [HttpGet]
          [Authorize(Roles = "Admin")] 
-          [Authorize(Roles = "User")] 
          // Enforces authorization for Admin role
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogPosts()
         {
