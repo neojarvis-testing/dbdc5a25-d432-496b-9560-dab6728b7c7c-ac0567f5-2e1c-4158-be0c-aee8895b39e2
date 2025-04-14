@@ -11,17 +11,19 @@ namespace dotnetapp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BlogPostController : ControllerBase
+    public class BlogPostsController : ControllerBase
     {
         private readonly BlogPostService _blogPostService;
  
-        public BlogPostController(BlogPostService blogPostService)
+        public BlogPostsController(BlogPostService blogPostService)
         {
             _blogPostService = blogPostService;
         }
  
         [HttpGet]
-         [Authorize(Roles = "Admin")] // Enforces authorization for Admin role
+         [Authorize(Roles = "Admin")] 
+          [Authorize(Roles = "User")] 
+         // Enforces authorization for Admin role
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogPosts()
         {
             var blogPosts = await _blogPostService.GetAllBlogPosts();
