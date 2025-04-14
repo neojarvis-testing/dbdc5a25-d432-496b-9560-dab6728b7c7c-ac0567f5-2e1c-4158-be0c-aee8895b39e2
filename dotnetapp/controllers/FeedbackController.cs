@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace dotnetapp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/")]
     public class FeedbackController : ControllerBase
     {
         private readonly FeedbackService _feedbackService;
