@@ -1,18 +1,25 @@
-using System;
+using System.Text;
 using dotnetapp.Services;
 using dotnetapp.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(db=>{
+// Add services to the container
+builder.Services.AddDbContext<ApplicationDbContext>(db =>
+{
     db.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
 });
+
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add CORS Policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
@@ -22,28 +29,38 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
 
-// Register AnnouncementService
+// Register Services
 builder.Services.AddScoped<AnnouncementService>();
 builder.Services.AddScoped<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddCors(options =>
+// Add Authentication and Authorization
+builder.Services.AddAuthentication(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "http://localhost", // Replace with your actual Issuer
+        ValidAudience = "http://localhost", // Replace with your actual Audience
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSecretKey")) // Replace with your Secret Key
+    };
 });
 
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,6 +71,8 @@ app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 
+// Add Authentication Middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
