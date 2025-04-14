@@ -1,4 +1,4 @@
-class Announcement {
+ export class Announcement {
     AnnouncementId?: number;
     Title: string;
     Content: string;
