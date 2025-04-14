@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using dotnetapp.Data;
 using dotnetapp.Exceptions;
 using dotnetapp.Models;
+using Microsoft.AspNetCore.Authorization;
  
 namespace dotnetapp.Services
 {
@@ -18,7 +19,8 @@ namespace dotnetapp.Services
         {
             _dbContext = dbContext;
         }
- 
+
+      
         public async Task<IEnumerable<BlogPost>> GetAllBlogPosts()
         {
             return await _dbContext.BlogPosts
@@ -26,6 +28,7 @@ namespace dotnetapp.Services
                 .ToListAsync();
         }
  
+
         public async Task<BlogPost> GetBlogPostById(int blogPostId)
         {
             return await _dbContext.BlogPosts
