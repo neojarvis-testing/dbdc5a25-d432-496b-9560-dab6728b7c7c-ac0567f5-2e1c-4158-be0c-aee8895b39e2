@@ -19,6 +19,8 @@ import { UserViewAnnouncementComponent } from './components/user-view-announceme
 import { UserViewBlogComponent } from './components/user-view-blog/user-view-blog.component';
 import { UserViewFeedbackComponent } from './components/user-view-feedback/user-view-feedback.component';
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { UserNavbarComponent } from './components/user-navbar/user-navbar.compon
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

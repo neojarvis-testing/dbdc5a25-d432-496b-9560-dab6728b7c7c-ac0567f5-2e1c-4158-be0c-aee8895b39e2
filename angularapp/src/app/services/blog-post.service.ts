@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { BlogPost } from '../models/blog-post.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogPostService {
 
-  private baseUrl = 'https://ide-abfbbbdabfccfffadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/';
+  private baseUrl = 'https://8080-abfbbbdabfccfffadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/';
 
   constructor(private http: HttpClient) { }
 
