@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using dotnetapp.Models;
 using dotnetapp.Services;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
  
 namespace dotnetapp.Controllers
 {
@@ -17,6 +18,8 @@ namespace dotnetapp.Controllers
         }
  
         [HttpPost("login")]
+        
+        
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -41,6 +44,8 @@ namespace dotnetapp.Controllers
         }
  
         [HttpPost("register")]
+       
+        
         public async Task<IActionResult> Register([FromBody] User model)
         {
             if (!ModelState.IsValid)
