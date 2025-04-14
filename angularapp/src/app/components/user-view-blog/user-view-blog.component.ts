@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { BlogPostService } from 'src/app/services/blog-post.service'; 
+import { BlogPostService } from 'src/app/services/blog-post.service';
 
 @Component({
   selector: 'app-user-view-blog',
