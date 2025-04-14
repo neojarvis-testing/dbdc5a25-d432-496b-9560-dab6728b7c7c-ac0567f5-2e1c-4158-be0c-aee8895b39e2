@@ -16,9 +16,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
  
 // Add Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+// builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+//     .AddEntityFrameworkStores<ApplicationDbContext>()
+//     .AddDefaultTokenProviders();
  
 builder.Services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
  
@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]);
  
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -89,9 +89,10 @@ builder.Services.AddSwaggerGen(c =>
  
 // Register Custom Services
 builder.Services.AddTransient<IAuthService, AuthService>();
-builder.Services.AddTransient<BlogPostService>();
-builder.Services.AddTransient<AnnouncementService>();
-builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<BookingService>();
+builder.Services.AddTransient<FeedbackService>();
+builder.Services.AddTransient<RoomService>();
  
 builder.Services.AddEndpointsApiExplorer();
  
