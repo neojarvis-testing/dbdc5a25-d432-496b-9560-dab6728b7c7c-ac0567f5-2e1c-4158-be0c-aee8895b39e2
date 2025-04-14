@@ -1,1 +1,8 @@
-<p>admin-navbar works!</p>
+<nav>
+    <div class="nav-title">{{ title }}</div>
+    <ul class="nav-links">
+      <li (click)="navigate('/registration')">Register</li>
+      <li (click)="navigate('/login')">Login</li>
+    </ul>
+  </nav>
+  

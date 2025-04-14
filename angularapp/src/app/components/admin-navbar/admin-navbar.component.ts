@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-navbar',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminNavbarComponent implements OnInit {
 
-  constructor() { }
+  title = 'BlogPortal';
+  constructor(private router: Router) { }
+
+
 
   ngOnInit(): void {
   }
 
+  navigate(route: string) {
+    this.router.navigate([route]);
+  }
+
 }
+
