@@ -30,7 +30,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]);
  
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -91,7 +91,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
-
 builder.Services.AddScoped<FeedbackService>();
  
 builder.Services.AddEndpointsApiExplorer();
