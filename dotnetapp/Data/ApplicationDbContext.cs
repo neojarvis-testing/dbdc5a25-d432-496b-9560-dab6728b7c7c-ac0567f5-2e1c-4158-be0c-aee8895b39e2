@@ -20,8 +20,10 @@ namespace dotnetapp.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
-        public DbSet<Announcement> Announcements { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers {get;set;}
-       
+
+        public DbSet<Announcement> Announcements { get; set; } 
+
+        public DbSet<ApplicationUser> ApplicationUsers {get; set;}
+
     }
 }

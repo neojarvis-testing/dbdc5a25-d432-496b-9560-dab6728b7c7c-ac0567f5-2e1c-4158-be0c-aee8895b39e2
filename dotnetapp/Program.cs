@@ -91,6 +91,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
+
 builder.Services.AddScoped<FeedbackService>();
  
 builder.Services.AddEndpointsApiExplorer();
