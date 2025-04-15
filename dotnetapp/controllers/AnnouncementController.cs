@@ -4,6 +4,7 @@ using dotnetapp.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks; 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
  
 namespace dotnetapp.Controllers
 {
@@ -33,6 +34,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")] 
         public async Task<ActionResult<Announcement>> GetAnnouncementById(int id)
         {
             try
@@ -51,6 +53,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpPost]
+        [Authorize(Roles = "Admin")] 
         public async Task<ActionResult> AddAnnouncement([FromBody] Announcement announcement)
         {
             try
@@ -65,6 +68,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")] 
         public async Task<ActionResult> UpdateAnnouncement(int id, [FromBody] Announcement announcement)
         {
             if (id != announcement.AnnouncementId)
@@ -88,6 +92,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")] 
         public async Task<ActionResult> DeleteAnnouncement(int id)
         {
             try

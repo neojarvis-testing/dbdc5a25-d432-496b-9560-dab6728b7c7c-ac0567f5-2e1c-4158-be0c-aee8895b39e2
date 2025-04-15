@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -7,37 +8,38 @@ import { Announcement } from '../models/announcement.model';
   providedIn: 'root'
 })
 export class AnnouncementService {
-  private baseUrl = '/api/announcements';
+  // https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/
+  private apiUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
   getAllAnnouncements(): Observable<Announcement[]> {
-    const headers = this.createAuthHeaders();
-    return this.http.get<Announcement[]>(this.baseUrl, { headers });
+    return this.http.get<Announcement[]>(`${this.apiUrl}/api/announcements`, { headers: this.getAuthHeaders() });
   }
 
   getAnnouncementById(id: number): Observable<Announcement> {
-    const headers = this.createAuthHeaders();
-    return this.http.get<Announcement>(`${this.baseUrl}/${id}`, { headers });
+    const url = `${this.apiUrl}/api/announcements/${id}`;
+    return this.http.get<Announcement>(url, { headers: this.getAuthHeaders() });
   }
 
   addAnnouncement(announcement: Announcement): Observable<any> {
-    const headers = this.createAuthHeaders();
-    return this.http.post(this.baseUrl, announcement, { headers });
+    return this.http.post(`${this.apiUrl}/api/announcements`, announcement, { headers: this.getAuthHeaders() });
   }
 
   updateAnnouncement(id: number, announcement: Announcement): Observable<any> {
-    const headers = this.createAuthHeaders();
-    return this.http.put(`${this.baseUrl}/${id}`, announcement, { headers });
+    const url = `${this.apiUrl}/api/announcements/${id}`;
+    return this.http.put(url, announcement, { headers: this.getAuthHeaders() });
   }
 
   deleteAnnouncement(id: number): Observable<any> {
-    const headers = this.createAuthHeaders();
-    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
-  }
-
-  private createAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token') || '';
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.apiUrl}/api/announcements/${id}`;
+    return this.http.delete(url, { headers: this.getAuthHeaders() });
   }
 }
