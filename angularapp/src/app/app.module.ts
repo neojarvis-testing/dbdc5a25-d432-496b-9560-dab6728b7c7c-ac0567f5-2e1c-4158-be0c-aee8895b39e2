@@ -19,9 +19,8 @@ import { UserViewAnnouncementComponent } from './components/user-view-announceme
 import { UserViewBlogComponent } from './components/user-view-blog/user-view-blog.component';
 import { UserViewFeedbackComponent } from './components/user-view-feedback/user-view-feedback.component';
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     FormsModule, 
     HttpClientModule,
-   
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
