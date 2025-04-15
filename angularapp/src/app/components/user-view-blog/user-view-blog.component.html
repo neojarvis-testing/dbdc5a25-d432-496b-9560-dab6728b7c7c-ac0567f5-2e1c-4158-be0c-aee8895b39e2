@@ -1,1 +1,20 @@
-<p>user-view-blog works!</p>
+<h2>Blog Posts</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let blog of blogPosts">
+      <td>{{ blog.title }}</td>
+      <td>{{ blog.status }}</td>
+      <td>
+        <button (click)="editBlog(blog)" [disabled]="blog.status === 'Approved'">Edit</button>
+        <button (click)="deleteBlog(blog)" [disabled]="blog.status === 'Approved'">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
