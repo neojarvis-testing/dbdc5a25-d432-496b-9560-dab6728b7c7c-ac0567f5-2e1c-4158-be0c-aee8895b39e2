@@ -8,32 +8,33 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-add-blog.component.css']
 })
 export class UserAddBlogComponent implements OnInit {
-  blogForm!: FormGroup;
-  errorMessage: string = '';
-  isEdit: boolean = false; // Toggle for add/edit mode
+  // blogForm!: FormGroup;
+  // errorMessage: string = '';
+  // isEdit: boolean = false; // Toggle for add/edit mode
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
-    this.blogForm = this.fb.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required]
-    });
+  
+    // this.blogForm = this.fb.group({
+    //   title: ['', Validators.required],
+    //   content: ['', Validators.required]
+    // });
     // Pre-populate form if editing (using route data)
   }
 
-  onSubmit() {
-    if (this.blogForm.invalid) {
-      this.errorMessage = 'All fields are required';
-      return;
-    }
-    // Simulate checking for duplicate title
-    const duplicateTitle = false;
-    if (duplicateTitle) {
-      this.errorMessage = 'A blog with the title already exists';
-      return;
-    }
-    alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
-    this.router.navigate(['/user/view-blog']);
-  }
+  // onSubmit() {
+  //   if (this.blogForm.invalid) {
+  //     this.errorMessage = 'All fields are required';
+  //     return;
+  //   }
+  //   // Simulate checking for duplicate title
+  //   const duplicateTitle = false;
+  //   if (duplicateTitle) {
+  //     this.errorMessage = 'A blog with the title already exists';
+  //     return;
+  //   }
+  //   alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
+  //   this.router.navigate(['/user/view-blog']);
+  // }
 }

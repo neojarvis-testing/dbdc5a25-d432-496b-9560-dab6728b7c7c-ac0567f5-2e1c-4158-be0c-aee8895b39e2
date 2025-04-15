@@ -40,3 +40,4 @@ export class BlogPostService {
     return this.http.delete(`${this.baseUrl}/api/blogposts/${id}`, { headers: this.getAuthHeaders() });
   }
 }
+
