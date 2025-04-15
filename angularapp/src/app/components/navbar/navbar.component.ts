@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   {
     return this.authService.isLoggedIn();
   }
-
+  
   ngOnInit(): void {
   }
 
