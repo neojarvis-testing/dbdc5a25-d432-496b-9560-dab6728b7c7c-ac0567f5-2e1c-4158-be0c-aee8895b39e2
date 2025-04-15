@@ -9,7 +9,7 @@ import { BlogPost } from '../models/blog-post.model';
 })
 export class BlogPostService {
 
-  private baseUrl = 'https://8080-abfbbbdabfccfffadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/';
+  private baseUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
 
   constructor(private http: HttpClient) { }
 
@@ -21,22 +21,22 @@ export class BlogPostService {
   }
 
   getAllBlogPosts(): Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>(this.baseUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<BlogPost[]>(`${this.baseUrl}/api/blogposts`, { headers: this.getAuthHeaders() });
   }
 
   getBlogPostById(id: number): Observable<BlogPost> {
-    return this.http.get<BlogPost>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.get<BlogPost>(`${this.baseUrl}/api/blogposts/${id}`, { headers: this.getAuthHeaders() });
   }
 
   addBlogPost(blogPost: BlogPost): Observable<any> {
-    return this.http.post(this.baseUrl, blogPost, { headers: this.getAuthHeaders() });
+    return this.http.post(`${this.baseUrl}/api/blogposts`, blogPost, { headers: this.getAuthHeaders() });
   }
 
   updateBlogPost(id: number, blogPost: BlogPost): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, blogPost, { headers: this.getAuthHeaders() });
+    return this.http.put(`${this.baseUrl}/api/blogposts/${id}`, blogPost, { headers: this.getAuthHeaders() });
   }
 
   deleteBlogPost(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
+    return this.http.delete(`${this.baseUrl}/api/blogposts/${id}`, { headers: this.getAuthHeaders() });
   }
 }
