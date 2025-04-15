@@ -10,7 +10,7 @@ import { Login } from '../models/login.model';
 })
 export class AuthService {
  
-  public baseUrl = 'https://8080-dedadddddbafecbafced326575073bfaedbcacacddaone.premiumproject.examly.io/api/Users'
+  public baseUrl = 'https://8080-dedadddddbafecbafced326575073bfaedbcacacddaone.premiumproject.examly.io'
  
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -25,12 +25,12 @@ export class AuthService {
   }
  
   register(newUser: User):Observable<User>{
-    return this.http.post<User>(`${this.baseUrl}/register`, newUser);
+    return this.http.post<User>(`${this.baseUrl}/api/register`, newUser);
   }
  
   login(loginUser: Login): Observable<any> {
     console.log(JSON.stringify(loginUser));
-    return this.http.post<any>(`${this.baseUrl}/login`, loginUser).pipe(
+    return this.http.post<any>(`${this.baseUrl}/api/login`, loginUser).pipe(
       tap(response => {
         const user=response.user;
         // console.log("Extracted user:"+JSON.stringify());
