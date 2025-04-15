@@ -1,1 +1,36 @@
-<p>admin-navbar works!</p>
+<nav class="navbar">
+    <div class="navbar-header">
+      <span class="navbar-brand">
+        <p class="brand-logo">BlogPortal</p>
+      </span>
+    </div>
+    <ul class="nav-links">
+      <li class="admin-info"><span>Hello, {{ Username }}! Welcome back to your dashboard.</span></li>
+      <li><a routerLink="/home">Home</a></li>
+      <li class="dropdown" (click)="toggleDropdown($event)">
+        <a class="dropdown-toggle" href="#">Announcements<i class="fas fa-chevron-down arrow-icon"></i></a>
+        <ul class="dropdown-menu">
+          <li><a routerLink="/adminaddannouncement">Add Announcement</a></li>
+          <li><a routerLink="/adminviewannouncements">View Announcements</a></li>
+          <li><a routerLink="/admineditannouncement">Edit Announcement</a></li>
+          <li><a routerLink="/admindeleteannouncement">Delete Announcement</a></li>
+        </ul>
+      </li>
+      <li class="dropdown" (click)="toggleDropdown($event)">
+        <a class="dropdown-toggle" href="#">Blogs<i class="fas fa-chevron-down arrow-icon"></i></a>
+        <ul class="dropdown-menu">
+          <li><a routerLink="/adminviewblogs">View Blogs</a></li>
+          <li><a routerLink="/adminupdateblog">Update Blogs</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="/adminviewfeedback">View Feedbacks</a></li>
+      <li><button class="logout-button" (click)="logout()">Logout</button></li>
+    </ul>
+  </nav>
+  <div *ngIf="showLogoutModel" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to log out?</p>
+      <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
+      <button (click)="cancelLogout()">Cancel</button>
+    </div>
+  </div>
