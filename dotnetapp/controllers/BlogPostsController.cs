@@ -21,9 +21,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet]
-         [Authorize(Roles = "Admin")] 
-
-         // Enforces authorization for Admin role
+        [Authorize(Roles = "Admin, User")] 
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetAllBlogPosts()
         {
             var blogPosts = await _blogPostService.GetAllBlogPosts();
@@ -31,7 +29,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet("{postId}")]
-        [Authorize(Roles = "Admin")] // Enforces authorization for Admin role
+        [Authorize(Roles = "User")] 
         public async Task<ActionResult<BlogPost>> GetBlogPostById(int postId)
         {
             var blogPost = await _blogPostService.GetBlogPostById(postId);
@@ -54,6 +52,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpPost]
+        [Authorize(Roles = "User")] 
         public async Task<ActionResult> AddBlogPost([FromBody] BlogPost blogPost)
         {
             try
@@ -86,6 +85,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpDelete("{postId}")]
+        [Authorize(Roles = "User")] 
         public async Task<ActionResult> DeleteBlogPost(int postId)
         {
             try
