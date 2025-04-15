@@ -1,2 +1,47 @@
-<h1>Announcements</h1>
-<p>admin-view-announcement works!</p>
+<div class="navbar">
+  <ul>
+    <li class="dropdown">
+      <a href="#" class="dropbtn">Announcements</a>
+      <div class="dropdown-content">
+        <a href="/add-announcement">Add Announcement</a>
+        <a href="/view-announcements">View Announcements</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Event</th>
+      <th>Category</th>
+      <th>Author</th>
+      <th>Publish Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let announcement of announcements">
+      <td>{{announcement.id}}</td>
+      <td>{{announcement.title}}</td>
+      <td>{{announcement.event}}</td>
+      <td>{{announcement.category}}</td>
+      <td>{{announcement.author}}</td>
+      <td>{{announcement.publishDate}}</td>
+      <td>{{announcement.status}}</td>
+      <td>
+        <button (click)="editAnnouncement(announcement.id)">Edit</button>
+        <button (click)="confirmDelete(announcement.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="showDeleteConfirm" class="popup">
+  <p>Are you sure you want to delete this announcement?</p>
+  <button (click)="deleteAnnouncement()">Yes, Delete</button>
+  <button (click)="cancelDelete()">Cancel</button>
+</div>

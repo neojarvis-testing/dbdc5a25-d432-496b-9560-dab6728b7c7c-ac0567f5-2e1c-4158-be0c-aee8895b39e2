@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnnouncementService } from 'src/app/services/announcement.service'; 
+import { Announcement } from 'src/app/models/announcement.model'; 
 
 @Component({
   selector: 'app-user-view-announcement',
@@ -7,7 +8,7 @@ import { AnnouncementService } from 'src/app/services/announcement.service';
   styleUrls: ['./user-view-announcement.component.css']
 })
 export class UserViewAnnouncementComponent implements OnInit {
-  announcements: any[] = [];
+  announcements: Announcement[] = [];
   searchQuery = '';
 
   constructor(private announcementService: AnnouncementService) { }
@@ -17,14 +18,14 @@ export class UserViewAnnouncementComponent implements OnInit {
   }
 
   fetchAnnouncements(): void {
-    this.announcementService.getAnnouncements().subscribe(data => {
+    this.announcementService.getAllAnnouncements().subscribe(data => {
       this.announcements = data;
     });
   }
 
   get filteredAnnouncements() {
     return this.announcements.filter(announcement =>
-      announcement.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      announcement.Title.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 }

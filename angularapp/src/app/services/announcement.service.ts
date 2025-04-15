@@ -8,8 +8,9 @@ import { Announcement } from '../models/announcement.model';
   providedIn: 'root'
 })
 export class AnnouncementService {
+ 
   // https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/
-  private apiUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
+  private apiUrl = 'https://ide-cebeddbfbadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080';
 
   constructor(private http: HttpClient) { }
 
