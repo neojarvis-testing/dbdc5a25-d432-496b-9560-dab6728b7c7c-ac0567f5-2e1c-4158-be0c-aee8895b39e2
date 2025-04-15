@@ -1,1 +1,24 @@
-<p>user-add-blog works!</p>
+<h2>{{ isEdit ? 'Edit Blog Post' : 'Add New Blog Post' }}</h2>
+<form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Title*:</label>
+    <input type="text" formControlName="title">
+    <div *ngIf="blogForm.get('title')?.touched && blogForm.get('title')?.invalid">
+      <small>Title is required</small>
+    </div>
+  </div>
+
+  <div>
+    <label>Content*:</label>
+    <textarea formControlName="content"></textarea>
+    <div *ngIf="blogForm.get('content')?.touched && blogForm.get('content')?.invalid">
+      <small>Content is required</small>
+    </div>
+  </div>
+  
+  <div *ngIf="errorMessage">
+    <small class="error">{{ errorMessage }}</small>
+  </div>
+  
+  <button type="submit">{{ isEdit ? 'Update' : 'Submit' }}</button>
+</form>

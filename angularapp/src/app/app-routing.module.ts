@@ -26,7 +26,7 @@ const routes: Routes = [
   {path:'adminviewannouncement',component:AdminViewAnnouncementComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
   {path:'adminviewblog',component:AdminViewBlogComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
   {path:'adminviewfeedback',component:AdminViewFeedbackComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
-  {path:'registration',component:RegistrationComponent},
+  {path:'register',component:RegistrationComponent},
   {path:'useraddblog',component:UserAddBlogComponent,canActivate:[AuthGuard], data: {role: 'User'}},
   {path:'useraddfeedback',component:UserAddFeedbackComponent,canActivate:[AuthGuard], data: {role: 'User'}},
   {path:'usernavbar',component:UserNavbarComponent,canActivate:[AuthGuard], data: {role: 'User'}},
