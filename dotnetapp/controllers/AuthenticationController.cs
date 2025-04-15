@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using dotnetapp.Models;
 using dotnetapp.Services;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
  
 namespace dotnetapp.Controllers
 {
@@ -11,62 +13,40 @@ namespace dotnetapp.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthService _authService;
- 
         public AuthenticationController(IAuthService authService)
         {
             _authService = authService;
         }
- 
         [HttpPost("login")]
-        
-        
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Message = "Invalid login request." });
             }
- 
-            try
+            var (statusCode, responseMessage) = await _authService.Login(model);
+            if(statusCode == 1)
             {
-                var (status, token) = await _authService.Login(model);
-                if (status == 0)
-                {
-                    return Unauthorized(token);
-                }
- 
-                return Ok(new { Token = token });
+                return Ok(new { token = responseMessage});
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return Unauthorized(responseMessage);
         }
- 
         [HttpPost("register")]
-       
-        
         public async Task<IActionResult> Register([FromBody] User model)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Message = "Invalid registration request."});
             }
- 
-            try
+            var (statusCode, responseMessage) = await _authService.Registration(model, model.UserRole);
+            Console.WriteLine(statusCode);
+            Console.WriteLine(responseMessage);
+            if(statusCode == 1)
             {
-                var (status, message) = await _authService.Registration(model, model.UserRole);
-                if (status == 0)
-                {
-                    return BadRequest(message);
-                }
- 
-                return Ok(message);
+                return Ok(new {message = responseMessage});
             }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            Console.WriteLine(responseMessage);
+            return BadRequest(responseMessage);
         }
     }
 }
