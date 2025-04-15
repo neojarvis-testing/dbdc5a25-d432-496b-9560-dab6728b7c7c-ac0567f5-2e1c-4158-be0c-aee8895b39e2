@@ -7,7 +7,7 @@ import { Login } from '../models/login.model';
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl = "https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080";
+  public apiUrl = "https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/";
   private currentUserRole = new BehaviorSubject<string | null>(null);
   constructor(private http: HttpClient) {
     const token = localStorage.getItem('token');
@@ -50,6 +50,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('userRole');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     this.currentUserRole.next(null);
   }
   getUserRole(): string | null {
