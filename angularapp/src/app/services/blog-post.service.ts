@@ -3,20 +3,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BlogPost } from '../models/blog-post.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class BlogPostService {
 
-  private baseUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
+  // https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/
+  private baseUrl = 'https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/';
 
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); // Fetch the token from localStorage.
+    const token = localStorage.getItem('authToken');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}` // Add 'Bearer' prefix to the token.
+      'Authorization': `Bearer ${token}`
     });
   }
 
