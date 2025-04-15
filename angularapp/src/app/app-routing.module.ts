@@ -19,9 +19,23 @@ import { AuthGuard } from './components/authguard/auth.guard';
 
 
 const routes: Routes = [
-  
-{ path: 'error', component: ErrorComponent },
-  { path: '**', redirectTo: '/error?code=404' }
+  {path:'home',component:HomeComponent},
+  {path:'login',component:LoginComponent},
+  {path:'adminaddannouncement',component:AdminAddAnnouncementComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
+  {path:'adminnavbar',component:AdminNavbarComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
+  {path:'adminviewannouncement',component:AdminViewAnnouncementComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
+  {path:'adminviewblog',component:AdminViewBlogComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
+  {path:'adminviewfeedback',component:AdminViewFeedbackComponent,canActivate:[AuthGuard], data:{role : 'Admin'}},
+  {path:'registration',component:RegistrationComponent},
+  {path:'useraddblog',component:UserAddBlogComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'useraddfeedback',component:UserAddFeedbackComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'usernavbar',component:UserNavbarComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'userviewannouncement',component:UserViewAnnouncementComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'userviewblog',component:UserViewBlogComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'userviewfeedback',component:UserViewFeedbackComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  { path: 'error', component: ErrorComponent },
+  { path: '**', redirectTo: '/error?code=404' },
+
 
 ];
 
