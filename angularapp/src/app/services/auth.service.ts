@@ -1,57 +1,75 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { User } from '../models/user.model';
+import { catchError, tap } from "rxjs/operators"
 import { Login } from '../models/login.model';
-
+ 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private registerUrl = '/api/register'; // Replace with your endpoint
-  private loginUrl = '/api/login'; // Replace with your endpoint
-
-  // BehaviorSubjects to track user role and ID
-  private userRoleSubject = new BehaviorSubject<string>(''); 
-  private userIdSubject = new BehaviorSubject<number>(0); 
-
-  constructor(private http: HttpClient) {}
-
-  // Register a new user
-  register(user: User): Observable<any> {
-    return this.http.post(this.registerUrl, user);
+ 
+  public baseUrl = 'https://8080-dedadddddbafecbafced326575073bfaedbcacacddaone.premiumproject.examly.io/api/Users'
+ 
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+ 
+  constructor(private http:HttpClient) {
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
-
-  // Login user and store JWT token in localStorage
-  login(login: Login): Observable<any> {
-    return this.http.post(this.loginUrl, login).pipe((response: any) => {
-      const token = response.token;
-      const role = response.role;
-      const userId = response.id;
-
-      if (token) {
-        localStorage.setItem('authorizationToken', token);
-        this.userRoleSubject.next(role);
-        this.userIdSubject.next(userId);
-      }
-
-      return response;
-    });
+ 
+  private get currentUserValue():User{
+    return this.currentUserSubject.value;
   }
-
-  // Method to check if user is logged in
+ 
+  register(newUser: User):Observable<User>{
+    return this.http.post<User>(`${this.baseUrl}/register`, newUser);
+  }
+ 
+  login(loginUser: Login): Observable<any> {
+    console.log(JSON.stringify(loginUser));
+    return this.http.post<any>(`${this.baseUrl}/login`, loginUser).pipe(
+      tap(response => {
+        const user=response.user;
+        // console.log("Extracted user:"+JSON.stringify());
+        localStorage.setItem('role', response.role);
+        localStorage.setItem('currentUser', JSON.stringify(user)); // change here for all test cases
+      }),
+      catchError(this.handleError<any>('login'))
+    );
+  }
+ 
+  logout(): void {
+    // localStorage.clear();
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('role');
+    this.currentUserSubject.next(null);
+  }
+ 
+  // private storeUserData(user: any): void {
+  //   localStorage.setItem('token', user.token);
+  //   localStorage.setItem('role', user.role);
+  // }
+ 
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('authorizationToken');
-    return token !== null; // User is logged in if the token exists
+    return !!localStorage.getItem('currentUser');
   }
-
-  // Method to get the user's role as a string (for AuthGuard)
-  getUserRole(): string {
-    return localStorage.getItem('userRole') || ''; // Role retrieved from localStorage
+ 
+  isAdmin(): boolean {
+    return localStorage.getItem('role') === 'Admin';
   }
-
-  // Method to get the user's ID as a number
-  getUserId(): Observable<number> {
-    return this.userIdSubject.asObservable();
+ 
+  isOrganizer(): boolean {
+    return localStorage.getItem('role') === 'User';
+  }
+ 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return throwError(() => new Error(`${operation} failed: ${error.message}`));
+    };
   }
 }
+ 
