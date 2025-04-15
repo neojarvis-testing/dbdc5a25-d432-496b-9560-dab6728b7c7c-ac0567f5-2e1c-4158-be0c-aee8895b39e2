@@ -1,2 +1,30 @@
-<h1>Login</h1>
-<p>login works!</p>
+<div class="login-container">
+    <h2>Login</h2>
+    <form (ngSubmit)="login()">
+        <label for="username">Email:</label>
+        <input
+            type="text"
+            id="username"
+            [(ngModel)]="user.Email"
+            name="username"
+            placeholder="Enter your email"
+            required
+        >
+ 
+        <label for="password">Password:</label>
+        <input
+            type="password"
+            id="password"
+            [(ngModel)]="user.Password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
+ 
+        <button type="submit">Login</button>
+    </form>
+    <p>
+        Don't have an account?
+        <a (click)="register()">Register here</a>
+    </p>
+</div>

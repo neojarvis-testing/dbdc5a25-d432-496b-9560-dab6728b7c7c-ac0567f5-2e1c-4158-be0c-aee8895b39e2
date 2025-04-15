@@ -1,57 +1,108 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+ 
+import { Injectable, Optional } from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../models/user.model';
 import { Login } from '../models/login.model';
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  private registerUrl = '/api/register'; // Replace with your endpoint
-  private loginUrl = '/api/login'; // Replace with your endpoint
-
-  // BehaviorSubjects to track user role and ID
-  private userRoleSubject = new BehaviorSubject<string>(''); 
-  private userIdSubject = new BehaviorSubject<number>(0); 
-
-  constructor(private http: HttpClient) {}
-
-  // Register a new user
-  register(user: User): Observable<any> {
-    return this.http.post(this.registerUrl, user);
+  public apiUrl = "https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080";
+  private currentUserRole = new BehaviorSubject<string | null>(null);
+  constructor(private http: HttpClient) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.currentUserRole.next(this.getUserRoleFromToken(token));
+    }
   }
-
-  // Login user and store JWT token in localStorage
-  login(login: Login): Observable<any> {
-    return this.http.post(this.loginUrl, login).pipe((response: any) => {
-      const token = response.token;
-      const role = response.role;
-      const userId = response.id;
-
-      if (token) {
-        localStorage.setItem('authorizationToken', token);
-        this.userRoleSubject.next(role);
-        this.userIdSubject.next(userId);
-      }
-
-      return response;
+  login(credentials: Login): Observable<any> {
+    return new Observable(observer => {
+      this.http.post<any>(`${this.apiUrl}/api/login`, credentials).subscribe( // Ensure this URL matches your backend endpoint
+        response => {
+          localStorage.setItem('token', response.token);
+          const role = this.getUserRoleFromToken(response.token);
+          const userId = this.getUserIdFromToken(response.token);
+          const userName = this.getUserNameFromToken(response.token);
+          localStorage.setItem('userRole', role);
+          localStorage.setItem('userId', userId);
+          localStorage.setItem('userName', userName);
+          this.currentUserRole.next(role);
+          observer.next(response);
+          observer.complete();
+        },
+        error => {
+          observer.error(error);
+        }
+      );
     });
   }
-
-  // Method to check if user is logged in
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/register`, user, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
+  }
   isLoggedIn(): boolean {
-    const token = localStorage.getItem('authorizationToken');
-    return token !== null; // User is logged in if the token exists
+    return !!localStorage.getItem('token');
   }
-
-  // Method to get the user's role as a string (for AuthGuard)
-  getUserRole(): string {
-    return localStorage.getItem('userRole') || ''; // Role retrieved from localStorage
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
+    this.currentUserRole.next(null);
   }
-
-  // Method to get the user's ID as a number
-  getUserId(): Observable<number> {
-    return this.userIdSubject.asObservable();
+  getUserRole(): string | null {
+    return localStorage.getItem('userRole');
+  }
+  setUserRole(role: string): void {
+    localStorage.setItem('userRole', role);
+  }
+  getUserRoleFromToken(token: string): string {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      return role || null;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  }
+  getUserIdFromToken(token: string): string {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+      return userId || null;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  }
+  getUserNameFromToken(token: string): string {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+      return userId || null;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  }
+  getCurrentUserRole(): Observable<string | null> {
+    return this.currentUserRole.asObservable();
+  }
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+  isAdmin(): boolean {
+    const role = this.getUserRole();
+    return role === 'ADMIN';
+  }
+  isUser(): boolean {
+    const role = this.getUserRole();
+    return role === 'USER';
   }
 }
+ 
+ 
