@@ -8,8 +8,7 @@ import { BlogPost } from '../models/blog-post.model';
 })
 export class BlogPostService {
 
-  // https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/
-  private baseUrl = 'https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/';
+  private baseUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
 
   constructor(private http: HttpClient) { }
 
