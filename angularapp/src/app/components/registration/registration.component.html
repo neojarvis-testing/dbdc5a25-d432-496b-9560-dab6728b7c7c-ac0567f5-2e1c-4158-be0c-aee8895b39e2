@@ -1,88 +1,144 @@
-<div class="registration-page">
-  <h1>Registration</h1>
-  <form (submit)="onSubmit()" novalidate>
-    <!-- Username Field -->
-    <label for="username">Username: <span class="mandatory">*</span></label>
-    <input
-      type="text"
-      id="username"
-      name="username"
-      [(ngModel)]="username"
-      (input)="validateForm()"
-      required
-    />
-    <span class="error-message" *ngIf="usernameError">{{ usernameError }}</span>
+<app-navbar></app-navbar>
+<div class="register-background">
+  <div class="registration-container">
+    <h1>Registration</h1>
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username">Username: <span class="required">*</span></label>
+        <input
+          id="username"
+          type="text"
+          name="username"
+          [(ngModel)]="username"
+          #usernameField="ngModel"
+          required
+          minlength="3"
+          maxlength="20"
+          pattern="^[a-zA-Z][a-zA-Z\s]*$"
+          placeholder="Enter your username"
+        />
+        <div *ngIf="usernameField.invalid && usernameField.touched" class="error">
+          <div *ngIf="usernameField.errors?.required">Username is required.</div>
+          <div *ngIf="usernameField.errors?.minlength">Username must be at least 3 characters long.</div>
+          <div *ngIf="usernameField.errors?.maxlength">Username cannot exceed 20 characters.</div>
+          <div *ngIf="usernameField.errors?.pattern">Username must contain only letters.</div>
+        </div>
+      </div>
 
-    <!-- Email Field -->
-    <label for="email">Email: <span class="mandatory">*</span></label>
-    <input
-      type="email"
-      id="email"
-      name="email"
-      [(ngModel)]="email"
-      (input)="validateForm()"
-      required
-    />
-    <span class="error-message" *ngIf="emailError">{{ emailError }}</span>
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email: <span class="required">*</span></label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          #emailField="ngModel"
+          required
+          email
+          placeholder="Enter your email"
+        />
+        <div *ngIf="emailField.invalid && emailField.touched" class="error">
+          <div *ngIf="emailField.errors?.required">Email is required.</div>
+          <div *ngIf="emailField.errors?.email">Please enter a valid email address.</div>
+        </div>
+      </div>
 
-    <!-- Password Field -->
-    <label for="password">Password: <span class="mandatory">*</span></label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      [(ngModel)]="password"
-      (input)="validateForm()"
-      required
-    />
-    <span class="error-message" *ngIf="passwordError">{{ passwordError }}</span>
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password: <span class="required">*</span></label>
+        <div class="password-container">
+          <input
+            [type]="passwordFieldType"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            #passwordField="ngModel"
+            required
+            minlength="6"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]+$"
+            placeholder="Enter your password"
+          />
+          <i
+            class="fa fa1"
+            [ngClass]="passwordFieldType === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="togglePasswordVisibility('password')"
+          ></i>
+        </div>
+        <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+          <div *ngIf="passwordField.errors?.required">Password is required.</div>
+          <div *ngIf="passwordField.errors?.minlength">Password must be at least 6 characters long.</div>
+          <div *ngIf="passwordField.errors?.pattern">Password must include letters, numbers, and special characters.</div>
+        </div>
+      </div>
 
-    <!-- Confirm Password Field -->
-    <label for="confirm-password">Confirm Password: <span class="mandatory">*</span></label>
-    <input
-      type="password"
-      id="confirm-password"
-      name="confirmPassword"
-      [(ngModel)]="confirmPassword"
-      (input)="validateForm()"
-      required
-    />
-    <span class="error-message" *ngIf="confirmPasswordError">{{ confirmPasswordError }}</span>
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password: <span class="required">*</span></label>
+        <div class="password-container">
+          <input
+            [type]="confirmPasswordFieldType"
+            id="confirmPassword"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            #confirmPasswordField="ngModel"
+            required
+            placeholder="Confirm your password"
+          />
+          <i
+            class="fa fa1"
+            [ngClass]="confirmPasswordFieldType === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="togglePasswordVisibility('confirmPassword')"
+          ></i>
+        </div>
+        <div *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched" class="error">
+          <div *ngIf="confirmPasswordField.errors?.required">Confirm Password is required.</div>
+          <div *ngIf="password !== confirmPassword && confirmPasswordField.touched">Passwords do not match.</div>
+        </div>
+      </div>
 
-    <!-- Mobile Number Field -->
-    <label for="mobile">Mobile Number: <span class="mandatory">*</span></label>
-    <input
-      type="tel"
-      id="mobile"
-      name="mobileNumber"
-      [(ngModel)]="mobileNumber"
-      (input)="validateForm()"
-      required
-      pattern="[0-9]{10}"
-    />
-    <span class="error-message" *ngIf="mobileNumberError">{{ mobileNumberError }}</span>
+      <!-- Mobile Number Field -->
+      <div class="form-group">
+        <label for="mobileNumber">Mobile Number: <span class="required">*</span></label>
+        <input
+          id="mobileNumber"
+          type="text"
+          name="mobileNumber"
+          [(ngModel)]="mobileNumber"
+          #mobileNumberField="ngModel"
+          required
+          pattern="^\d{10}$"
+          placeholder="Enter your mobile number"
+        />
+        <div *ngIf="mobileNumberField.invalid && mobileNumberField.touched" class="error">
+          <div *ngIf="mobileNumberField.errors?.required">Mobile number is required.</div>
+          <div *ngIf="mobileNumberField.errors?.pattern">Please enter a valid 10-digit mobile number.</div>
+        </div>
+      </div>
 
-    <!-- Role Dropdown -->
-    <label for="role">Role: <span class="mandatory">*</span></label>
-    <select
-      id="role"
-      name="role"
-      [(ngModel)]="role"
-      (change)="validateForm()"
-      required
-    >
-      <option value="">Select Role</option>
-      <option value="admin">Admin</option>
-      <option value="user">User</option>
-    </select>
-    <span class="error-message" *ngIf="roleError">{{ roleError }}</span>
+      <!-- Role Dropdown -->
+      <div class="form-group">
+        <label for="role">Role: <span class="required">*</span></label>
+        <select
+          id="role"
+          name="role"
+          [(ngModel)]="userRole"
+          #roleField="ngModel"
+          required
+        >
+          <option value="">Select a role</option>
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
+        <div *ngIf="roleField.invalid && roleField.touched" class="error">
+          <div *ngIf="roleField.errors?.required">Role is required.</div>
+        </div>
+      </div>
 
-    <!-- Register Button -->
-    <button
-      type="submit"
-      [disabled]="!isFormValid"
-    >
-      Register
-    </button>
-  </form>
+      <!-- Register Button -->
+      <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+    <p>Already have an account? <a routerLink="/login">Login Here</a></p>
+  </div>
 </div>

@@ -1,65 +1,80 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import Swal from 'sweetalert2'; // SweetAlert2 library for popups
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
+  // Form fields
   username: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   mobileNumber: string = '';
-  role: string = '';
+  userRole: string = '';
+  
+  // Password visibility toggles
+  passwordFieldType: string = 'password';
+  confirmPasswordFieldType: string = 'password';
 
-  usernameError: string | null = null;
-  emailError: string | null = null;
-  passwordError: string | null = null;
-  confirmPasswordError: string | null = null;
-  mobileNumberError: string | null = null;
-  roleError: string | null = null;
+  constructor(private authService: AuthService, private router: Router) {}
 
-  isFormValid: boolean = false;
+  ngOnInit(): void {}
 
-  constructor(private http: HttpClient, private router: Router) {}
+  // Handles the registration process
+  onRegister(): void {
+    // Password matching check
+    if (this.password !== this.confirmPassword) {
+      Swal.fire('Error', 'Passwords do not match', 'error');
+      return;
+    }
 
-  validateForm(): void {
-    this.usernameError = this.username ? null : 'Username is required.';
-    this.emailError = this.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email) ? null : 'Invalid email format.';
-    this.passwordError = this.password.length >= 6 ? null : 'Password must be at least 6 characters.';
-    this.confirmPasswordError = this.confirmPassword === this.password ? null : 'Passwords do not match.';
-    this.mobileNumberError = this.mobileNumber && /^[0-9]{10}$/.test(this.mobileNumber) ? null : 'Mobile number must be 10 digits.';
-    this.roleError = this.role ? null : 'Role is required.';
-    this.isFormValid = !this.usernameError && !this.emailError && !this.passwordError &&
-                       !this.confirmPasswordError && !this.mobileNumberError && !this.roleError;
+    // Complete the registration directly
+    this.completeRegistration();
   }
 
-  onSubmit(): void {
-    if (this.isFormValid) {
-      const registrationData = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        mobileNumber: this.mobileNumber,
-        role: this.role
-      };
+  // Completes the registration process by sending the data to the backend
+  private completeRegistration(): void {
+    const registrationData = {
+      Username: this.username,
+      Email: this.email,
+      Password: this.password,
+      MobileNumber: this.mobileNumber,
+      UserRole: this.userRole
+    };
 
-      this.http.post('https://ide-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/api/register', registrationData).subscribe({
-        next: () => {
-          alert('Registration successful! Redirecting to login page...');
-          this.router.navigate(['/login']); // Navigate to the login page after successful registration
-        },
-        error: (err) => {
-          if (err.status === 409) {
-            alert('User already exists');
-          } else {
-            alert('Registration failed. Please try again.');
-          }
+    console.log('Registration Data:', registrationData); // Logging registration data for debugging
+
+    this.authService.register(registrationData).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        Swal.fire('Success', 'You have successfully registered!', 'success').then(() => {
+          this.router.navigate(['/login']); // Navigate to login page on success
+        });
+      },
+      error: (err) => {
+        console.error('Registration failed:', err);
+
+        // Handle validation errors or other issues
+        if (err.error && err.error.errors) {
+          Swal.fire('Error', `Validation Errors: ${JSON.stringify(err.error.errors)}`, 'error');
+        } else {
+          Swal.fire('Error', 'Registration failed. Please check your input and try again.', 'error');
         }
-      });
+      }
+    });
+  }
+
+  // Toggles visibility for password or confirm password fields
+  togglePasswordVisibility(field: string): void {
+    if (field === 'password') {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    } else if (field === 'confirmPassword') {
+      this.confirmPasswordFieldType = this.confirmPasswordFieldType === 'password' ? 'text' : 'password';
     }
   }
 }
