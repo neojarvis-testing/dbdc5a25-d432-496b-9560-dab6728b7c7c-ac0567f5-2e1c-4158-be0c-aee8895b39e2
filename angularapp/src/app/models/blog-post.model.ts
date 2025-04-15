@@ -1,4 +1,4 @@
- export class BlogPost{
+export class BlogPost{
     BlogPost?:number;
     UserId:number;
     Title:string;
