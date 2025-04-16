@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AnnouncementService } from 'src/app/services/announcement.service'; 
 import { Announcement } from 'src/app/models/announcement.model'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-add-announcement',
@@ -12,7 +13,7 @@ export class AdminAddAnnouncementComponent {
   announcement: Announcement = {
     Title: '',
     Content: '',
-    PublishedDate: new Date(),
+    PublishedDate: new Date(), // Using ISO string for consistency
     Category: '',
     Priority: '',
     Status: ''
@@ -22,26 +23,27 @@ export class AdminAddAnnouncementComponent {
   isLoading = false;
   successMessage = '';
 
-  constructor(private announcementService: AnnouncementService) {}
+  constructor(private announcementService: AnnouncementService, private router:Router) {}
 
   onSubmit(form: NgForm) {
     this.formSubmitted = true;
     if (form.valid) {
       this.isLoading = true;
       this.announcementService.addAnnouncement(this.announcement).subscribe(
-        response => {
-          this.successMessage = 'Announcement added successfully!';
+        (response: any) => {
+          // Successful response—display the message from the backend.
+          this.isLoading = false;
+          this.router.navigate([`/adminviewannouncement`]);
+          this.successMessage = response.message || 'Announcement added successfully!';
           form.resetForm();
           this.formSubmitted = false;
-          this.isLoading = false;
+          this.router.navigate(['/adminviewannouncement']);
         },
-        error => {
+        (error) => {
+          // In case of error, display the error message returned from the backend.
           this.isLoading = false;
-          if (error.status === 409) {
-            this.successMessage = 'Title already exists';
-          } else {
-            this.successMessage = 'An error occurred. Please try again.';
-          }
+          console.error('Error response:', error);
+          this.successMessage = error.error?.message || 'An error occurred. Please try again.';
         }
       );
     }
