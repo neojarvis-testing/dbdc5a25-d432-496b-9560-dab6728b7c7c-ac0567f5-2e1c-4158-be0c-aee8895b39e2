@@ -34,6 +34,6 @@ export class UserAddBlogComponent implements OnInit {
       return;
     }
     alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
-    this.router.navigate(['/user/view-blog']);
+    this.router.navigate(['/userviewblog']);
   }
 }
