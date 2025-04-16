@@ -7,7 +7,7 @@ import { Login } from '../models/login.model';
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl = "https://8080-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io";
+  public apiUrl = "https://ide-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080";
   private currentUserRole = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) {
