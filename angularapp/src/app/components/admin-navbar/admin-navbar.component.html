@@ -5,13 +5,13 @@
       </span>
     </div>
     <ul class="nav-links">
-      <li class="admin-info"><span>Hello, {{ Username }}! Welcome back to your dashboard.</span></li>
+      <li class="admin-info"><span>Hello, {{ Username }}!</span></li>
       <li><a routerLink="/home">Home</a></li>
       <li class="dropdown" (click)="toggleDropdown($event)">
         <a class="dropdown-toggle" href="#">Announcements<i class="fas fa-chevron-down arrow-icon"></i></a>
         <ul class="dropdown-menu">
           <li><a routerLink="/adminaddannouncement">Add Announcement</a></li>
-          <li><a routerLink="/adminviewannouncements">View Announcements</a></li>
+          <li><a routerLink="/adminviewannouncement">View Announcements</a></li>
           <li><a routerLink="/admineditannouncement">Edit Announcement</a></li>
           <li><a routerLink="/admindeleteannouncement">Delete Announcement</a></li>
         </ul>
@@ -19,7 +19,7 @@
       <li class="dropdown" (click)="toggleDropdown($event)">
         <a class="dropdown-toggle" href="#">Blogs<i class="fas fa-chevron-down arrow-icon"></i></a>
         <ul class="dropdown-menu">
-          <li><a routerLink="/adminviewblogs">View Blogs</a></li>
+          <li><a routerLink="/adminviewblog">View Blogs</a></li>
           <li><a routerLink="/adminupdateblog">Update Blogs</a></li>
         </ul>
       </li>
