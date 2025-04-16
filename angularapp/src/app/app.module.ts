@@ -21,6 +21,7 @@ import { UserViewFeedbackComponent } from './components/user-view-feedback/user-
 import { UserNavbarComponent } from './components/user-navbar/user-navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UserViewAnnouncementComponent,
     UserViewBlogComponent,
     UserViewFeedbackComponent,
-    UserNavbarComponent
+    UserNavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
