@@ -1,31 +1,52 @@
-
 <div class="login-container">
     <h2>Login</h2>
+  
+    <!-- Success message -->
+    <div *ngIf="loginSuccess" class="alert alert-success" style="margin-bottom: 1rem;">
+      Login successful!
+    </div>
+  
+    <!-- Error messages for individual cases -->
+    <div *ngIf="loginError" class="alert alert-danger" style="margin-bottom: 1rem;">
+      <div *ngIf="loginError === 'Incorrect email. Please try again.'">
+        Incorrect email. Please check your email address and try again.
+      </div>
+      <div *ngIf="loginError === 'Incorrect password. Please try again.'">
+        Incorrect password. Please try again.
+      </div>
+      <!-- Fallback for any other error messages -->
+      <div *ngIf="loginError !== 'Incorrect email. Please try again.' && loginError !== 'Incorrect password. Please try again.'">
+        {{ loginError }}
+      </div>
+    </div>
+  
     <form (ngSubmit)="login()">
-        <label for="username">Username:</label>
-        <input
-            type="text"
-            id="username"
-            [(ngModel)]="user.Email"
-            name="username"
-            placeholder="Enter your username"
-            required
-        >
- 
-        <label for="password">Password:</label>
-        <input
-            type="password"
-            id="password"
-            [(ngModel)]="user.Password"
-            name="password"
-            placeholder="Enter your password"
-            required
-        >
- 
-        <button type="submit">Login</button>
+      <label for="username">Email:</label>
+      <input 
+        type="text" 
+        id="username" 
+        [(ngModel)]="user.Email" 
+        name="username" 
+        placeholder="Enter your username" 
+        required
+      />
+  
+      <label for="password">Password:</label>
+      <input 
+        type="password" 
+        id="password" 
+        [(ngModel)]="user.Password" 
+        name="password" 
+        placeholder="Enter your password" 
+        required
+      />
+  
+      <button type="submit">Login</button>
     </form>
+  
     <p>
-        Don't have an account?
-        <a (click)="register()">Register here</a>
+      Don't have an account?
+      <a (click)="register()">Register here</a>
     </p>
-</div>
+  </div>
+  
