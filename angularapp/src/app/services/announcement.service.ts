@@ -9,12 +9,12 @@ import { Announcement } from '../models/announcement.model';
 })
 export class AnnouncementService {
   // https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/
-  private apiUrl = 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
+  private apiUrl = 'https://8080-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
 
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
