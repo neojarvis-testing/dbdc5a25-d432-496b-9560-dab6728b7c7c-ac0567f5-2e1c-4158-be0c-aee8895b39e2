@@ -110,3 +110,5 @@ export class AuthService {
     return this.getUserRole() === 'User';
   }
 }
+
+//corrected
