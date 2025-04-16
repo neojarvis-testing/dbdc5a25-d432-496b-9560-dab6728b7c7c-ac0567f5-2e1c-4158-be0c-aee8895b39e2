@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Login } from 'src/app/models/login.model';
+import * as jwt_decode from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
+import { Login } from 'src/app/models/login.model';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   user: Login = new Login();
   loginError: string | null = null;
   loginSuccess: boolean = false;
@@ -17,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  login() {
+  login(): void {
     if (this.user.Email && this.user.Password) {
       this.authService.login(this.user).subscribe(
         response => {
@@ -25,37 +27,59 @@ export class LoginComponent implements OnInit {
           this.loginError = null;
           this.loginSuccess = true;
 
-          // Store the user role in localStorage
+          // Store token from backend response in localStorage.
+          localStorage.setItem('token', response.token);
+
+          // If response does not contain userRole, decode the token.
           if (response.userRole) {
             localStorage.setItem('userRole', response.userRole);
           } else {
-            console.error('User role not found in the login response.');
+            try {
+              // Cast jwt_decode as a callable function.
+              const decodedToken: any = (jwt_decode as any)(response.token);
+              if (decodedToken && decodedToken.role) {
+                localStorage.setItem('userRole', decodedToken.role);
+              } else {
+                console.error('User role not found in decoded token.');
+              }
+            } catch (error) {
+              console.error('Error decoding token:', error);
+            }
           }
 
-          // Delay for 3 seconds before redirecting
+          // Redirect based on user role stored in localStorage.
           const userRole = localStorage.getItem('userRole');
-          if(userRole==='Admin'){
-            this.router.navigate([`/home`]);
-          }
-          else if(userRole==='User'){
-            this.router.navigate([`/home`]);
-          }
-          else{
-            this.router.navigate([`/home`]);
+          if (userRole === 'Admin') {
+            this.router.navigate(['/home']);
+          } else if (userRole === 'User') {
+            this.router.navigate(['/home']);
+          } else {
+            this.router.navigate(['/home']);
           }
         },
         error => {
-          console.log('Login error', error);
-          this.loginError = 'Invalid email or password';
+          console.error('Login error', error);
+          // Check for error message in the response error property.
+          if (error.error) {
+            if (error.error === 'Invalid Password') {
+              this.loginError = 'Incorrect password. Please try again.';
+            } else if (error.error === 'Invalid email') {
+              this.loginError = 'Incorrect email. Please try again.';
+            } else {
+              this.loginError = error.error;
+            }
+          } else {
+            this.loginError = 'Invalid email or password';
+          }
           this.loginSuccess = false;
-
           localStorage.removeItem('userRole');
+          localStorage.removeItem('token');
         }
       );
     }
   }
 
-  resetLoginError() {
+  resetLoginError(): void {
     this.loginError = null;
     this.loginSuccess = false;
   }
