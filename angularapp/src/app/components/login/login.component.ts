@@ -35,10 +35,10 @@ export class LoginComponent implements OnInit {
           // Delay for 3 seconds before redirecting
           const userRole = localStorage.getItem('userRole');
           if(userRole==='Admin'){
-            this.router.navigate([`/adminnavbar`]);
+            this.router.navigate([`/home`]);
           }
           else if(userRole==='User'){
-            this.router.navigate([`/usernavbar`]);
+            this.router.navigate([`/home`]);
           }
           else{
             this.router.navigate([`/home`]);
@@ -49,7 +49,6 @@ export class LoginComponent implements OnInit {
           this.loginError = 'Invalid email or password';
           this.loginSuccess = false;
 
-          // Clear localStorage on login failure
           localStorage.removeItem('userRole');
         }
       );
