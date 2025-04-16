@@ -68,6 +68,7 @@ namespace dotnetapp.Services
             }
             return (0, "User creation failed! Please check user details and try again.");
         }
+        
         public async Task<(int, string)> Login(LoginModel model)
         {
             Console.WriteLine(model.Email);
