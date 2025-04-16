@@ -12,8 +12,9 @@ export class AdminNavbarComponent implements OnInit {
   isAdmin: boolean = true; // Set to true if the user is an admin
   Username: string = ''; // Placeholder for the actual username
   role: string = this.isAdmin ? 'Admin' : 'User'; // Role based on admin status
-  userId: number; // To store the user ID
-  showLogoutModel: boolean = false; // To manage logout confirmation modal visibility
+  userId: number;
+  showLogoutModel: boolean = false; // For showing logout confirmation modal
+  showMenu: boolean = false; // For toggling the hamburger menu
 
   constructor(
     private authService: AuthService, 
@@ -22,8 +23,9 @@ export class AdminNavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userId = parseInt(localStorage.getItem('userId')!, 10); // Assuming userId is stored in localStorage
-    this.Username = localStorage.getItem('userName'); // Assuming username is stored in localStorage
+    // Get stored user details (provide fallback values if needed)
+    this.userId = parseInt(localStorage.getItem('userId')!, 10);
+    this.Username = localStorage.getItem('userName') || 'User';
   }
 
   logout(): void {
@@ -44,7 +46,11 @@ export class AdminNavbarComponent implements OnInit {
     event.preventDefault();
     const dropdown = (event.currentTarget as HTMLElement).closest('.dropdown');
     if (dropdown) {
-      dropdown.classList.toggle('show'); // Toggle the 'show' class for the dropdown
+      dropdown.classList.toggle('show');
     }
+  }
+
+  toggleMenu(): void {
+    this.showMenu = !this.showMenu;
   }
 }

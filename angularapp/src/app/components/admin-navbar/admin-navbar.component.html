@@ -35,3 +35,47 @@
     </div>
   </div>
 
+  <nav class="navbar">
+    <!-- Navbar Header: logo and brand -->
+    <div class="navbar-header">
+      <!-- Replace logo.png with your logo image -->
+      <img src="assets/logo.png" alt="Logo" class="logo" />
+      <span class="brand-logo">Admin Panel</span>
+    </div>
+  
+    <!-- Hamburger Icon (visible on smaller screens) -->
+    <div class="hamburger-menu" (click)="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  
+    <!-- Navigation Links -->
+    <ul class="nav-links" [class.active]="showMenu">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" (click)="toggleDropdown($event)">Manage</a>
+        <ul class="dropdown-menu">
+          <li><a routerLink="/users">Users</a></li>
+          <li><a routerLink="/reports">Reports</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="/settings">Settings</a></li>
+    </ul>
+  
+    <!-- User Info and Logout Button -->
+    <div class="user-info">
+      <span class="hello-username">Hello, {{ Username }}</span>
+      <button class="logout-button" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+  
+  <!-- Logout Confirmation Modal -->
+  <div class="logout-modal" *ngIf="showLogoutModel">
+    <div class="logout-content">
+      <p>Are you sure you want to logout?</p>
+      <button (click)="confirmLogout()">Yes</button>
+      <button (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+  
