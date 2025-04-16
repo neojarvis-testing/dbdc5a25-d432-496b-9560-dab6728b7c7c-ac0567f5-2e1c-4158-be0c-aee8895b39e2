@@ -23,18 +23,18 @@ export class UserAddBlogComponent implements OnInit {
     // Pre-populate form if editing (using route data)
   }
 
-  // onSubmit() {
-  //   if (this.blogForm.invalid) {
-  //     this.errorMessage = 'All fields are required';
-  //     return;
-  //   }
-  //   // Simulate checking for duplicate title
-  //   const duplicateTitle = false;
-  //   if (duplicateTitle) {
-  //     this.errorMessage = 'A blog with the title already exists';
-  //     return;
-  //   }
-  //   alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
-  //   this.router.navigate(['/user/view-blog']);
-  // }
+  onSubmit() {
+    if (this.blogForm.invalid) {
+      this.errorMessage = 'All fields are required';
+      return;
+    }
+    // Simulate checking for duplicate title
+    const duplicateTitle = false;
+    if (duplicateTitle) {
+      this.errorMessage = 'A blog with the title already exists';
+      return;
+    }
+    alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
+    this.router.navigate(['/userviewblog']);
+  }
 }

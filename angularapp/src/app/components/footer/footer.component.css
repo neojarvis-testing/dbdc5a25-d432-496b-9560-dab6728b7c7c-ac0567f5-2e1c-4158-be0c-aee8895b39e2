@@ -1,0 +1,21 @@
+.footer {
+    text-align: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: #fff; /* White text */
+    position: fixed; /* Fixed position */
+    bottom: 0; /* Stick to the bottom */
+    width: 100%;
+    z-index: 2;
+  }
+  
+  .footer a {
+    color: #fff; /* White text for links */
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  

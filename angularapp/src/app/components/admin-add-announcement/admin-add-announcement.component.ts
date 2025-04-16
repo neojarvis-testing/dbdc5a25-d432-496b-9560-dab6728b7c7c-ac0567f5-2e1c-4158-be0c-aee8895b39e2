@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AnnouncementService } from 'src/app/services/announcement.service';
+import { AnnouncementService } from 'src/app/services/announcement.service'; 
+import { Announcement } from 'src/app/models/announcement.model'; 
 
 @Component({
   selector: 'app-admin-add-announcement',
@@ -8,41 +9,41 @@ import { AnnouncementService } from 'src/app/services/announcement.service';
   styleUrls: ['./admin-add-announcement.component.css']
 })
 export class AdminAddAnnouncementComponent {
-  errorMessage: string = '';
-  successMessage: string = '';
+  announcement: Announcement = {
+    Title: '',
+    Content: '',
+    PublishedDate: new Date(),
+    Category: '',
+    Priority: '',
+    Status: ''
+  };
+
+  formSubmitted = false;
+  isLoading = false;
+  successMessage = '';
 
   constructor(private announcementService: AnnouncementService) {}
 
-  onSubmit(form: NgForm): void {
-    if (form.invalid) {
-      this.errorMessage = 'All fields are required';
-      this.successMessage = ''; // Clear success message
-      return;
-    }
-
-    this.announcementService.addAnnouncement(form.value).subscribe({
-      next: () => {
-        this.successMessage = 'Announcement Added Successfully!';
-        this.errorMessage = ''; // Clear error message
-        form.reset();
-        this.hideMessagesAfterDelay();
-      },
-      error: (error) => {
-        this.successMessage = ''; // Clear success message
-        if (error.status === 409) { // Example for duplicate title error
-          this.errorMessage = 'Title already exists. Please choose a different title.';
-        } else {
-          this.errorMessage = 'An error occurred. Please try again.';
+  onSubmit(form: NgForm) {
+    this.formSubmitted = true;
+    if (form.valid) {
+      this.isLoading = true;
+      this.announcementService.addAnnouncement(this.announcement).subscribe(
+        response => {
+          this.successMessage = 'Announcement added successfully!';
+          form.resetForm();
+          this.formSubmitted = false;
+          this.isLoading = false;
+        },
+        error => {
+          this.isLoading = false;
+          if (error.status === 409) {
+            this.successMessage = 'Title already exists';
+          } else {
+            this.successMessage = 'An error occurred. Please try again.';
+          }
         }
-        this.hideMessagesAfterDelay();
-      }
-    });
-  }
-
-  hideMessagesAfterDelay(): void {
-    setTimeout(() => {
-      this.errorMessage = '';
-      this.successMessage = '';
-    }, 3000); // Messages disappear after 3 seconds
+      );
+    }
   }
 }

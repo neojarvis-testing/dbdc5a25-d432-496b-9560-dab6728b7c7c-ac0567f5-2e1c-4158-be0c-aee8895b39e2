@@ -40,7 +40,7 @@ const routes: Routes = [
   {path:'usereditblog',component:UserViewBlogComponent,canActivate:[AuthGuard],data:{role:'User'}},
   {path:'userdeleteblog',component:UserViewBlogComponent,canActivate:[AuthGuard],data:{role:'User'}},
   {path:'userviewfeedback',component:UserViewFeedbackComponent,canActivate:[AuthGuard], data: {role: 'User'}},
-  // { path: 'error', component: ErrorComponent },
+  { path: 'error', component: ErrorComponent },
   // { path: '**', redirectTo: '/error?code=404' },
   {path:'', redirectTo:'home', pathMatch:'full'}
 
