@@ -1,1 +1,34 @@
-<p>admin-add-announcement works!</p>
+<div class="announcement-form">
+  <div class="form-header">
+    <h2>Add Annoucement</h2>
+  </div>
+  <form (ngSubmit)="onSubmit(announcementForm)" #announcementForm="ngForm">
+    <div class="form-group">
+      <input type="text" id="title" name="title" placeholder="Title" [(ngModel)]="announcement.Title" required #title="ngModel">
+      <div *ngIf="title.invalid && (title.touched || formSubmitted)" class="error">Title is required</div>
+    </div>
+    <div class="form-group">
+      <textarea id="content" name="content" placeholder="Content" [(ngModel)]="announcement.Content" required #content="ngModel"></textarea>
+      <div *ngIf="content.invalid && (content.touched || formSubmitted)" class="error">Content is required</div>
+    </div>
+    <div class="form-group">
+      <input type="text" id="category" name="category" placeholder="Category" [(ngModel)]="announcement.Category" required #category="ngModel">
+      <div *ngIf="category.invalid && (category.touched || formSubmitted)" class="error">Category is required</div>
+    </div>
+    <div class="form-group">
+      <input type="text" id="priority" name="priority" placeholder="Priority" [(ngModel)]="announcement.Priority" required #priority="ngModel">
+      <div *ngIf="priority.invalid && (priority.touched || formSubmitted)" class="error">Priority is required</div>
+    </div>
+    <div class="form-group">
+      <input type="text" id="status" name="status" placeholder="Status" [(ngModel)]="announcement.Status" required #status="ngModel">
+      <div *ngIf="status.invalid && (status.touched || formSubmitted)" class="error">Status is required</div>
+    </div>
+    <div class="form-group">
+      <input type="date" id="publishedDate" name="publishedDate" placeholder="Published Date" [(ngModel)]="announcement.PublishedDate" required #publishedDate="ngModel">
+      <div *ngIf="publishedDate.invalid && (publishedDate.touched || formSubmitted)" class="error">Published date is required</div>
+    </div>
+    <button type="submit" class="btn btn-submit" [disabled]="isLoading">LOGIN</button>
+    <div *ngIf="isLoading">Loading...</div>
+    <div *ngIf="successMessage">{{ successMessage }}</div>
+  </form>
+</div>

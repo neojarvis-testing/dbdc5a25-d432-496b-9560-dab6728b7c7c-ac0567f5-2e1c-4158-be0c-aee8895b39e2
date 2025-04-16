@@ -1,2 +1,22 @@
-<h1>Announcements</h1>
-<p>user-view-announcement works!</p>
+<div>
+    <h1>Announcements</h1>
+    <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" />
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Published Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let announcement of filteredAnnouncements">
+                <td>{{ announcement.AnnouncementId}}</td>
+                <td>{{ announcement.Title }}</td>
+                <td>{{ announcement.Content }}</td>
+                <td>{{ announcement.PublishedDate }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
