@@ -1,7 +1,9 @@
+
 <div class="container">
-  <h2>Add New Blog Post</h2>
+  <h2>{{ isEditMode ? 'Edit Blog Post' : 'Add New Blog Post' }}</h2>
 
   <form #blogForm="ngForm" (ngSubmit)="onSubmit(blogForm)">
+    <!-- Title -->
     <div class="form-group">
       <label for="title">Title</label>
       <input
@@ -18,6 +20,7 @@
       </div>
     </div>
 
+    <!-- Content -->
     <div class="form-group">
       <label for="content">Content</label>
       <textarea
@@ -34,8 +37,12 @@
       </div>
     </div>
 
+    <!-- Error -->
     <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-    <button type="submit" class="submit-btn">Submit</button>
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">
+      {{ isEditMode ? 'Update' : 'Submit' }}
+    </button>
   </form>
 </div>

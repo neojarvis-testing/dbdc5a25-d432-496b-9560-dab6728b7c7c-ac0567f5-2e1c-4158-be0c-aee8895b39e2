@@ -20,11 +20,11 @@ export class BlogPostService {
   }
 
   getAllBlogPosts(): Observable<BlogPost[]> {
-    return this.http.get<BlogPost[]>(`${this.baseUrl}/api/blogposts`, { headers: this.getAuthHeaders(), responseType: 'text' as 'json' });
+    return this.http.get<BlogPost[]>(`${this.baseUrl}/api/blogposts`, { headers: this.getAuthHeaders() });
   }
 
   getBlogPostById(id: number): Observable<BlogPost> {
-    return this.http.get<BlogPost>(`${this.baseUrl}/api/blogposts/${id}`, { headers: this.getAuthHeaders(), responseType: 'text' as 'json' });
+    return this.http.get<BlogPost>(`${this.baseUrl}/api/blogposts/${id}`, { headers: this.getAuthHeaders()});
   }
 
   addBlogPost(blogPost: BlogPost): Observable<any> {
