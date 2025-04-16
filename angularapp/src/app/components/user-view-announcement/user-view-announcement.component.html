@@ -4,18 +4,18 @@
     <table>
         <thead>
             <tr>
+                <th>S.No</th>
                 <th>Title</th>
-                <th>Name</th>
                 <th>Content</th>
                 <th>Published Date</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let announcement of filteredAnnouncements">
-                <td>{{ announcement.number }}</td>
-                <td>{{ announcement.title }}</td>
-                <td>{{ announcement.content }}</td>
-                <td>{{ announcement.publishedDate }}</td>
+                <td>{{ announcement.AnnouncementId}}</td>
+                <td>{{ announcement.Title }}</td>
+                <td>{{ announcement.Content }}</td>
+                <td>{{ announcement.PublishedDate }}</td>
             </tr>
         </tbody>
     </table>

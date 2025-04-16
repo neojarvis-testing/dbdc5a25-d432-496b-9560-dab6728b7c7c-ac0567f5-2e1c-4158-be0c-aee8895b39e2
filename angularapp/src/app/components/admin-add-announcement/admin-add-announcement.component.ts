@@ -19,23 +19,28 @@ export class AdminAddAnnouncementComponent {
   };
 
   formSubmitted = false;
+  isLoading = false;
+  successMessage = '';
 
   constructor(private announcementService: AnnouncementService) {}
 
   onSubmit(form: NgForm) {
     this.formSubmitted = true;
     if (form.valid) {
+      this.isLoading = true;
       this.announcementService.addAnnouncement(this.announcement).subscribe(
         response => {
-          alert('Announcement Added Successfully!');
+          this.successMessage = 'Announcement added successfully!';
           form.resetForm();
           this.formSubmitted = false;
+          this.isLoading = false;
         },
         error => {
+          this.isLoading = false;
           if (error.status === 409) {
-            alert('Title already exists');
+            this.successMessage = 'Title already exists';
           } else {
-            alert('An error occurred. Please try again.');
+            this.successMessage = 'An error occurred. Please try again.';
           }
         }
       );

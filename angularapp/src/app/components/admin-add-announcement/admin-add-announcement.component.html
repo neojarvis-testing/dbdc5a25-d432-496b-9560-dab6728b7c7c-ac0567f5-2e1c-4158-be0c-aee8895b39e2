@@ -32,6 +32,8 @@
       <div *ngIf="publishedDate.invalid && (publishedDate.touched || formSubmitted)" class="error">Published date is required</div>
     </div>
     <div *ngIf="announcementForm.invalid && formSubmitted" class="error">All fields are required</div>
-    <button type="submit" class="btn btn-submit" >Submit</button>
+    <button type="submit" class="btn btn-submit" [disabled]="isLoading">Submit</button>
+    <div *ngIf="isLoading">Loading...</div>
+    <div *ngIf="successMessage">{{ successMessage }}</div>
   </form>
 </div>

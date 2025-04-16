@@ -15,26 +15,26 @@
     <tr>
       <th>ID</th>
       <th>Title</th>
-      <th>Event</th>
+      <th>Content</th>
       <th>Category</th>
-      <th>Author</th>
       <th>Publish Date</th>
+      <th>Priority</th>
       <th>Status</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let announcement of announcements">
-      <td>{{announcement.id}}</td>
-      <td>{{announcement.title}}</td>
-      <td>{{announcement.event}}</td>
-      <td>{{announcement.category}}</td>
-      <td>{{announcement.author}}</td>
-      <td>{{announcement.publishDate}}</td>
-      <td>{{announcement.status}}</td>
+      <td>{{announcement.AnnouncementId}}</td>
+      <td>{{announcement.Title}}</td>
+      <td>{{announcement.Content}}</td>
+      <td>{{announcement.Category}}</td>
+      <td>{{announcement.PublishedDate}}</td>
+      <td>{{announcement.Priority}}</td>
+      <td>{{announcement.Status}}</td>
       <td>
-        <button (click)="editAnnouncement(announcement.id)">Edit</button>
-        <button (click)="confirmDelete(announcement.id)">Delete</button>
+        <button (click)="editAnnouncement(announcement.AnnouncementId)">Edit</button>
+        <button (click)="confirmDelete(announcement.AnnouncementId)">Delete</button>
       </td>
     </tr>
   </tbody>

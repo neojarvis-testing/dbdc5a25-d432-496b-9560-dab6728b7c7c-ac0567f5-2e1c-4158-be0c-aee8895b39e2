@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnnouncementService } from 'src/app/services/announcement.service'; 
 import { Announcement } from 'src/app/models/announcement.model'; 
+// import { Console } from 'console';
 
 @Component({
   selector: 'app-admin-view-announcement',
@@ -22,6 +23,8 @@ export class AdminViewAnnouncementComponent implements OnInit {
   loadAnnouncements() {
     this.announcementService.getAllAnnouncements().subscribe(data => {
       this.announcements = data;
+      // Console.log(this.announcements);
+      console.log(this.announcements[1].Priority);
     });
   }
 
