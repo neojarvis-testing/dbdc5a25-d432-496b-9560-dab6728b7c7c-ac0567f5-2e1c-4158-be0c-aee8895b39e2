@@ -25,9 +25,16 @@ export class LoginComponent implements OnInit {
           this.loginError = null;
           this.loginSuccess = true;
           // Delay for 3 seconds before redirecting
-          setTimeout(() => {
-            this.router.navigate(['/home']);
-          }, 1000);
+          const userRole = localStorage.getItem('userRole');
+          if(userRole==='Admin'){
+            this.router.navigate([`/adminnavbar`]);
+          }
+          else if(userRole==='User'){
+            this.router.navigate([`/usernavbar`]);
+          }
+          else{
+            this.router.navigate([`/home`]);
+          }
         },
         error => {
           console.log('Login error', error);

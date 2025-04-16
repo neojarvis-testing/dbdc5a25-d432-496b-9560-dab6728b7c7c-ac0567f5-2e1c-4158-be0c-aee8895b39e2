@@ -1,9 +1,9 @@
 /* Style for the navigation bar */
 nav {
-    background-color: #333;
+    background-color: rgb(43, 43, 110);
     padding: 1em;
     display: flex;
-    align-items: center;
+    align-items: right;
     justify-content: space-between;
   }
   
@@ -24,7 +24,7 @@ nav {
   
   /* Style for each list item */
   nav ul li {
-    margin-left: 1em;
+    margin-right: 1em;
   }
   
   /* Style for the links */
