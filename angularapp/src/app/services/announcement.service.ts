@@ -20,7 +20,7 @@ export class AnnouncementService {
 
   getAllAnnouncements(): Observable<Announcement[]> {
     return this.http.get<Announcement[]>(`${this.apiUrl}/api/announcements`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
