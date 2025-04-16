@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,22 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title:'angularapp';
+  isLoggedIn = false;
   userRole: string | null = null;
 
-  ngOnInit(): void {
-    // Check for the role in localStorage on application load
-    this.userRole = localStorage.getItem('userRole');
+  constructor(private router: Router) {
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.userRole = localStorage.getItem('userRole');
+    //     this.isLoggedIn = !!this.userRole;
+    //   }
+    // });
   }
 
-  // Update the role dynamically
-  onRoleChange(newUserRole: string) {
-    this.userRole = newUserRole;
-
-    if (newUserRole) {
-      localStorage.setItem('userRole', newUserRole); // Store the role
-    } else {
-      localStorage.removeItem('userRole'); // Clear the role if null
-    }
+  ngOnInit(): void {
+    this.userRole = localStorage.getItem('userRole');
+    this.isLoggedIn = !!this.userRole;
   }
 }
