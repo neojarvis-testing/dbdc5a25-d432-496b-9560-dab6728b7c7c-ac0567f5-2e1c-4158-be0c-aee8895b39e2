@@ -7,7 +7,7 @@ import { Announcement } from '../models/announcement.model';
   providedIn: 'root'
 })
 export class AnnouncementService {
-  private apiUrl = 'https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080';
+  private apiUrl = 'https://8080-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io';
 
   constructor(private http: HttpClient) {}
 
@@ -19,13 +19,13 @@ export class AnnouncementService {
   }
 
   getAllAnnouncements(): Observable<Announcement[]> {
-    return this.http.get<Announcement[]>(`${this.apiUrl}/api/announcements`, {
+    return this.http.get<Announcement[]>(`${this.apiUrl}/api/Announcements`, {
       headers: this.getAuthHeaders()
     });
   }
 
   getAnnouncementById(id: number): Observable<Announcement> {
-    return this.http.get<Announcement>(`${this.apiUrl}/api/announcements/${id}`, {
+    return this.http.get<Announcement>(`${this.apiUrl}/api/Announcements/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
