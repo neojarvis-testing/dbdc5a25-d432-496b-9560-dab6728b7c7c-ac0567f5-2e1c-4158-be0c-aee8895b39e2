@@ -1,3 +1,5 @@
+
+
 /* Style for the navigation bar */
 nav {
     background-color: #333;
@@ -9,10 +11,12 @@ nav {
   
   /* Style for the title */
   nav h1 {
-    color: white;
-    font-size: 1.5em;
+    color: rgb(111, 19, 111);
+    font-size: 2em; /* Increased font size */
+    font-weight: bold; /* Bolder font */
     margin: 0;
-  }
+}
+
   
   /* Style for the list of links */
   nav ul {

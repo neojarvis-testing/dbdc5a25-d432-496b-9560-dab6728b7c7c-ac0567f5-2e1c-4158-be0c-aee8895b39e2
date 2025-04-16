@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.home-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.blur-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Ensure background is behind content */
+}
+
+.background-image {
+  position: absolute;
+  width: 100%;
+  height: 200%; /* Double the height to create a seamless loop */
+  background-image: url('/assets/IMG/flat-lay-stationery-arrangement-with-copy-space.jpg'); /* Update with your image path */
+  background-size: cover; /* Cover the entire screen */
+  background-position: center;
+  filter: blur(3px); /* Slight blur effect */
+  animation: scrollBackground 40s linear infinite; /* Adjusted duration for pause */
+}
+
+@keyframes scrollBackground {
+  0% {
+      transform: translateY(0);
+  }
+  40% {
+      transform: translateY(0); /* Pause at the start */
+  }
+  60% {
+      transform: translateY(-50%); /* Move up by half the height */
+  }
+  100% {
+      transform: translateY(-50%); /* Pause at the end */
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Ensure content is above background */
+  text-align: center;
+  color: black;
+  padding: 20px;
+  animation: fadeInContent 2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; /* Center content vertically */
+}
+
+@keyframes fadeInContent {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
