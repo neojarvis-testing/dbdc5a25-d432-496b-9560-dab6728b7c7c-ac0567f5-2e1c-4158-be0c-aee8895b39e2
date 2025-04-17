@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Login } from '../models/login.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,7 @@ export class AuthService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
+  
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');

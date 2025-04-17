@@ -17,12 +17,12 @@ namespace dotnetapp.Services
  
         public async Task<IEnumerable<Feedback>> GetAllFeedbacks()
         {
-            return await _context.Feedbacks.ToListAsync();
+            return await _context.Feedbacks.Include(a=>a.User).ToListAsync();
         }
  
         public async Task<IEnumerable<Feedback>> GetFeedbacksByUserId(int userId)
         {
-            return await _context.Feedbacks.Where(f => f.UserId == userId).ToListAsync();
+            return await _context.Feedbacks.Include(a=>a.User).Where(f => f.UserId == userId).ToListAsync();
         }
  
         public async Task<bool> AddFeedback(Feedback feedback)
@@ -44,5 +44,9 @@ namespace dotnetapp.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        
+    
+
     }
 }
