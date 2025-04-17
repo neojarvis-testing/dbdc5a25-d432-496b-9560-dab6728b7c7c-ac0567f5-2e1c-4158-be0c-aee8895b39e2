@@ -23,8 +23,7 @@ export class AdminViewAnnouncementComponent implements OnInit {
   loadAnnouncements() {
     this.announcementService.getAllAnnouncements().subscribe(data => {
       this.announcements = data;
-      // Console.log(this.announcements);
-      console.log(this.announcements[1].Priority);
+      console.log(this.announcements[0]);
     });
   }
  

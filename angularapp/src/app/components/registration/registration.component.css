@@ -1,116 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+ 
 body {
-  font-family: 'Poppins', sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f5f7fa; /* Light grey background for the entire page */
-}
-.register-background {
-  
-  background-size: cover; /* Ensure the background image covers the entire page */
+  width: 100vw;
+  height: 100vh;
+  background: #ecf0f3;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Full viewport height */
+  justify-content: center;
+  font-family: 'Poppins', sans-serif;
+ 
 }
-.registration-container {
-  max-width: 500px;
-  width: 100%;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.95); /* White background with some transparency */
-  border-radius: 10px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Center-align the container's content */
-  margin-top: 20px;
-}
-/* Form Header */
-.registration-container h1 {
-  text-align: center;
-  color: #333; /* Dark color for the header */
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  font-weight: 700;
-}
-/* Input Fields */
-.form-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #555;
-}
-.required {
-  color: red;
-}
-input, select, .password-container input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  box-sizing: border-box; /* Ensure padding is included in width calculation */
-  background: rgba(255, 255, 255, 0.8); /* Slight transparency for input fields */
-  color: #333;
-  transition: border-color 0.3s ease-in-out;
-}
-input:focus, select:focus, .password-container input:focus {
-  border-color: #007bff; /* Blue border on focus */
-  outline: none; /* Remove default focus outline */
-}
-/* Password container */
-.password-container {
-  position: relative;
-}
-.password-container .fa1 {
+ 
+.announcement-form {
   position: absolute;
-  right: 10px;
   top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 18px; 
-  color: #666;
+  left: 50%;
+  transform: translate(-50%, -30%);  
+  width: 90%;
+  max-width: 400px;
+  padding: 40px;
+  border-radius: 20px;
+  background: #ecf0f3;
+  text-align: center;
 }
-/* Submit Button */
-button {
+ 
+.form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+ 
+ 
+h2 {
+ margin-top: 0 px;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: #1DA1F2;
+  letter-spacing: 1px;
+}
+ 
+.form-group {
+  margin-bottom: 25px;
+}
+ 
+.form-group input,
+.form-group textarea {
   width: 100%;
-  padding: 0.75rem;
-  background: #007bff; /* Blue background */
-  color: white;
+  padding: 10px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.3s ease, transform 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+  background: #ecf0f3;
+  border-radius: 50px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+  font-size: 14px;
 }
-button:hover {
-  background: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift effect on hover */
+ 
+textarea {
+  height: 38px;
+  resize: none;
+ 
 }
-button:disabled {
-  background: #aaa; /* Grey when disabled */
-  cursor: not-allowed;
+ 
+input::placeholder,
+textarea::placeholder {
+  color: rgb(43, 41, 41);
+  padding-left: 10px;
+ 
 }
-/* Error messages */
+ 
+ 
 .error {
   color: red;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
+  font-size: 0.875em;
 }
-/* Footer text */
-p {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 0.875rem;
+ 
+.btn-submit {
+  width: 100%;
+  padding: 10px;
+  background-color: #1DA1F2;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 900;
+  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+  transition: 0.5s;
 }
-a {
-  color: #007bff; /* Blue for links */
-  text-decoration: none;
-  font-weight: 600;
+ 
+.btn-submit:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
-a:hover {
-  color: #0056b3; /* Darker blue on hover */
+ 
+.btn-submit:hover {
+  box-shadow: none;
 }

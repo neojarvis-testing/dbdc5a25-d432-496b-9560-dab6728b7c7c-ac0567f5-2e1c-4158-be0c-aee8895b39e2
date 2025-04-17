@@ -25,19 +25,18 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Handles the registration process
+  // Handles the registration process.
   onRegister(): void {
-    // Password matching check
+    // Check if passwords match.
     if (this.password !== this.confirmPassword) {
       Swal.fire('Error', 'Passwords do not match', 'error');
       return;
     }
-
-    // Complete the registration directly
+    // Proceed with registration.
     this.completeRegistration();
   }
 
-  // Completes the registration process by sending the data to the backend
+  // Completes the registration by sending data to the backend.
   private completeRegistration(): void {
     const registrationData = {
       Username: this.username,
@@ -47,29 +46,40 @@ export class RegistrationComponent implements OnInit {
       UserRole: this.userRole
     };
 
-    console.log('Registration Data:', registrationData); // Logging registration data for debugging
+    console.log('Registration Data:', registrationData);
 
     this.authService.register(registrationData).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('Registration successful:', response);
-        Swal.fire('Success', 'You have successfully registered!', 'success').then(() => {
-          this.router.navigate(['/login']); // Navigate to login page on success
-        });
+        // Check and display specific messages.
+        if (response.message === 'User created successfully!') {
+          Swal.fire('Success', response.message, 'success').then(() => {
+            this.router.navigate(['/login']);
+          });
+        } else {
+          // If the success response does not match the expected message, show it as an error.
+          Swal.fire('Error', response.message || 'Registration encountered an issue.', 'error');
+        }
       },
       error: (err) => {
         console.error('Registration failed:', err);
-
-        // Handle validation errors or other issues
-        if (err.error && err.error.errors) {
-          Swal.fire('Error', `Validation Errors: ${JSON.stringify(err.error.errors)}`, 'error');
-        } else {
-          Swal.fire('Error', 'Registration failed. Please check your input and try again.', 'error');
+        // Back-end may return a string message in error.error directly.
+        let errorMsg = 'Registration failed. Please check your input and try again.';
+        if (err.error) {
+          if (err.error === 'User already exists') {
+            errorMsg = 'User already exists. Please use a different email or username.';
+          } else if (err.error === 'User creation failed! Please check user details and try again.') {
+            errorMsg = 'User creation failed! Please check your details and try again.';
+          } else {
+            errorMsg = err.error;
+          }
         }
+        Swal.fire('Error', errorMsg, 'error');
       }
     });
   }
 
-  // Toggles visibility for password or confirm password fields
+  // Toggles password or confirm password visibility.
   togglePasswordVisibility(field: string): void {
     if (field === 'password') {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
