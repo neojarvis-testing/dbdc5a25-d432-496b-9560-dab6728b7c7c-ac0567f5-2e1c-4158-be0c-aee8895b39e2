@@ -2,12 +2,12 @@
     <h2>Login</h2>
   
     <!-- Success message -->
-    <div *ngIf="loginSuccess" class="alert alert-success" style="margin-bottom: 1rem;">
+    <div *ngIf="loginSuccess" class="alert alert-success">
       Login successful!
     </div>
   
     <!-- Error messages for individual cases -->
-    <div *ngIf="loginError" class="alert alert-danger" style="margin-bottom: 1rem;">
+    <div *ngIf="loginError" class="alert alert-danger">
       <div *ngIf="loginError === 'Incorrect email. Please try again.'">
         Incorrect email. Please check your email address and try again.
       </div>
