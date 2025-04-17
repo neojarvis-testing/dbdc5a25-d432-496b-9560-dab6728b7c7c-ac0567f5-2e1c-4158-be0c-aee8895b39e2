@@ -55,4 +55,4 @@ testem.log
 
 dotnetapp/program.cs
 # Ignore the environments folder inside src
-angularapp/src/environments/
+environments/
