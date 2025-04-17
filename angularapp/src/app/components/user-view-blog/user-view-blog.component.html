@@ -19,10 +19,10 @@
       <td>
         <button 
           (click)="editBlog(blog.BlogPostId)" 
-          [disabled]="blog.Status === 'Approved'">Edit</button>
+          [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Edit</button>
         <button 
           (click)="confirmDelete(blog.BlogPostId)" 
-          [disabled]="blog.Status === 'Approved'">Delete</button>
+          [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Delete</button>
       </td>
     </tr>
   </tbody>

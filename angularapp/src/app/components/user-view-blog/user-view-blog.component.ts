@@ -13,6 +13,7 @@ export class UserViewBlogComponent implements OnInit {
   blogPosts: BlogPost[] = [];
   showDeleteConfirm: boolean = false;
   blogToDelete: number | null = null;
+  userID = localStorage.getItem('userId');
 
   constructor(private blogService: BlogPostService, private router: Router) {}
 
