@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Login } from '../models/login.model';
-<<<<<<< HEAD
-import { User } from '../models/user.model';
-=======
 import { environment } from 'src/environments/environment';
->>>>>>> 74851616101f75fca2b9a65738cd5fe3c89c8e94
 
 @Injectable({
   providedIn: 'root'
