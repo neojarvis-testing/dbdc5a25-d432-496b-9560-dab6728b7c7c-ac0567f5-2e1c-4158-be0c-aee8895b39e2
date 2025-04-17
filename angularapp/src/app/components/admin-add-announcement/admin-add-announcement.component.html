@@ -1,6 +1,5 @@
 <div class="announcement-form">
   <div class="form-header">
-    <h2>Add Annoucement</h2>
   </div>
   <form (ngSubmit)="onSubmit(announcementForm)" #announcementForm="ngForm">
     <div class="form-group">
@@ -16,11 +15,9 @@
       <div *ngIf="category.invalid && (category.touched || formSubmitted)" class="error">Category is required</div>
     </div>
     <div class="form-group">
-      <input type="text" id="priority" name="priority" placeholder="Priority" [(ngModel)]="announcement.Priority" required #priority="ngModel">
       <div *ngIf="priority.invalid && (priority.touched || formSubmitted)" class="error">Priority is required</div>
     </div>
     <div class="form-group">
-      <input type="text" id="status" name="status" placeholder="Status" [(ngModel)]="announcement.Status" required #status="ngModel">
       <div *ngIf="status.invalid && (status.touched || formSubmitted)" class="error">Status is required</div>
     </div>
     <button type="submit" class="btn btn-submit" [disabled]="isLoading">Submit</button>

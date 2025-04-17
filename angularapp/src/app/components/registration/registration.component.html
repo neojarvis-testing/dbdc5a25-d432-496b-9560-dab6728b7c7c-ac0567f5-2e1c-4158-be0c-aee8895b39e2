@@ -1,6 +1,7 @@
-<div class="register-background">
-  <div class="registration-container">
-    <h1>Registration</h1>
+<div class="container">
+
+  <div class="brand-title">REGISTRATION</div>
+  <div class="inputs">
     <form (ngSubmit)="onRegister()" #registerForm="ngForm">
       <!-- Username Field -->
       <div class="form-group">
@@ -138,7 +139,7 @@
       </div>
 
       <!-- Register Button -->
-      <button type="submit" [disabled]="registerForm.invalid">Register</button>
+      <button type="submit">Register</button>
     </form>
     <p>Already have an account? <a routerLink="/login">Login Here</a></p>
   </div>

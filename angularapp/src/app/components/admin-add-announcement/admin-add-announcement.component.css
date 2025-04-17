@@ -9,7 +9,6 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  
 }
 
 .announcement-form {
@@ -33,9 +32,7 @@ body {
   margin-bottom: 10px;
 }
 
-
 h2 {
- 
   font-weight: 900;
   font-size: 1.8rem;
   color: #1DA1F2;
@@ -46,32 +43,37 @@ h2 {
   margin-bottom: 25px;
 }
 
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-  background: #ecf0f3;
-  border-radius: 50px;
-  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+.form-group label {
+  margin-left: 50px; /* Shift labels to the left */
+  margin-bottom: 20px; /* Space between label and input */
+  display: block;
   font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: #ecf0f3;
+  display: block;
+  width: 100%;
+  padding-left: 20px;
+  height: 50px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
 textarea {
   height: 38px;
   resize: none;
-  
 }
 
 input::placeholder,
 textarea::placeholder {
   color: rgb(43, 41, 41);
   padding-left: 10px; 
-
 }
-  
 
 .error {
   color: red;
@@ -99,8 +101,3 @@ textarea::placeholder {
 .btn-submit:hover {
   box-shadow: none;
 }
-
-
-
-  
-
