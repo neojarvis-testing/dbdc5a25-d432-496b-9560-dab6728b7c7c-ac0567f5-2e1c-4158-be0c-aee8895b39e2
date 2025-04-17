@@ -1,5 +1,5 @@
 export class BlogPost{
-    BlogPost?:number;
+    BlogPostId?:number;
     UserId:number;
     Title:string;
     Content:string;

@@ -41,6 +41,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet("user/{userId}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<BlogPost>>> GetBlogPostsByUserId(int userId)
         {
             var blogPosts = await _blogPostService.GetBlogPostsByUserId(userId);
@@ -62,11 +63,12 @@ namespace dotnetapp.Controllers
             }
             catch (BlogPostException ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode(400, ex.Message);
             }
         }
  
         [HttpPut("{postId}")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult> UpdateBlogPost(int postId, [FromBody] BlogPost blogPost)
         {
             try

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://8080-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io'
+  apiUrl: 'https://ide-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080'
 };

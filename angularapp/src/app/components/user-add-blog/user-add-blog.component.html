@@ -1,24 +1,48 @@
-<h2>{{ isEdit ? 'Edit Blog Post' : 'Add New Blog Post' }}</h2>
-<form [formGroup]="blogForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Title*:</label>
-    <input type="text" formControlName="title">
-    <div *ngIf="blogForm.get('title')?.touched && blogForm.get('title')?.invalid">
-      <small>Title is required</small>
-    </div>
-  </div>
 
-  <div>
-    <label>Content*:</label>
-    <textarea formControlName="content"></textarea>
-    <div *ngIf="blogForm.get('content')?.touched && blogForm.get('content')?.invalid">
-      <small>Content is required</small>
+<div class="container">
+  <h2>{{ isEditMode ? 'Edit Blog Post' : 'Add New Blog Post' }}</h2>
+
+  <form #blogForm="ngForm" (ngSubmit)="onSubmit(blogForm)">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        name="Title"
+        [(ngModel)]="blogPost.Title"
+        #title="ngModel"
+        required
+        class="form-control"
+        type="text"
+      />
+      <div class="error" *ngIf="submitted && title.invalid">
+        Title is required.
+      </div>
     </div>
-  </div>
-  
-  <div *ngIf="errorMessage">
-    <small class="error">{{ errorMessage }}</small>
-  </div>
-  
-  <button type="submit">{{ isEdit ? 'Update' : 'Submit' }}</button>
-</form>
+
+    <!-- Content -->
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea
+        id="content"
+        name="Content"
+        [(ngModel)]="blogPost.Content"
+        #content="ngModel"
+        required
+        class="form-control"
+        rows="5"
+      ></textarea>
+      <div class="error" *ngIf="submitted && content.invalid">
+        Content is required.
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="submit-btn">
+      {{ isEditMode ? 'Update' : 'Submit' }}
+    </button>
+  </form>
+</div>
