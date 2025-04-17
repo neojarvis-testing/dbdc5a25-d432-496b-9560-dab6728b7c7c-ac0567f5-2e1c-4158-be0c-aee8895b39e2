@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.user.Email && this.user.Password) {
+      
       this.authService.login(this.user).subscribe(
         response => {
           console.log('Login successful', response);
