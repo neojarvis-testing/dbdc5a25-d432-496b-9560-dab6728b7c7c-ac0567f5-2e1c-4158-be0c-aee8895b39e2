@@ -37,7 +37,6 @@ export class AdminAddAnnouncementComponent {
           this.successMessage = response.message || 'Announcement added successfully!';
           form.resetForm();
           this.formSubmitted = false;
-          this.router.navigate(['/adminviewannouncement']);
         },
         (error) => {
           // In case of error, display the error message returned from the backend.
