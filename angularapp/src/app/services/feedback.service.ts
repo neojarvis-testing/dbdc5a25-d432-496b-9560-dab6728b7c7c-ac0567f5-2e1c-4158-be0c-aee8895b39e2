@@ -3,20 +3,38 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Feedback } from '../models/feedback.model';
+<<<<<<< HEAD
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
  
+=======
+import { environment } from 'src/environments/environment';
+
+>>>>>>> 74851616101f75fca2b9a65738cd5fe3c89c8e94
 @Injectable({
   providedIn: 'root'
 })
 export class FeedbackService {
+<<<<<<< HEAD
   private apiUrl = environment.apiUrl;
  
   constructor(private http: HttpClient, private authService: AuthService) {}
   private getHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+=======
+
+  private baseUrl = environment.apiUrl;
+
+  constructor(private http: HttpClient) { }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+>>>>>>> 74851616101f75fca2b9a65738cd5fe3c89c8e94
   }
   sendFeedback(feedback: Feedback): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}`, feedback, { headers: this.getHeaders() }).pipe(
