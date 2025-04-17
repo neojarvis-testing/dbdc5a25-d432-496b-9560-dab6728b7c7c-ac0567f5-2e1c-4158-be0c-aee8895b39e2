@@ -20,6 +20,7 @@ namespace dotnetapp.Controllers
         }
  
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<Announcement>>> GetAllAnnouncements()
         {
             try
@@ -59,7 +60,7 @@ namespace dotnetapp.Controllers
             try
             {
                 await _announcementService.AddAnnouncement(announcement);
-                return Ok("Announcement added successfully");
+                return Ok(new { message = "Announcement added successfully" });
             }
             catch (Exception ex)
             {

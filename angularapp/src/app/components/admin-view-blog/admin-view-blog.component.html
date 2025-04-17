@@ -1,2 +1,29 @@
-<h1>Blog Posts</h1>
-<p>admin-view-blog works!</p>
+<h2>Blog Posts</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let blog of blogPosts; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ blog.Title }}</td>
+      <td>{{ blog.Content }}</td>
+      <td>{{ blog.Status }}</td>
+      <td>
+        <button 
+          (click)="statusApproved(blog)" 
+          [disabled]="blog.Status === 'Approved' ">Approve</button>
+        <button 
+          (click)="statusRejected(blog)" 
+          [disabled]="blog.Status === 'Rejected' ">Reject</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

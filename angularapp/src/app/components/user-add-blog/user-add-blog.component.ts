@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BlogPost } from 'src/app/models/blog-post.model';
+import { BlogPostService } from 'src/app/services/blog-post.service';
 
 @Component({
   selector: 'app-user-add-blog',
@@ -8,32 +9,83 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-add-blog.component.css']
 })
 export class UserAddBlogComponent implements OnInit {
-  blogForm!: FormGroup;
-  errorMessage: string = '';
-  isEdit: boolean = false; // Toggle for add/edit mode
+  blogPost: BlogPost = {
+    UserId: 0,
+    Title: '',
+    Content: '',
+    Status: '',
+    PublishedDate: new Date()
+  };
+  submitted = false;
+  errorMessage = '';
+  isEditMode = false;
+  blogIdToEdit: number | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) { }
+  constructor(
+    private blogService: BlogPostService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.blogForm = this.fb.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required]
+    this.route.queryParams.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.isEditMode = true;
+        this.blogIdToEdit = +id;
+        this.blogService.getBlogPostById(this.blogIdToEdit).subscribe({
+          next: (data) => {
+            this.blogPost = data;
+          },
+          error: (err) => {
+            console.error('Error fetching blog:', err);
+          }
+        });
+      }
     });
-    // Pre-populate form if editing (using route data)
   }
 
-  onSubmit() {
-    if (this.blogForm.invalid) {
-      this.errorMessage = 'All fields are required';
-      return;
+  onSubmit(form: any): void {
+    this.submitted = true;
+    this.errorMessage = '';
+
+    if (form.invalid) return;
+
+    const updatedBlog: BlogPost = {
+      ...this.blogPost,
+      UserId: parseInt(localStorage.getItem('userId') || '0', 10),
+      Title: this.blogPost.Title.trim(),
+      Content: this.blogPost.Content.trim(),
+      Status: this.isEditMode ? this.blogPost.Status : 'Pending',
+      PublishedDate: this.isEditMode ? this.blogPost.PublishedDate : new Date()
+    };
+
+    if (this.isEditMode && this.blogIdToEdit !== null) {
+      this.blogService.updateBlogPost(this.blogIdToEdit, updatedBlog).subscribe({
+        next: () => {
+          alert('Blog Post Updated Successfully!');
+          this.router.navigate(['/userviewblog']);
+        },
+        error: () => {
+          this.errorMessage = 'An error occurred while updating the blog post';
+        }
+      });
+    } else {
+      this.blogService.addBlogPost(updatedBlog).subscribe({
+        next: () => {
+          alert('Blog Post Added Successfully!');
+          this.router.navigate(['/userviewblog']);
+        },
+        error: (error) => {
+          if (error.status === 400 || error.error === 'Blog with this title already exists') {
+            this.errorMessage = 'A blog with the title already exists';
+          } else {
+            this.errorMessage = 'An error occurred while adding the blog post';
+          }
+        }
+      });
     }
-    // Simulate checking for duplicate title
-    const duplicateTitle = false;
-    if (duplicateTitle) {
-      this.errorMessage = 'A blog with the title already exists';
-      return;
-    }
-    alert(this.isEdit ? 'Blog Updated Successfully!' : 'Blog Post Added Successfully!');
-    this.router.navigate(['/user/view-blog']);
   }
 }
+
+//corrected
