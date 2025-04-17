@@ -22,6 +22,8 @@ import { UserNavbarComponent } from './components/user-navbar/user-navbar.compon
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
+import { ChatComponent } from './components/chat/chat.component';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { FooterComponent } from './components/footer/footer.component';
     UserViewBlogComponent,
     UserViewFeedbackComponent,
     UserNavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
