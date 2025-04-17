@@ -11,6 +11,7 @@
 /node_modules
 /package-lock.json
 /Migrations
+/environments
 
 
 # profiling files
@@ -54,5 +55,4 @@ testem.log
 .DS_Store
 
 dotnetapp/program.cs
-# Ignore the environments folder inside src
-environments/
+
