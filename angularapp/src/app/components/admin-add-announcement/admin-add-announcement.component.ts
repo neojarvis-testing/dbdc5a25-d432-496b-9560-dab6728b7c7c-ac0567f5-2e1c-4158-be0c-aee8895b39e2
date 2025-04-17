@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router'; // Import Router
 import { AnnouncementService } from 'src/app/services/announcement.service';
 import { Announcement } from 'src/app/models/announcement.model'; 
-import Swal from 'sweetalert2'; // Import SweetAlert for better error/success messages
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-add-announcement',
@@ -15,7 +15,7 @@ export class AdminAddAnnouncementComponent {
   announcement: Announcement = {
     Title: '',
     Content: '',
-    PublishedDate: new Date(),
+    PublishedDate: new Date(), // Using ISO string for consistency
     Category: '',
     Priority: '',
     Status: ''
@@ -25,52 +25,27 @@ export class AdminAddAnnouncementComponent {
   isLoading: boolean = false;
   successMessage: string = '';
 
-  constructor(
-    private announcementService: AnnouncementService,
-    private router: Router // Inject Router for navigation
-  ) {}
+  constructor(private announcementService: AnnouncementService, private router:Router) {}
 
-  // Method triggered on form submission
-  onSubmit(form: NgForm): void {
-    this.formSubmitted = true; // Mark form as submitted
+  onSubmit(form: NgForm) {
+    this.formSubmitted = true;
     if (form.valid) {
-      this.isLoading = true; // Show loading state
-      this.announcementService.addAnnouncement(this.announcement).subscribe({
-        next: (response) => {
-          console.log('Success Response:', response); // Debugging success response
-          this.successMessage = 'Announcement added successfully!';
-          Swal.fire({
-            title: 'Success!',
-            text: this.successMessage,
-            icon: 'success',
-            confirmButtonText: 'OK'
-          });
-
-          form.resetForm(); // Reset the form
-          this.formSubmitted = false; // Reset the form submission state
-          this.isLoading = false; // Reset loading state
-
-          // Navigate to the view page after success
+      this.isLoading = true;
+      this.announcementService.addAnnouncement(this.announcement).subscribe(
+        (response: any) => {
+          // Successful response—display the message from the backend.
+          this.isLoading = false;
+          this.router.navigate([`/adminviewannouncement`]);
+          this.successMessage = response.message || 'Announcement added successfully!';
+          form.resetForm();
+          this.formSubmitted = false;
           this.router.navigate(['/adminviewannouncement']);
         },
-        error: (error) => {
-          console.error('Error Response:', error); // Debugging error response
-          this.isLoading = false; // Reset loading state
-          if (error.status === 409) {
-            Swal.fire({
-              title: 'Error',
-              text: 'Title already exists. Please use a different title.',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          } else {
-            Swal.fire({
-              title: 'Error',
-              text: 'An error occurred. Please try again later.',
-              icon: 'error',
-              confirmButtonText: 'OK'
-            });
-          }
+        (error) => {
+          // In case of error, display the error message returned from the backend.
+          this.isLoading = false;
+          console.error('Error response:', error);
+          this.successMessage = error.error?.message || 'An error occurred. Please try again.';
         }
       });
     } else {
