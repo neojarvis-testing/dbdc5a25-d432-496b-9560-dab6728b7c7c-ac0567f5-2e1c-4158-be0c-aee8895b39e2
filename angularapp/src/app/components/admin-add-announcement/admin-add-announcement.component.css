@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
 
+<<<<<<< HEAD
 body {
   margin: 0;
   width: 100vw;
@@ -9,29 +9,29 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
+=======
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+>>>>>>> 50cfb40e9ff7d64ffe9a82aea0b4d67623100728
 }
 
-.announcement-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -30%);   
-  width: 90%;
-  max-width: 400px;
-  padding: 40px;
-  border-radius: 20px;
-  background: #ecf0f3;
+h2 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
-.form-header {
-  margin-top: -40px; 
+.form-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
+<<<<<<< HEAD
 h2 {
   font-weight: 900;
   font-size: 1.8rem;
@@ -41,6 +41,11 @@ h2 {
 
 .form-group {
   margin-bottom: 25px;
+=======
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+>>>>>>> 50cfb40e9ff7d64ffe9a82aea0b4d67623100728
 }
 
 .form-group label {
@@ -53,6 +58,7 @@ h2 {
 .form-group input,
 .form-group textarea,
 .form-group select {
+<<<<<<< HEAD
   background: #ecf0f3;
   display: block;
   width: 100%;
@@ -60,10 +66,16 @@ h2 {
   height: 50px;
   border-radius: 50px;
   margin-bottom: 10px;
+=======
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+>>>>>>> 50cfb40e9ff7d64ffe9a82aea0b4d67623100728
   font-size: 14px;
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
+<<<<<<< HEAD
 textarea {
   height: 38px;
   resize: none;
@@ -78,26 +90,38 @@ textarea::placeholder {
 .error {
   color: red;
   font-size: 0.875em;
+=======
+.form-buttons {
+  text-align: center;
+  margin-top: 20px;
+>>>>>>> 50cfb40e9ff7d64ffe9a82aea0b4d67623100728
 }
 
-.btn-submit {
-  width: 100%;
-  padding: 10px;
-  background-color: #1DA1F2;
+button {
+  background-color: #007bff;
   color: white;
+  padding: 10px 25px;
+  font-size: 16px;
   border: none;
-  border-radius: 20px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 900;
-  box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
-  transition: 0.5s;
 }
 
-.btn-submit:disabled {
-  background-color: gray;
-  cursor: not-allowed;
+button:hover {
+  background-color: #0056b3;
 }
 
-.btn-submit:hover {
-  box-shadow: none;
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
 }
+<<<<<<< HEAD
+=======
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+>>>>>>> 50cfb40e9ff7d64ffe9a82aea0b4d67623100728
