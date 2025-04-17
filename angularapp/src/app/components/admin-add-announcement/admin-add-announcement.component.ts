@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AnnouncementService } from 'src/app/services/announcement.service'; 
-import { Announcement } from 'src/app/models/announcement.model'; 
+import { AnnouncementService } from 'src/app/services/announcement.service';
+import { Announcement } from 'src/app/models/announcement.model';
 import { Router } from '@angular/router';
-
+ 
 @Component({
   selector: 'app-admin-add-announcement',
   templateUrl: './admin-add-announcement.component.html',
@@ -18,13 +18,13 @@ export class AdminAddAnnouncementComponent {
     Priority: '',
     Status: ''
   };
-
+ 
   formSubmitted = false;
   isLoading = false;
   successMessage = '';
-
+ 
   constructor(private announcementService: AnnouncementService, private router:Router) {}
-
+ 
   onSubmit(form: NgForm) {
     this.formSubmitted = true;
     if (form.valid) {
@@ -37,7 +37,6 @@ export class AdminAddAnnouncementComponent {
           this.successMessage = response.message || 'Announcement added successfully!';
           form.resetForm();
           this.formSubmitted = false;
-          this.router.navigate(['/adminviewannouncement']);
         },
         (error) => {
           // In case of error, display the error message returned from the backend.
