@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+    background-color: #ecf0f3;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,44 +11,90 @@ body {
 }
 
 .login-container {
-    background-color: #ffffff;
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,7%); 
+    position: relative;
+    width: 350px;
+    height: auto;
+    border-radius: 30px;
+    padding: 40px;
+    box-sizing: border-box;
+    background: #ecf0f3;
+    
 }
 
-h2 {
+
+.brand-title {
+    margin-top: -20px;
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #1DA1F2;
+    letter-spacing: 1px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
-input[type="text"], input[type="password"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #ccc;
-    background-color: #e9ecef;
-    font-size: 16px;
+.inputs {
+    text-align: left;
+    margin-top: 30px;
 }
 
-button[type="submit"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    border: none;
-    background-color: #ff6b6b; /* Red color */
-    color: white; /* White text */
-    font-size: 16px;
+
+input::placeholder {
+    text-indent: 10px; 
+    }
+    
+
+  button {
+    display: block;
+    width: 100%;
+    padding:  10px 0px; 
+    height: 50px;
+    font-size: 14px;
+    border-radius: 50px;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+input{
+
+    display: block;
+    width: 100%;
+    padding:  10px 0px; 
+    height: 30px;
+    font-size: 14px;
+    border-radius: 50px;
+    margin-bottom: 10px;
+    text-indent: 10px; 
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+
+}
+
+label{
+padding-left: 10px; 
+display: block;
+width: 100%;
+margin-bottom: 10px; 
+font-size: 14px;   
+
+}
+
+
+
+button {
+    color: white;
+    margin-top: 20px;
+    background: #1DA1F2;
+    height: 40px;
+    border-radius: 20px;
     cursor: pointer;
+    font-weight: 900;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+    transition: 0.5s;
 }
 
-button[type="submit"]:hover {
-    background-color: #ff4757; /* Darker red on hover */
+button:hover {
+    box-shadow: none;
 }
 
 .alert {
