@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AnnouncementService {
+
+
+
   private apiUrl = environment.apiUrl;
  
   constructor(private http: HttpClient) {}
@@ -26,7 +29,7 @@ export class AnnouncementService {
   }
  
   getAnnouncementById(id: number): Observable<Announcement> {
-    return this.http.get<Announcement>(`${this.apiUrl}/api/announcements/${id}`, {
+    return this.http.get<Announcement>(`${this.apiUrl}/api/Announcements/${id}`, {
       headers: this.getAuthHeaders()
     });
   }
