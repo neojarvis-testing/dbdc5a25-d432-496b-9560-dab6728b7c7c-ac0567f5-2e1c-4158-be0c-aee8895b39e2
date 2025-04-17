@@ -32,19 +32,19 @@ export class AnnouncementService {
  
   addAnnouncement(announcement: Announcement): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/api/announcements`, announcement, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(), responseType: 'text' as 'json'
     });
   }
  
   updateAnnouncement(id: number, announcement: Announcement): Observable<any> {
     return this.http.put(`${this.apiUrl}/api/announcements/${id}`, announcement, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(), responseType: 'text' as 'json'
     });
   }
  
   deleteAnnouncement(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/api/announcements/${id}`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(), responseType: 'text' as 'json'
     });
   }
 }
