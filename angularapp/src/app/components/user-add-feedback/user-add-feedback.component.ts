@@ -40,4 +40,4 @@ export class UserAddFeedbackComponent implements OnInit {
     this.router.navigate(['/userviewfeedback']);
   }
 }
- 
+

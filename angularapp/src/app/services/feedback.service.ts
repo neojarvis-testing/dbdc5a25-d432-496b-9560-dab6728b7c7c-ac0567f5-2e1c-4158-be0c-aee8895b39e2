@@ -24,7 +24,7 @@ export class FeedbackService {
     );
   }
   getAllFeedbacksByUserId(userId: number): Observable<Feedback[]> {
-    return this.http.get<Feedback[]>(`${this.apiUrl}/user/${userId}`, { headers: this.getHeaders() }).pipe(
+    return this.http.get<Feedback[]>(`${this.apiUrl}/api/user/${userId}`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }
@@ -32,14 +32,14 @@ export class FeedbackService {
     return this.http.get<User[]>(`${this.apiUrl}/api/users`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError));
   }
-  
+ 
   deleteFeedback(feedbackId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${feedbackId}`, { headers: this.getHeaders(), responseType: 'text' as 'json'  }).pipe(
+    return this.http.delete<void>(`${this.apiUrl}/api/${feedbackId}`, { headers: this.getHeaders(), responseType: 'text' as 'json'  }).pipe(
       catchError(this.handleError)
     );
   }
   getFeedbacks(): Observable<Feedback[]> {
-    return this.http.get<Feedback[]>(`${this.apiUrl}`, { headers: this.getHeaders() }).pipe(
+    return this.http.get<Feedback[]>(`${this.apiUrl}/api`, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

@@ -1,11 +1,10 @@
-/* General Styles */
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #e0f7fa;
     margin: 0;
     padding: 0;
 }
-
+ 
 /* Container and Header */
 .container {
     max-width: 1200px;
@@ -17,12 +16,12 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
-
+ 
 .container h2 {
     color: #00796b;
     margin: 20px 0;
 }
-
+ 
 /* Table Styles */
 table {
     width: 100%;
@@ -30,25 +29,25 @@ table {
     border-collapse: collapse;
     font-size: 16px;
 }
-
+ 
 table th,
 table td {
     padding: 12px;
     border: 1px solid #cfd8dc;
     text-align: left;
 }
-
+ 
 table th {
     background-color: #00796b; /* Teal color */
     color: white;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
-
+ 
 table td {
     background-color: #e0f2f1;
 }
-
+ 
 /* Action Buttons */
 button {
     padding: 10px 20px;
@@ -59,16 +58,16 @@ button {
     cursor: pointer;
     transition: background 0.3s ease;
 }
-
+ 
 button:disabled {
     background-color: #b0bec5;
     cursor: not-allowed;
 }
-
+ 
 button:hover {
     background-color: #00695c; /* Slightly darker teal on hover */
 }
-
+ 
 /* Profile Modal */
 .modal {
     position: fixed;
@@ -84,11 +83,11 @@ button:hover {
     max-width: 500px;
     border-radius: 8px;
 }
-
+ 
 .modal-content {
     padding: 20px;
 }
-
+ 
 .close-btn {
     color: #757575;
     float: right;
@@ -96,13 +95,13 @@ button:hover {
     font-weight: bold;
     cursor: pointer;
 }
-
+ 
 .close-btn:hover,
 .close-btn:focus {
     color: #000000;
     text-decoration: none;
 }
-
+ 
 /* No Records Found */
 .no-records {
     text-align: center;
@@ -110,19 +109,20 @@ button:hover {
     padding: 20px;
     color: #37474f;
 }
-
+ 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         padding: 10px;
     }
-
+ 
     table th,
     table td {
         padding: 8px;
     }
-
+ 
     button {
         padding: 8px 16px;
     }
 }
+
