@@ -4,14 +4,14 @@
       <p class="brand-logo">BlogPortal</p>
     </span>
   </div>
-
+ 
   <!-- Hamburger Menu (visible on mobile) -->
   <div class="hamburger-menu" (click)="toggleMenu()" [ngClass]="{'active': showMenu}">
     <div></div>
     <div></div>
     <div></div>
   </div>
-
+ 
   <!-- Navigation Links -->
   <ul class="nav-links" [class.active]="showMenu">
     <li class="user-info" (click)="closeMenu()">
@@ -43,44 +43,7 @@
     </li>
   </ul>
 
-  <!-- Logout Confirmation Modal -->
-  <div *ngIf="showLogoutModel" class="modal">
-    <div class="modal-content">
-      <p>Are you sure you want to log out?</p> <!-- Fixed logout confirmation message -->
-
-      <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
-      <button (click)="cancelLogout()">Cancel</button>
-    </div>
-    <ul class="nav-links">
-      <li class="user-info"><span>Hello, {{ Username }}!</span></li>
-      <li><a routerLink="/home">Home</a></li>
-      <li class="dropdown" (click)="toggleDropdown($event)">
-        <a class="dropdown-toggle" href="#">Announcements<i class="fas fa-chevron-down arrow-icon"></i></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/userviewannouncement">View Announcements</a></li>
-        </ul>
-      </li>
-      <li class="dropdown" (click)="toggleDropdown($event)">
-        <a class="dropdown-toggle" href="#">Blogs<i class="fas fa-chevron-down arrow-icon"></i></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/useraddblog">Create Blog</a></li>
-          <li><a routerLink="/usereditblog">Update Blog</a></li>
-          <li><a routerLink="/userdeleteblog">Delete Blog</a></li>
-          <li><a routerLink="/userviewblog">View Blogs</a></li>
-        </ul>
-      </li>
-      <li class="dropdown" (click)="toggleDropdown($event)">
-        <a class="dropdown-toggle" href="#">Feedback<i class="fas fa-chevron-down arrow-icon"></i></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/useraddfeedback">Create Feedback</a></li>
-          <li><a routerLink="/userdeletefeedback">Delete Feedback</a></li>
-          <li><a routerLink="/userviewfeedback">View Feedback</a></li>
-        </ul>
-      </li>
-      <li><button class="logout-button" (click)="logout()">Logout</button></li>
-    </ul>
-  
-    <!-- User Profile Section (Hover-based) -->
+  <!-- User Profile Section (Hover-based) -->
 <div class="profile-section" 
 (mouseenter)="showProfileDropdown = true" 
 (mouseleave)="showProfileDropdown = false"
@@ -98,13 +61,14 @@
 </div>
 </div>
 </div>
-    <!-- Logout Confirmation Modal -->
-    <div *ngIf="showLogoutModel" class="modal">
-      <div class="modal-content">
-        <p>Are you sure you want to log out?</p>
-        <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
-        <button (click)="cancelLogout()">Cancel</button>
-      </div>
+ 
+  <!-- Logout Confirmation Modal -->
+  <div *ngIf="showLogoutModel" class="modal">
+    <div class="modal-content">
+      <p>Are you sure you want to log out?</p> <!-- Fixed logout confirmation message -->
+ 
+      <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
+      <button (click)="cancelLogout()">Cancel</button>
     </div>
   </div>
-  </nav>
+</nav>
