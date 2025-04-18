@@ -1,4 +1,4 @@
-<div class="register-background">
+<div class="register-background" style="background-image: url('/assets/image/lr.jpg');">
   <div class="registration-container">
     <h1>Registration</h1>
     <form (ngSubmit)="onRegister()" #registerForm="ngForm">
@@ -24,7 +24,7 @@
           <div *ngIf="usernameField.errors?.pattern">Username must contain only letters.</div>
         </div>
       </div>
-
+ 
       <!-- Email Field -->
       <div class="form-group">
         <label for="email">Email: <span class="required">*</span></label>
@@ -43,7 +43,7 @@
           <div *ngIf="emailField.errors?.email">Please enter a valid email address.</div>
         </div>
       </div>
-
+ 
       <!-- Password Field -->
       <div class="form-group">
         <label for="password">Password: <span class="required">*</span></label>
@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-
+ 
       <!-- Confirm Password Field -->
       <div class="form-group">
         <label for="confirmPassword">Confirm Password: <span class="required">*</span></label>
@@ -98,7 +98,7 @@
           <div *ngIf="password !== confirmPassword && confirmPasswordField.touched">Passwords do not match.</div>
         </div>
       </div>
-
+ 
       <!-- Mobile Number Field -->
       <div class="form-group">
         <label for="mobileNumber">Mobile Number: <span class="required">*</span></label>
@@ -117,7 +117,7 @@
           <div *ngIf="mobileNumberField.errors?.pattern">Please enter a valid 10-digit mobile number.</div>
         </div>
       </div>
-
+ 
       <!-- Role Dropdown -->
       <div class="form-group">
         <label for="role">Role: <span class="required">*</span></label>
@@ -136,7 +136,24 @@
           <div *ngIf="roleField.errors?.required">Role is required.</div>
         </div>
       </div>
-
+ 
+      <!-- Admin Code Field (only visible if Admin role is selected) -->
+      <div class="form-group" *ngIf="userRole === 'Admin'">
+        <label for="adminCode">Admin Code: <span class="required">*</span></label>
+        <input
+          id="adminCode"
+          type="text"
+          name="adminCode"
+          [(ngModel)]="adminCode"
+          #adminCodeField="ngModel"
+          required
+          placeholder="Enter the admin code"
+        />
+        <div *ngIf="adminCodeField.invalid && adminCodeField.touched" class="error">
+          <div *ngIf="adminCodeField.errors?.required">Admin code is required.</div>
+        </div>
+      </div>
+ 
       <!-- Register Button -->
       <button type="submit" [disabled]="registerForm.invalid">Register</button>
     </form>

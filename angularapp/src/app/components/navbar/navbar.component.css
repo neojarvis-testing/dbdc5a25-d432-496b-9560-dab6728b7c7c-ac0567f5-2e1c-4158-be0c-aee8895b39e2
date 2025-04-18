@@ -2,8 +2,8 @@
 
 /* Style for the navigation bar */
 nav {
-    background-color: #00bcd4;
-    padding: 1em;
+    background-color: #202121;
+    padding: 2em;
     display: flex;
     align-items: right;
     justify-content: space-between;
@@ -11,12 +11,13 @@ nav {
   
   /* Style for the title */
   nav h1 {
-    color: rgb(12, 10, 12);
+    color: white;
     font-size: 2em; /* Increased font size */
     font-weight: bold; /* Bolder font */
     margin: 0;
+    gap: 35px;
+    font-family: 'League Spartan', sans-serif
 }
-
   
   /* Style for the list of links */
   nav ul {
@@ -24,6 +25,8 @@ nav {
     display: flex;
     margin: 0;
     padding: 0;
+    font-size: 1.5em; /* Increased font size */
+    font-family: 'League Spartan', sans-serif
   }
   
   /* Style for each list item */
@@ -37,10 +40,12 @@ nav {
     text-decoration: none;
     font-size: 1em;
     transition: color 0.3s;
+    font-weight: bold; /* Bolder font */
+
   }
   
   nav ul li a:hover {
-    color: rgb(26, 28, 29);
+    color: #7E99A3;
   }
 
   /* #00bcd4; */ 
