@@ -1,4 +1,3 @@
-
 <div class="register-background">
   <div class="registration-container">
     <h1>Registration</h1>
@@ -57,7 +56,7 @@
             #passwordField="ngModel"
             required
             minlength="6"
-            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]+$"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$"
             placeholder="Enter your password"
           />
           <i
@@ -69,7 +68,9 @@
         <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
           <div *ngIf="passwordField.errors?.required">Password is required.</div>
           <div *ngIf="passwordField.errors?.minlength">Password must be at least 6 characters long.</div>
-          <div *ngIf="passwordField.errors?.pattern">Password must include letters, numbers, and special characters.</div>
+          <div *ngIf="passwordField.errors?.pattern">
+            Password must include letters, numbers, and special characters.
+          </div>
         </div>
       </div>
 

@@ -1,37 +1,53 @@
 <nav class="navbar">
-    <div class="navbar-header">
-      <span class="navbar-brand">
-        <p class="brand-logo" style="color:rgb(111, 19, 111)">BlogPortal</p>
-      </span>
-    </div>
-    <ul class="nav-links">
-      <li class="admin-info"><span>Hello, {{ Username }}!</span></li>
-      <li><a routerLink="/home">Home</a></li>
-      <li class="dropdown" (click)="toggleDropdown($event)">
-        <a class="dropdown-toggle" href="#">Announcements<i class="fas fa-chevron-down arrow-icon"></i></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/adminaddannouncement">Add Announcement</a></li>
-          <li><a routerLink="/adminviewannouncement">View Announcements</a></li>
-          <li><a routerLink="/admineditannouncement">Edit Announcement</a></li>
-          <li><a routerLink="/admindeleteannouncement">Delete Announcement</a></li>
-        </ul>
-      </li>
-      <li class="dropdown" (click)="toggleDropdown($event)">
-        <a class="dropdown-toggle" href="#">Blogs<i class="fas fa-chevron-down arrow-icon"></i></a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/adminviewblog">View Blogs</a></li>
-          <li><a routerLink="/adminupdateblog">Update Blogs</a></li>
-        </ul>
-      </li>
-      <li><a routerLink="/adminviewfeedback">View Feedbacks</a></li>
-      <li><button class="logout-button" (click)="logout()">Logout</button></li>
-    </ul>
-  </nav>
-  <div *ngIf="showLogoutModel" class="modal">
-    <div class="modal-content">
-      <p>Are you sure you want to log out?</p>
-      <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
-      <button (click)="cancelLogout()">Cancel</button>
-    </div>
+  <div class="navbar-header">
+    <span class="navbar-brand">
+      <p class="brand-logo">BlogPortal</p>
+    </span>
   </div>
 
+  <!-- Hamburger Menu (visible on mobile) -->
+  <div class="hamburger-menu" (click)="toggleMenu()" [ngClass]="{'active': showMenu}">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <!-- Navigation Links -->
+  <ul class="nav-links" [class.active]="showMenu">
+    <!-- The admin info does not display on mobile, but if needed, add click handler -->
+    <li class="admin-info" (click)="closeMenu()">
+      <span>Hello, {{ Username }}!</span>
+    </li>
+    <li (click)="closeMenu()"><a routerLink="/home">Home</a></li>
+    <li class="dropdown">
+      <!-- For dropdown toggles, we call toggleDropdown so that the submenu appears without closing the menu immediately -->
+      <a class="dropdown-toggle" href="#" (click)="toggleDropdown($event)">Announcements <i class="fas fa-chevron-down arrow-icon"></i></a>
+      <ul class="dropdown-menu">
+        <li (click)="closeMenu()"><a routerLink="/adminaddannouncement">Add Announcement</a></li>
+        <li (click)="closeMenu()"><a routerLink="/adminviewannouncement">View Announcements</a></li>
+        <li (click)="closeMenu()"><a routerLink="/admineditannouncement">Edit Announcement</a></li>
+        <li (click)="closeMenu()"><a routerLink="/admindeleteannouncement">Delete Announcement</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="#" (click)="toggleDropdown($event)">Blogs <i class="fas fa-chevron-down arrow-icon"></i></a>
+      <ul class="dropdown-menu">
+        <li (click)="closeMenu()"><a routerLink="/adminviewblog">View Blogs</a></li>
+        <li (click)="closeMenu()"><a routerLink="/adminupdateblog">Update Blogs</a></li>
+      </ul>
+    </li>
+    <li (click)="closeMenu()"><a routerLink="/adminviewfeedback">View Feedbacks</a></li>
+    <li (click)="closeMenu()">
+      <button class="logout-button" (click)="logout()">Logout</button>
+    </li>
+  </ul>
+</nav>
+
+<!-- Logout Confirmation Modal -->
+<div *ngIf="showLogoutModel" class="modal">
+  <div class="modal-content">
+    <p>Are you sure you want to log out?</p>
+    <button class="yes-logout-button" (click)="confirmLogout()">Yes, Logout</button>
+    <button (click)="cancelLogout()">Cancel</button>
+  </div>
+</div>

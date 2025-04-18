@@ -1,49 +1,95 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AnnouncementService } from 'src/app/services/announcement.service'; 
-import { Announcement } from 'src/app/models/announcement.model'; 
+import { ActivatedRoute, Router } from '@angular/router';
+import { AnnouncementService } from 'src/app/services/announcement.service';
+import { Announcement } from 'src/app/models/announcement.model';
 
 @Component({
   selector: 'app-admin-add-announcement',
   templateUrl: './admin-add-announcement.component.html',
   styleUrls: ['./admin-add-announcement.component.css']
 })
-export class AdminAddAnnouncementComponent {
+export class AdminAddAnnouncementComponent implements OnInit {
   announcement: Announcement = {
     Title: '',
     Content: '',
-    PublishedDate: new Date(),
     Category: '',
     Priority: '',
-    Status: ''
+    Status: '',
+    PublishedDate: new Date()
   };
 
-  formSubmitted = false;
-  isLoading = false;
+  isEditMode: boolean = false;
+  announcementId: number | null = null;
   successMessage = '';
+  errorMessage = '';
 
-  constructor(private announcementService: AnnouncementService) {}
+  priorities: string[] = ['High', 'Medium', 'Low'];
+  statuses: string[] = ['Active', 'Inactive'];
 
-  onSubmit(form: NgForm) {
-    this.formSubmitted = true;
-    if (form.valid) {
-      this.isLoading = true;
-      this.announcementService.addAnnouncement(this.announcement).subscribe(
-        response => {
-          this.successMessage = 'Announcement added successfully!';
-          form.resetForm();
-          this.formSubmitted = false;
-          this.isLoading = false;
+  constructor(
+    private route: ActivatedRoute,
+    private announcementService: AnnouncementService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.announcementId = +params['id'];
+        this.isEditMode = true;
+        this.loadAnnouncement(this.announcementId);
+      }
+    });
+  }
+
+  loadAnnouncement(id: number): void {
+    this.announcementService.getAnnouncementById(id).subscribe({
+      next: (data) => {
+        this.announcement = data;
+      },
+      error: () => {
+        this.errorMessage = 'Failed to load announcement';
+      }
+    });
+  }
+
+  onSubmit(form: NgForm): void {
+    if (form.invalid) {
+      this.errorMessage = 'All fields are required';
+      return;
+    }
+
+    this.announcement.PublishedDate = new Date();
+
+    if (this.isEditMode && this.announcementId !== null) {
+      this.announcementService.updateAnnouncement(this.announcementId, this.announcement).subscribe({
+        next: () => {
+          this.successMessage = 'Announcement Updated Successfully!';
+          this.router.navigate([`/adminviewannouncement`]);
+          this.errorMessage = '';
         },
-        error => {
-          this.isLoading = false;
-          if (error.status === 409) {
-            this.successMessage = 'Title already exists';
-          } else {
-            this.successMessage = 'An error occurred. Please try again.';
-          }
-        }
-      );
+        error: (err) => this.handleError(err)
+      });
+    } else {
+      this.announcementService.addAnnouncement(this.announcement).subscribe({
+        next: () => {
+          this.successMessage = 'Announcement Added Successfully!';
+          this.router.navigate([`/adminviewannouncement`]);
+          this.errorMessage = '';
+          form.resetForm();
+        },
+        error: (err) => this.handleError(err)
+      });
+    }
+  }
+
+  private handleError(err: any): void {
+    if (err.error && typeof err.error === 'string' && err.error.includes('Title already exists')) {
+      this.errorMessage = 'Title already exists';
+    } else {
+      this.errorMessage = 'Something went wrong. Please try again.';
     }
   }
 }
+//done

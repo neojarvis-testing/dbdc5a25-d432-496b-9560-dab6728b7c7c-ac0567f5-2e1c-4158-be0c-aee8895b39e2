@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Login } from '../models/login.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public apiUrl = "https://ide-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080";
+  public apiUrl = environment.apiUrl;
   private currentUserRole = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) {

@@ -63,11 +63,6 @@ namespace dotnetapp.Services
                 return false;
             }
  
-            if (await _dbContext.BlogPosts.AnyAsync(bp => bp.Title == blogPost.Title))
-            {
-                throw new BlogPostException("A blog post with the same title already exists");
-            }
- 
             existingBlogPost.UserId = blogPost.UserId;
             existingBlogPost.Title = blogPost.Title;
             existingBlogPost.Content = blogPost.Content;
