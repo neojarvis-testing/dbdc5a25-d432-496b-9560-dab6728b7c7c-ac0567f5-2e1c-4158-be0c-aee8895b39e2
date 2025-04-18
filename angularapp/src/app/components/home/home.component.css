@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
-  background-image: url('/assets/home.jpg'); /* Add your background image here */
+  width: 99vw; /* Full viewport width */
+  background-image: url('/assets/login.png'); /* Add your background image here */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
