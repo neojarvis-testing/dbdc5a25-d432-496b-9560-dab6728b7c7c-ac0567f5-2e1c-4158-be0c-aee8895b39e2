@@ -36,13 +36,19 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
+    // Normalize email to ensure consistency
+    const normalizedEmail = this.email.trim().toLowerCase();
+
+    // Prepare the registration data using normalized email.
     const registrationData = {
       Username: this.username,
-      Email: this.email,
+      Email: normalizedEmail,
       Password: this.password,
       MobileNumber: this.mobileNumber,
       UserRole: this.userRole
     };
+
+    console.log('Submitting registration data:', registrationData);
 
     this.authService.register(registrationData).subscribe({
       next: (response: any) => {
@@ -61,7 +67,12 @@ export class RegistrationComponent implements OnInit {
 
   // Verify OTP to complete registration.
   onVerifyOtp(): void {
-    const otpPayload = { email: this.email, otp: this.otp }; // Using lower-case keys
+    // Normalize email to ensure that the same value is used for verification.
+    const normalizedEmail = this.email.trim().toLowerCase();
+    const otpPayload = { email: normalizedEmail, otp: this.otp }; // Using lower-case keys
+
+    console.log('Verifying OTP with payload:', otpPayload);
+
     this.authService.verifyRegistrationOtp(otpPayload).subscribe({
       next: (response: any) => {
         Swal.fire('Success', response.Message, 'success').then(() => {

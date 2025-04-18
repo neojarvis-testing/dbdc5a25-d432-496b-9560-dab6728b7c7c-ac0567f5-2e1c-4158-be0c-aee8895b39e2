@@ -27,28 +27,23 @@ namespace dotnetapp.Controllers
             var (statusCode, responseMessage) = await _authService.SendOtp(model);
             if (statusCode == 1)
                 return Ok(new { Message = responseMessage });
-            return BadRequest(new { Message = responseMessage });
+            return Unauthorized(new { Message = responseMessage });
         }
 
         // Endpoint to verify login OTP and then return a token.
         [HttpPost("verify-otp")]
         public async Task<IActionResult> VerifyOtp([FromBody] OtpModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new { Message = "Invalid OTP request." });
-
-            // Verify the OTP (this method also checks expiration)
             var (statusCode, responseMessage) = await _authService.VerifyOtp(model.Email, model.Otp);
             if (statusCode == 1)
             {
-                // If OTP is verified, generate the token by reusing the Login() logic.
+                // If OTP is verified, call Login to generate a token.
                 var (loginStatus, tokenOrMsg) = await _authService.Login(new LoginModel { Email = model.Email });
                 if (loginStatus == 1)
                     return Ok(new { token = tokenOrMsg });
-                else
-                    return BadRequest(new { Message = tokenOrMsg });
+                return Unauthorized(new { Message = tokenOrMsg });
             }
-            return BadRequest(new { Message = responseMessage });
+            return Unauthorized(new { Message = responseMessage });
         }
 
         // ----- Registration Endpoints -----
@@ -70,9 +65,6 @@ namespace dotnetapp.Controllers
         [HttpPost("verify-registration-otp")]
         public async Task<IActionResult> VerifyRegistrationOtp([FromBody] OtpModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new { Message = "Invalid OTP verification request." });
-
             var (statusCode, responseMessage) = await _authService.VerifyRegistrationOtp(model.Email, model.Otp);
             if (statusCode == 1)
                 return Ok(new { Message = responseMessage });
