@@ -38,7 +38,25 @@
       <button class="logout-button" (click)="logout()">Logout</button>
     </li>
   </ul>
-</nav>
+
+  <!-- User Profile Section (Hover-based) -->
+<div class="profile-section" 
+(mouseenter)="showProfileDropdown = true" 
+(mouseleave)="showProfileDropdown = false">
+<img src="assets/profile_icon.png" alt="Profile" class="profile-pic">
+
+<!-- Profile Dropdown -->
+<div class="profile-dropdown" *ngIf="showProfileDropdown">
+<div class="profile-card">
+  <h4>BlogPost Account</h4>
+  <p>{{ userProfile.Username }}</p>
+  <p>Email: {{ userProfile.Email }}</p>
+  <p>Mobile: {{ userProfile.MobileNumber }}</p>
+  <p>Role: {{ userProfile.UserRole }}</p>
+</div>
+</div>
+</div>
+
  
 <!-- Logout Confirmation Modal -->
 <div *ngIf="showLogoutModel" class="modal">
@@ -48,3 +66,5 @@
     <button (click)="cancelLogout()">Cancel</button>
   </div>
 </div>
+
+</nav>
