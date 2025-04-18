@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
@@ -12,13 +13,16 @@ export class ChatComponent implements OnInit {
   public userName: string = ''; // Replace with actual user data as needed
   public connectionEstablished: boolean = false;
   public showEmojiPanel: boolean = false; // Controls display of the emoji picker panel
-
   private hubConnection!: signalR.HubConnection;
+  role:string;
+
+  constructor(private cdr: ChangeDetectorRef) {} // Inject ChangeDetectorRef
 
   ngOnInit(): void {
+    this.role = localStorage.getItem('userRole')
     this.startConnection();
     this.registerOnServerEvents();
-    this.userName = localStorage.getItem('userName');
+    this.userName = localStorage.getItem('userName') || '';
   }
 
   private startConnection(): void {
@@ -47,6 +51,7 @@ export class ChatComponent implements OnInit {
     this.hubConnection.on('ReceiveMessage', (user: string, message: string) => {
       console.log('Received message:', user, message);
       this.messages.push({ user, message });
+      this.cdr.detectChanges(); // Trigger change detection to refresh the view
     });
   }
 
