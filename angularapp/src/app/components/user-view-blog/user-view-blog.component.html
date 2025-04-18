@@ -11,8 +11,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let blog of blogPosts; let i = index">
-      <td>{{ i + 1 }}</td>
+    <tr *ngFor="let blog of paginatedBlogPosts; let i = index">
+      <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
       <td>{{ blog.Title }}</td>
       <td>{{ blog.Content }}</td>
       <td>{{ blog.Status }}</td>
@@ -27,6 +27,11 @@
     </tr>
   </tbody>
 </table>
+
+<div class="pagination">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= blogPosts.length">Next</button>
+</div>
 
 <!-- Delete Confirmation Popup -->
 <div class="popup" *ngIf="showDeleteConfirm">

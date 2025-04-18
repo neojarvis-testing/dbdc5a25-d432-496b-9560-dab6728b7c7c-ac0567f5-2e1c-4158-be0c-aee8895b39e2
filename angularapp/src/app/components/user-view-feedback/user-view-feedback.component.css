@@ -1,106 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Edu+AU+VIC+WA+NT+Arrows:wght@400;700&display=swap');
- 
-nav {
-  background: #ff7043; /* Updated to a softer orange */
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: 'Barlow Condensed', sans-serif;
-}
- 
-nav ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
- 
-.navbar-item {
-  position: relative;
-  color: white;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: background 0.3s ease;
-}
- 
-.navbar-item:hover {
-  background: #ffab40; /* Lighter orange on hover */
-}
- 
-.submenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  color: black;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0;
-}
- 
-.submenu li {
-  padding: 0.5rem 1rem;
-}
- 
-.submenu li a {
-  color: black;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
- 
-.submenu li a:hover {
-  color: #ff7043; /* Match the nav background color */
-}
- 
+/* Basic styling for the component */
 .view-feedback {
   padding: 2rem;
   font-family: 'Barlow Condensed', sans-serif;
 }
- 
+
 h1 {
   font-family: 'Edu AU VIC WA NT Arrows', cursive;
   color: #333;
   margin-bottom: 1rem;
   text-align: center;
 }
- 
+
 .error-message {
   color: #e74c3c; /* Red for error messages */
   margin-bottom: 1rem;
   text-align: center;
 }
- 
+
 .container {
   max-width: 800px;
   margin: 0 auto;
 }
- 
+
 .feed-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
 }
- 
+
 .feed-table th, .feed-table td {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
- 
+
 .feed-table th {
   background: #ff7043; /* Updated to match nav background */
   color: white;
   font-weight: bold;
 }
- 
+
 .feed-table tr:nth-child(even) {
   background: #f2f2f2;
 }
- 
+
 button {
   background: #ff7043; /* Updated to match nav background */
   color: white;
@@ -110,11 +53,31 @@ button {
   cursor: pointer;
   transition: background 0.3s ease;
 }
- 
+
 button:hover {
   background: #ffab40; /* Lighter orange on hover */
 }
- 
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  background-color: #ff7043;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .modal {
   position: fixed;
   top: 50%;
@@ -126,12 +89,11 @@ button:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
- 
+
 .modal p {
   margin-bottom: 1rem;
 }
- 
+
 .modal button {
   margin-right: 1rem;
-  
 }

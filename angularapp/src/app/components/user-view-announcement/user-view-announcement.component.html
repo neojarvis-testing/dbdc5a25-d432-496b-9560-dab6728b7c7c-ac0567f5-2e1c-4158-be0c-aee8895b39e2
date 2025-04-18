@@ -11,12 +11,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let announcement of filteredAnnouncements">
-                <td>{{ announcement.AnnouncementId}}</td>
+            <tr *ngFor="let announcement of paginatedAnnouncements; let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                 <td>{{ announcement.Title }}</td>
                 <td>{{ announcement.Content }}</td>
                 <td>{{ announcement.PublishedDate }}</td>
             </tr>
         </tbody>
     </table>
-</div>
+    <div class="pagination">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= filteredAnnouncements.length">Next</button>
+    </div>
+  </div>
+  
