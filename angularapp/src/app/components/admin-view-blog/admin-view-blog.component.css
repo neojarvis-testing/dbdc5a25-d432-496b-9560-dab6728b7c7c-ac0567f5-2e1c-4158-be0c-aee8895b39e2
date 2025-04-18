@@ -1,32 +1,73 @@
+/* Container for the table */
+.table-window {
+  width: 80%;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #b0bec5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
 
+/* Table Styles */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  button {
-    margin-right: 8px;
-    padding: 6px 12px;
-    border: none;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-  }
-  
-  button[disabled] {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #cfd8dc;
+  text-align: left;
+}
+
+th {
+  background-color: #00796b; /* Teal color */
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+td {
+  background-color: #e0f2f1;
+}
+
+/* Action Buttons */
+button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+}
+
+button[disabled] {
+  background-color: #b0bec5;
+  cursor: not-allowed;
+}
+
+/* Pagination Controls */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}

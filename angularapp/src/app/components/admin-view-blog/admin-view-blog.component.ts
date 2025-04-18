@@ -10,6 +10,9 @@ import { BlogPostService } from 'src/app/services/blog-post.service';
 export class AdminViewBlogComponent implements OnInit {
 
   blogPosts: BlogPost[] = [];
+  filteredBlogPosts: BlogPost[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
 
   constructor(private blogService: BlogPostService) {}
 
@@ -18,23 +21,37 @@ export class AdminViewBlogComponent implements OnInit {
   }
 
   loadBlogPosts(): void {
-
-    this.blogService.getAllBlogPosts().subscribe(data=>{
+    this.blogService.getAllBlogPosts().subscribe(data => {
       this.blogPosts = data;
+      this.filteredBlogPosts = data;
     });
-    
   }
-
 
   statusApproved(blog: BlogPost): void {
     blog.Status = "Approved";
-    this.blogService.updateBlogPost(blog.BlogPostId, blog).subscribe();
+    this.blogService.updateBlogPost(blog.BlogPostId, blog).subscribe(() => {
+      this.loadBlogPosts();
+    });
   }
 
   statusRejected(blog: BlogPost): void {
     blog.Status = "Rejected";
-    this.blogService.updateBlogPost(blog.BlogPostId, blog).subscribe();
+    this.blogService.updateBlogPost(blog.BlogPostId, blog).subscribe(() => {
+      this.loadBlogPosts();
+    });
   }
 
+  // Pagination methods
+  get paginatedBlogPosts(): BlogPost[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredBlogPosts.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredBlogPosts.length / this.itemsPerPage);
+  }
 }
-//done
