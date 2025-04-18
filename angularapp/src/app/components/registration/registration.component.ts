@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import Swal from 'sweetalert2'; // SweetAlert2 library for popups
-import * as jwt_decode from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registration',
@@ -10,16 +9,19 @@ import * as jwt_decode from 'jwt-decode';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-  // Form fields
+  // Registration form fields
   username: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
   mobileNumber: string = '';
   userRole: string = '';
-  adminCode: string = ''; // New field for admin code
-  
-  // Password visibility toggles
+
+  // OTP state
+  otpSent: boolean = false;
+  otp: string = '';
+
+  // For password visibility toggling
   passwordFieldType: string = 'password';
   confirmPasswordFieldType: string = 'password';
 
@@ -27,69 +29,67 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // Handles the registration process.
+  // Trigger registration which sends an OTP.
   onRegister(): void {
-    // Check if passwords match.
     if (this.password !== this.confirmPassword) {
       Swal.fire('Error', 'Passwords do not match', 'error');
       return;
     }
 
-    // Check if admin code is required and valid.
-    const validAdminCode = 'Adminkey'; // Replace with your actual admin code
-    if (this.userRole === 'Admin' && this.adminCode !== validAdminCode) {
-      Swal.fire('Error', 'Invalid admin code', 'error');
-      return;
-    }
+    // Normalize email to ensure consistency
+    const normalizedEmail = this.email.trim().toLowerCase();
 
-    // Proceed with registration.
-    this.completeRegistration();
-  }
-
-  // Completes the registration by sending data to the backend.
-  private completeRegistration(): void {
+    // Prepare the registration data using normalized email.
     const registrationData = {
       Username: this.username,
-      Email: this.email,
+      Email: normalizedEmail,
       Password: this.password,
       MobileNumber: this.mobileNumber,
       UserRole: this.userRole
     };
 
-    console.log('Registration Data:', registrationData);
+    console.log('Submitting registration data:', registrationData);
 
     this.authService.register(registrationData).subscribe({
       next: (response: any) => {
-        console.log('Registration successful:', response);
-        // Check and display specific messages.
-        if (response.message === 'User created successfully!') {
-          Swal.fire('Success', response.message, 'success').then(() => {
-            this.router.navigate(['/login']);
-          });
-        } else {
-          // If the success response does not match the expected message, show it as an error.
-          Swal.fire('Error', response.message || 'Registration encountered an issue.', 'error');
-        }
+        Swal.fire('Success', response.Message, 'success');
+        this.otpSent = true;
       },
-      error: (err) => {
-        console.error('Registration failed:', err);
-        // Back-end may return a string message in error.error directly.
-        let errorMsg = 'Registration failed. Please check your input and try again.';
-        if (err.error) {
-          if (err.error === 'User already exists') {
-            errorMsg = 'User already exists. Please use a different email or username.';
-          } else if (err.error === 'User creation failed! Please check user details and try again.') {
-            errorMsg = 'User creation failed! Please check your details and try again.';
-          } else {
-            errorMsg = err.error;
-          }
+      error: (err: any) => {
+        let errorMsg = 'Registration failed. Please try again.';
+        if (err.error && err.error.Message) {
+          errorMsg = err.error.Message;
         }
         Swal.fire('Error', errorMsg, 'error');
       }
     });
   }
 
-  // Toggles password or confirm password visibility.
+  // Verify OTP to complete registration.
+  onVerifyOtp(): void {
+    // Normalize email to ensure that the same value is used for verification.
+    const normalizedEmail = this.email.trim().toLowerCase();
+    const otpPayload = { email: normalizedEmail, otp: this.otp }; // Using lower-case keys
+
+    console.log('Verifying OTP with payload:', otpPayload);
+
+    this.authService.verifyRegistrationOtp(otpPayload).subscribe({
+      next: (response: any) => {
+        Swal.fire('Success', response.Message, 'success').then(() => {
+          this.router.navigate(['/login']);
+        });
+      },
+      error: (err: any) => {
+        let errorMsg = 'OTP verification failed. Please try again.';
+        if (err.error && err.error.Message) {
+          errorMsg = err.error.Message;
+        }
+        Swal.fire('Error', errorMsg, 'error');
+      }
+    });
+  }
+
+  // Toggle password or confirm password visibility.
   togglePasswordVisibility(field: string): void {
     if (field === 'password') {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';

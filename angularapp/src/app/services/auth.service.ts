@@ -18,22 +18,34 @@ export class AuthService {
     }
   }
 
-  login(credentials: Login): Observable<any> {
+  // ----- Login Flow -----
+
+  // Request login OTP using the user's credentials.
+  requestLoginOtp(credentials: Login): Observable<any> {
+    // This endpoint sends an OTP to the given email.
+    return this.http.post<any>(`${this.apiUrl}/api/login`, credentials);
+  }
+
+  // Verify the OTP and, on success, store the token.
+  verifyLoginOtp(data: { email: string; otp: string }): Observable<any> {
     return new Observable(observer => {
-      this.http.post<any>(`${this.apiUrl}/api/login`, credentials).subscribe(
+      this.http.post<any>(`${this.apiUrl}/api/verify-otp`, data).subscribe(
         response => {
-          const token = response.token;
-          localStorage.setItem('token', token);
+          if (response.token) {
+            const token = response.token;
+            localStorage.setItem('token', token);
 
-          const role = this.getUserRoleFromToken(token);
-          const userId = this.getUserIdFromToken(token);
-          const userName = this.getUserNameFromToken(token);
+            const role = this.getUserRoleFromToken(token);
+            const userId = this.getUserIdFromToken(token);
+            const userName = this.getUserNameFromToken(token);
+            const userEmailAddress = this.getUserEmailFromToken(token);
 
-          localStorage.setItem('userRole', role);
-          localStorage.setItem('userId', userId);
-          localStorage.setItem('userName', userName);
-          this.currentUserRole.next(role);
-
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userEmailAddress', userEmailAddress);
+            this.currentUserRole.next(role);
+          }
           observer.next(response);
           observer.complete();
         },
@@ -42,12 +54,23 @@ export class AuthService {
     });
   }
 
+  // ----- Registration Flow -----
+
+  // Call registration endpoint to send an OTP to the provided email.
   register(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/api/register`, user, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
-  
+
+  // Verify the registration OTP to complete the registration.
+  verifyRegistrationOtp(data: { email: string; otp: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/api/verify-registration-otp`, data, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
+  }
+
+  // ----- Auth Helpers -----
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
@@ -61,9 +84,28 @@ export class AuthService {
   getUserRole(): string | null {
     return localStorage.getItem('userRole');
   }
+  getUserId(){
+    return localStorage.getItem('userId');
+  }
+  getUserName(){
+    return localStorage.getItem('userName');
+  }
+  getEmailAddress(){
+    return localStorage.getItem('userEmailAddress');
+  }
 
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);
+  }
+
+  getUserEmailFromToken(token: string): string | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    } catch (error) {
+      console.error("Error decoding token email address:", error);
+      return null;
+    }
   }
 
   getUserRoleFromToken(token: string): string | null {
@@ -112,5 +154,3 @@ export class AuthService {
     return this.getUserRole() === 'User';
   }
 }
-
-//corrected

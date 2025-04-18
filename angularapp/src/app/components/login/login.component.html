@@ -1,38 +1,19 @@
-<div class="login-background" style="background-image: url('/assets/login.png');">
+<div class="login-background" style="background-image: url('/assets/login.png');" *ngIf="!otpVerificationRequired">
   <app-chat></app-chat>
-<div class="login-container">
+   <div class="login-container">
     <h2>Login</h2>
-    
-    <!-- Success message -->
-    <div *ngIf="loginSuccess" class="alert alert-success">
-      Login successful!
-    </div>
-  
-    <!-- Error messages for individual cases -->
-    <div *ngIf="loginError" class="alert alert-danger">
-      <div *ngIf="loginError === 'Incorrect email. Please try again.'">
-        Incorrect email. Please check your email address and try again.
-      </div>
-      <div *ngIf="loginError === 'Incorrect password. Please try again.'">
-        Incorrect password. Please try again.
-      </div>
-      <!-- Fallback for any other error messages -->
-      <div *ngIf="loginError !== 'Incorrect email. Please try again.' && loginError !== 'Incorrect password. Please try again.'">
-        {{ loginError }}
-      </div>
-    </div>
-  
-    <form (ngSubmit)="login()">
-      <label for="username">Email:</label>
+    <!-- Email and Password Form -->
+    <form (ngSubmit)="login()" novalidate>
+      <label for="email">Email:</label>
       <input 
-        type="text" 
-        id="username" 
+        type="email" 
+        id="email" 
         [(ngModel)]="user.Email" 
-        name="username" 
-        placeholder="Enter your username" 
-        required
-      />
-  
+        name="email" 
+        placeholder="Enter your email" 
+        required 
+        (input)="resetLoginError()" />
+
       <label for="password">Password:</label>
       <input 
         type="password" 
@@ -40,15 +21,34 @@
         [(ngModel)]="user.Password" 
         name="password" 
         placeholder="Enter your password" 
-        required
-      />
-  
-      <button type="submit">Login</button>
+        required 
+        (input)="resetLoginError()" />
+
+      <button 
+        type="submit" 
+        [disabled]="!user.Email || !user.Password || !validateEmail(user.Email)"
+        class="submit-button">
+        Login
+      </button>
     </form>
-  
-    <p>
-      Don't have an account?
-      <a (click)="register()">Register here</a>
-    </p>
   </div>
+</div>
+
+<!-- OTP Verification Form -->
+<div class="otp-wrapper" *ngIf="otpVerificationRequired">
+  <div class="otp-container">
+    <h2>Enter OTP</h2>
+    <form (ngSubmit)="verifyOtp()">
+      <label for="otp">OTP:</label>
+      <input 
+        type="text" 
+        id="otp" 
+        [(ngModel)]="userOtp" 
+        name="otp" 
+        placeholder="Enter the OTP sent to your email" 
+        required />
+
+      <button type="submit" class="submit-button">Verify OTP</button>
+    </form>
   </div>
+</div>
