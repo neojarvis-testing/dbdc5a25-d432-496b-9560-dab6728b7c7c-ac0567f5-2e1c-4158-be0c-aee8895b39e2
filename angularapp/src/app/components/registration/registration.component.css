@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
- 
+
 body {
   margin: 0;
   width: 100vw;
@@ -9,9 +9,8 @@ body {
   align-items: center;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
- 
 }
- 
+
 .announcement-form {
   position: absolute;
   top: 50%;
@@ -24,27 +23,31 @@ body {
   background: #ecf0f3;
   text-align: center;
 }
- 
+
 .form-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 10px;
 }
- 
- 
+
 h2 {
- margin-top: 0 px;
+  margin-top: 0;
   font-weight: 900;
   font-size: 1.8rem;
   color: #1DA1F2;
   letter-spacing: 1px;
 }
- 
+
 .form-group {
   margin-bottom: 25px;
 }
- 
+
+.form-group label {
+  display: block;
+  margin-bottom: 10px; /* Add this line to create space between label and input */
+}
+
 .form-group input,
 .form-group textarea {
   width: 100%;
@@ -57,26 +60,23 @@ h2 {
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
   font-size: 14px;
 }
- 
+
 textarea {
   height: 38px;
   resize: none;
- 
 }
- 
+
 input::placeholder,
 textarea::placeholder {
   color: rgb(43, 41, 41);
   padding-left: 10px;
- 
 }
- 
- 
+
 .error {
   color: red;
   font-size: 0.875em;
 }
- 
+
 .btn-submit {
   width: 100%;
   padding: 10px;
@@ -89,12 +89,12 @@ textarea::placeholder {
   box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
   transition: 0.5s;
 }
- 
+
 .btn-submit:disabled {
   background-color: gray;
   cursor: not-allowed;
 }
- 
+
 .btn-submit:hover {
   box-shadow: none;
 }
