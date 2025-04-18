@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as jwt_decode from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
 import { Login } from 'src/app/models/login.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -15,68 +15,62 @@ export class LoginComponent implements OnInit {
   loginError: string | null = null;
   loginSuccess: boolean = false;
 
+  // New properties for OTP verification
+  otpVerificationRequired: boolean = false;  // Controls whether to show OTP form
+  userOtp: string = '';                        // Holds the OTP entered by the user
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
+  // Called when the login form is submitted (for email and password).
   login(): void {
-    if (this.user.Email && this.user.Password) {
-      this.authService.login(this.user).subscribe(
-        response => {
-          console.log('Login successful', response);
-          this.loginError = null;
-          this.loginSuccess = true;
-
-          // Store token from backend response in localStorage.
-          localStorage.setItem('token', response.token);
-
-          // If response does not contain userRole, decode the token.
-          if (response.userRole) {
-            localStorage.setItem('userRole', response.userRole);
-          } else {
-            try {
-              // Cast jwt_decode as a callable function.
-              const decodedToken: any = (jwt_decode as any)(response.token);
-              if (decodedToken && decodedToken.role) {
-                localStorage.setItem('userRole', decodedToken.role);
-              } else {
-                console.error('User role not found in decoded token.');
-              }
-            } catch (error) {
-              console.error('Error decoding token:', error);
-            }
-          }
-
-          // Redirect based on user role stored in localStorage.
-          const userRole = localStorage.getItem('userRole');
-          if (userRole === 'Admin') {
-            this.router.navigate(['/home']);
-          } else if (userRole === 'User') {
-            this.router.navigate(['/home']);
-          } else {
-            this.router.navigate(['/home']);
-          }
-        },
-        error => {
-          console.error('Login error', error);
-          // Check for error message in the response error property.
-          if (error.error) {
-            if (error.error === 'Invalid Password') {
-              this.loginError = 'Incorrect password. Please try again.';
-            } else if (error.error === 'Invalid email') {
-              this.loginError = 'Incorrect email. Please try again.';
-            } else {
-              this.loginError = error.error;
-            }
-          } else {
-            this.loginError = 'Invalid email or password';
-          }
-          this.loginSuccess = false;
-          localStorage.removeItem('userRole');
-          localStorage.removeItem('token');
-        }
-      );
+    // Validate that the required fields are provided.
+    if (!this.user.Email || !this.user.Password) {
+      this.loginError = 'Please provide both email and password';
+      return;
     }
+    // Request an OTP from the backend.
+    this.authService.requestLoginOtp(this.user).subscribe(
+      response => {
+        console.log('OTP sent successfully', response);
+        Swal.fire('Success', 'OTP sent to your email', 'success');
+        this.loginError = null;
+        // Set flag to show the OTP verification form.
+        this.otpVerificationRequired = true;
+      },
+      error => {
+        console.error('Error requesting OTP', error);
+        this.loginError = error.error?.Message || 'Failed to send OTP. Please try again.';
+      }
+    );
+  }
+
+  // Called when the OTP verification form is submitted.
+  verifyOtp(): void {
+    if (!this.user.Email) {
+      this.loginError = 'Email is required for OTP verification';
+      return;
+    }
+    if (!this.userOtp) {
+      this.loginError = 'Please enter the OTP sent to your email';
+      return;
+    }
+    const payload = { email: this.user.Email, otp: this.userOtp }; // Keys in lower-case as expected by the API.
+    this.authService.verifyLoginOtp(payload).subscribe(
+      response => {
+        console.log('OTP verified successfully', response);
+        Swal.fire('Success', 'Login successful', 'success');
+        this.loginError = null;
+        this.loginSuccess = true;
+        // Redirect to home (or any other desired page).
+        this.router.navigate(['/home']);
+      },
+      error => {
+        console.error('OTP verification error', error);
+        this.loginError = error.error?.Message || 'OTP verification failed. Please try again.';
+      }
+    );
   }
 
   resetLoginError(): void {
@@ -87,9 +81,9 @@ export class LoginComponent implements OnInit {
   register(): void {
     this.router.navigate(['/register']);
   }
+
   validateEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);
   }
-  
 }

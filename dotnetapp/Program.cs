@@ -107,9 +107,12 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register custom services
 builder.Services.AddTransient<IAuthService, AuthService>();
+// services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 
