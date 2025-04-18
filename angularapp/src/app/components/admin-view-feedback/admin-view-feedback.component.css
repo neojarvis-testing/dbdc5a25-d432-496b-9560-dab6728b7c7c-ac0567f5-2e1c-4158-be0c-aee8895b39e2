@@ -3,10 +3,10 @@ body {
     background-color: #e0f7fa;
     margin: 0;
     padding: 0;
-}
- 
-/* Container and Header */
-.container {
+  }
+  
+  /* Container and Header */
+  .container {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
@@ -15,41 +15,41 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
- 
-.container h2 {
+  }
+  
+  .container h2 {
     color: #00796b;
     margin: 20px 0;
-}
- 
-/* Table Styles */
-table {
+  }
+  
+  /* Table Styles */
+  table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
     font-size: 16px;
-}
- 
-table th,
-table td {
+  }
+  
+  table th,
+  table td {
     padding: 12px;
     border: 1px solid #cfd8dc;
     text-align: left;
-}
- 
-table th {
+  }
+  
+  table th {
     background-color: #00796b; /* Teal color */
     color: white;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-}
- 
-table td {
+  }
+  
+  table td {
     background-color: #e0f2f1;
-}
- 
-/* Action Buttons */
-button {
+  }
+  
+  /* Action Buttons */
+  button {
     padding: 10px 20px;
     background-color: #004d40;
     color: white;
@@ -57,19 +57,19 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-}
- 
-button:disabled {
+  }
+  
+  button:disabled {
     background-color: #b0bec5;
     cursor: not-allowed;
-}
- 
-button:hover {
+  }
+  
+  button:hover {
     background-color: #00695c; /* Slightly darker teal on hover */
-}
- 
-/* Profile Modal */
-.modal {
+  }
+  
+  /* Profile Modal */
+  .modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -82,47 +82,67 @@ button:hover {
     width: 80%;
     max-width: 500px;
     border-radius: 8px;
-}
- 
-.modal-content {
+  }
+  
+  .modal-content {
     padding: 20px;
-}
- 
-.close-btn {
+  }
+  
+  .close-btn {
     color: #757575;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-}
- 
-.close-btn:hover,
-.close-btn:focus {
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
     color: #000000;
     text-decoration: none;
-}
- 
-/* No Records Found */
-.no-records {
+  }
+  
+  /* No Records Found */
+  .no-records {
     text-align: center;
     font-weight: bold;
     padding: 20px;
     color: #37474f;
-}
- 
-/* Responsive Design */
-@media (max-width: 768px) {
+  }
+  
+  /* Pagination Controls */
+  .pagination-controls {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-controls button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .pagination-controls button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
     .container {
-        padding: 10px;
+      padding: 10px;
     }
- 
+  
     table th,
     table td {
-        padding: 8px;
+      padding: 8px;
     }
- 
+  
     button {
-        padding: 8px 16px;
+      padding: 8px 16px;
     }
-}
-
+  }
+  
