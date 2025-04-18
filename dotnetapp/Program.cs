@@ -71,7 +71,8 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("https://8081-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
                            "https://8081-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
-                           "https://8081-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io")
+                           "https://8081-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
+                           "https://8081-abfbbbdabfccfffadafebfecdebbceacfecbecaeebe.premiumproject.examly.io")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -107,9 +108,12 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register custom services
 builder.Services.AddTransient<IAuthService, AuthService>();
+// services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 
