@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
+ 
 /* Global Reset */
 * {
   margin: 0;
@@ -7,7 +7,7 @@
   box-sizing: border-box;
   font-family: 'Times New Roman', Times, serif;
 }
-
+ 
 /* Navbar Styling */
 .navbar {
   display: flex;
@@ -16,23 +16,23 @@
   background: #333;
   padding: 1rem 2rem;
   color: white;
-  border-radius: 10px;
+  border-radius: 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
 }
-
+ 
 .navbar-header {
   display: flex;
   align-items: center;
 }
-
+ 
 .brand-logo {
   font-family: 'Times New Roman', Times, serif;
   color: white;
   font-size: 2.5rem;
   margin-left: 20px;
 }
-
+ 
 /* Navigation Links */
 .nav-links {
   display: flex;
@@ -41,7 +41,7 @@
   align-items: center;
   transition: all 0.3s ease;
 }
-
+ 
 .nav-links a,
 .logout-button {
   color: white;
@@ -52,29 +52,29 @@
   border-radius: 4px;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
-
+ 
 .nav-links a:hover,
 .logout-button:hover {
   color: black;
   background-color: #f0f0f0;
 }
-
+ 
 .admin-info span {
   color: white;
   border: 1px solid white;
   padding: 10px 15px;
   border-radius: 5px;
 }
-
+ 
 /* Dropdown Styling */
 .dropdown {
   position: relative;
 }
-
+ 
 .dropdown-toggle {
   cursor: pointer;
 }
-
+ 
 .dropdown-toggle::after {
   content: " ▼";
   font-size: 12px;
@@ -82,16 +82,16 @@
   margin-left: 5px;
   transition: transform 0.3s ease;
 }
-
+ 
 .arrow-icon {
   transition: transform 0.3s ease;
   margin-left: 5px;
 }
-
+ 
 .dropdown:hover .arrow-icon {
   transform: rotate(180deg);
 }
-
+ 
 .dropdown-menu {
   display: none;
   position: absolute;
@@ -105,29 +105,29 @@
   transform: translateY(-10px);
   transition: all 0.3s ease;
 }
-
+ 
 .dropdown:hover .dropdown-menu {
   display: block;
   opacity: 1;
   transform: translateY(0);
 }
-
+ 
 .dropdown-menu li {
   padding: 0;
   margin: 0;
 }
-
+ 
 .dropdown-menu a {
   color: white;
   display: block;
   padding: 0.5rem 1rem;
   white-space: nowrap;
 }
-
+ 
 .dropdown-menu a:hover {
   background-color: #777;
 }
-
+ 
 /* Logout Button Styling */
 .logout-button {
   background-color: white;
@@ -141,12 +141,12 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-top: -10px;
 }
-
+ 
 .logout-button:hover {
   background-color: #f0f0f0;
   color: darkred;
 }
-
+ 
 /* Hamburger Menu Styling */
 .hamburger-menu {
   display: none; /* Hidden on desktops */
@@ -154,7 +154,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
 }
-
+ 
 .hamburger-menu div {
   background-color: #ecf0f1;
   height: 3px;
@@ -162,7 +162,7 @@
   width: 25px;
   transition: all 0.3s ease;
 }
-
+ 
 /* When hamburger menu is active, animate into an "X" */
 .hamburger-menu.active div:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
@@ -173,7 +173,7 @@
 .hamburger-menu.active div:nth-child(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
-
+ 
 /* Modal Styling */
 .modal {
   display: flex;
@@ -187,7 +187,7 @@
   background: rgba(0,0,0,0.5);
   z-index: 1000;
 }
-
+ 
 .modal-content {
   background: white;
   padding: 2rem;
@@ -195,7 +195,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   text-align: center;
 }
-
+ 
 .modal-content button {
   margin: 0 10px;
   width: 120px;
@@ -203,7 +203,7 @@
   font-family: 'Times New Roman', Times, serif;
   font-size: 1.2rem;
 }
-
+ 
 .yes-logout-button {
   background-color: red;
   color: white;
@@ -215,11 +215,11 @@
   font-size: 2.5rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
+ 
 .yes-logout-button:hover {
   background-color: darkred;
 }
-
+ 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
   /* Hide nav-links by default on mobile */
@@ -235,21 +235,21 @@
     border-radius: 0 0 10px 10px;
     z-index: 999;
   }
-  
+ 
   /* When active, show the menu */
   .nav-links.active {
     display: flex;
   }
-  
+ 
   .hamburger-menu {
     display: flex;
   }
-  
+ 
   /* Optionally hide admin-info on mobile to simplify layout */
   .admin-info {
     display: none;
   }
-  
+ 
   .nav-links li {
     margin: 10px 0;
     text-align: center;
@@ -296,3 +296,4 @@
   margin: 0.2rem 0;
   font-size: 0.95rem;
 }
+ 

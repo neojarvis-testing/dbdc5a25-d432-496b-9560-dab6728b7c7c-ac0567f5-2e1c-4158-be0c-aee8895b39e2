@@ -4,7 +4,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-user-navbar', // Component selector
+  selector: 'app-user-navbar',
   templateUrl: './user-navbar.component.html',
   styleUrls: ['./user-navbar.component.css']
 })
@@ -20,6 +20,7 @@ export class UserNavbarComponent implements OnInit {
     MobileNumber: '',
     UserRole: ''
   };
+  showMenu: boolean = false; // Toggles hamburger menu visibility
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -34,13 +35,13 @@ export class UserNavbarComponent implements OnInit {
   }
 
   logout(): void {
-    this.showLogoutModel = true; // Display the logout modal
+    this.showLogoutModel = true; // Show the logout confirmation modal
   }
 
   confirmLogout(): void {
     this.showLogoutModel = false; // Hide the modal
-    this.authService.logout();
-    this.router.navigate(['/login']); // Navigate to the login page
+    this.authService.logout(); // Call the logout service
+    this.router.navigate(['/login']); // Navigate to login page
   }
 
   cancelLogout(): void {
@@ -51,7 +52,7 @@ export class UserNavbarComponent implements OnInit {
     event.preventDefault();
     const dropdown = (event.currentTarget as HTMLElement).closest('.dropdown');
     if (dropdown) {
-      dropdown.classList.toggle('show'); // Toggle the 'show' class for the dropdown
+      dropdown.classList.toggle('show'); // Toggle dropdown visibility
     }
   }
   profileClick(){
@@ -64,5 +65,13 @@ export class UserNavbarComponent implements OnInit {
 
   closeProfileDropdown(): void {
     this.showProfileDropdown = false;
+  }
+  
+  toggleMenu(): void {
+    this.showMenu = !this.showMenu; // Toggle hamburger menu visibility
+  }
+
+  closeMenu(): void {
+    this.showMenu = false; // Close the menu
   }
 }

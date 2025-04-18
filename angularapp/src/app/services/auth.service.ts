@@ -49,6 +49,7 @@ export class AuthService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
+  
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');

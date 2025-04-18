@@ -4,14 +4,14 @@
       <p class="brand-logo">BlogPortal</p>
     </span>
   </div>
-
+ 
   <!-- Hamburger Menu (visible on mobile) -->
   <div class="hamburger-menu" (click)="toggleMenu()" [ngClass]="{'active': showMenu}">
     <div></div>
     <div></div>
     <div></div>
   </div>
-
+ 
   <!-- Navigation Links -->
   <ul class="nav-links" [class.active]="showMenu">
     <!-- The admin info does not display on mobile, but if needed, add click handler -->
@@ -25,15 +25,12 @@
       <ul class="dropdown-menu">
         <li (click)="closeMenu()"><a routerLink="/adminaddannouncement">Add Announcement</a></li>
         <li (click)="closeMenu()"><a routerLink="/adminviewannouncement">View Announcements</a></li>
-        <li (click)="closeMenu()"><a routerLink="/admineditannouncement">Edit Announcement</a></li>
-        <li (click)="closeMenu()"><a routerLink="/admindeleteannouncement">Delete Announcement</a></li>
       </ul>
     </li>
     <li class="dropdown">
       <a class="dropdown-toggle" href="#" (click)="toggleDropdown($event)">Blogs <i class="fas fa-chevron-down arrow-icon"></i></a>
       <ul class="dropdown-menu">
         <li (click)="closeMenu()"><a routerLink="/adminviewblog">View Blogs</a></li>
-        <li (click)="closeMenu()"><a routerLink="/adminupdateblog">Update Blogs</a></li>
       </ul>
     </li>
     <li (click)="closeMenu()"><a routerLink="/adminviewfeedback">View Feedbacks</a></li>
@@ -60,6 +57,7 @@
 </div>
 </div>
 
+ 
 <!-- Logout Confirmation Modal -->
 <div *ngIf="showLogoutModel" class="modal">
   <div class="modal-content">
