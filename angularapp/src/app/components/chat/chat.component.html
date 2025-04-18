@@ -1,4 +1,4 @@
-<div class="chat-box">
+<div *ngIf="role=='Admin' || role=='User'" class="chat-box">
   <div class="header">
     <h2>Community Chat</h2>
     <!-- Emoji button to toggle the emoji panel -->

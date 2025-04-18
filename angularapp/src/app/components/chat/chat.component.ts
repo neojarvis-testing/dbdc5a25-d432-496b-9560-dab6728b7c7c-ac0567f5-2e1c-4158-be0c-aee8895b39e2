@@ -14,10 +14,12 @@ export class ChatComponent implements OnInit {
   public connectionEstablished: boolean = false;
   public showEmojiPanel: boolean = false; // Controls display of the emoji picker panel
   private hubConnection!: signalR.HubConnection;
+  role:string;
 
   constructor(private cdr: ChangeDetectorRef) {} // Inject ChangeDetectorRef
 
   ngOnInit(): void {
+    this.role = localStorage.getItem('userRole')
     this.startConnection();
     this.registerOnServerEvents();
     this.userName = localStorage.getItem('userName') || '';
