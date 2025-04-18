@@ -48,7 +48,7 @@ import { FaqComponent } from './components/faq/faq.component';
     UserNavbarComponent,
     FooterComponent,
     ChatComponent,
-    UserProfileComponent
+    UserProfileComponent,
     FaqComponent
   ],
   imports: [
