@@ -23,6 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ChatComponent } from './components/chat/chat.component';
     UserViewFeedbackComponent,
     UserNavbarComponent,
     FooterComponent,
-    ChatComponent
+    ChatComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,
