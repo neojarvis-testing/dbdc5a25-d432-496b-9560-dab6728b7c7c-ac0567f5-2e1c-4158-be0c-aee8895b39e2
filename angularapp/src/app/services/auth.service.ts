@@ -28,10 +28,12 @@ export class AuthService {
           const role = this.getUserRoleFromToken(token);
           const userId = this.getUserIdFromToken(token);
           const userName = this.getUserNameFromToken(token);
+          const userEmailAddress = this.getUserEmailFromToken(token);
 
           localStorage.setItem('userRole', role);
           localStorage.setItem('userId', userId);
           localStorage.setItem('userName', userName);
+          localStorage.setItem('userEmailAddress', userEmailAddress);
           this.currentUserRole.next(role);
 
           observer.next(response);
@@ -60,9 +62,28 @@ export class AuthService {
   getUserRole(): string | null {
     return localStorage.getItem('userRole');
   }
+  getUserId(){
+    return localStorage.getItem('userId');
+  }
+  getUserName(){
+    return localStorage.getItem('userName');
+  }
+  getEmailAddress(){
+    return localStorage.getItem('userEmailAddress');
+  }
 
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);
+  }
+
+  getUserEmailFromToken(token: string): string | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+    } catch (error) {
+      console.error("Error decoding token email address:", error);
+      return null;
+    }
   }
 
   getUserRoleFromToken(token: string): string | null {

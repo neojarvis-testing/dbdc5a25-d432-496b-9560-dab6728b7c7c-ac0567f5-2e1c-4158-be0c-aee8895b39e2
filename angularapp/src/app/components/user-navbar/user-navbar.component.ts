@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -12,11 +13,24 @@ export class UserNavbarComponent implements OnInit {
   Username: string = ''; // Placeholder for the actual username
   role: string = this.isAdmin ? 'Admin' : 'User'; // Role based on user status
   showLogoutModel: boolean = false; // To manage logout confirmation modal visibility
+  showProfileDropdown: boolean = false;
+  userProfile: any = {
+    Username: '',
+    Email: '',
+    MobileNumber: '',
+    UserRole: ''
+  };
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.Username = localStorage.getItem('userName') || 'Guest'; // Assuming username is stored in localStorage
+
+    // Fetch user data from localStorage
+    this.userProfile.Username = this.authService.getUserName();
+    this.userProfile.Email = this.authService.getEmailAddress();
+    this.userProfile.MobileNumber = '1234567890';
+    this.userProfile.UserRole = this.authService.getUserRole();
   }
 
   logout(): void {
@@ -39,5 +53,16 @@ export class UserNavbarComponent implements OnInit {
     if (dropdown) {
       dropdown.classList.toggle('show'); // Toggle the 'show' class for the dropdown
     }
+  }
+  profileClick(){
+    this.router.navigate([`/userprofile`]);
+  }
+
+  toggleProfileDropdown(): void {
+    this.showProfileDropdown = !this.showProfileDropdown;
+  }
+
+  closeProfileDropdown(): void {
+    this.showProfileDropdown = false;
   }
 }
