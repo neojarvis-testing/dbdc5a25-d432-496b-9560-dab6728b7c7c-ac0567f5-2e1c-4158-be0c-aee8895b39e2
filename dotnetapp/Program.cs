@@ -73,7 +73,8 @@ builder.Services.AddCors(options =>
                            "https://8081-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
                            "https://8081-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
                            "https://8081-abfbbbdabfccfffadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
-                           "https://8081-cebeddbfbadafebfecdebbceacfecbecaeebe.premiumproject.examly.io")
+                           "https://8081-cebeddbfbadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
+                           "https://8081-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
