@@ -137,6 +137,23 @@
         </div>
       </div>
 
+      <!-- Admin Code Field (only visible if Admin role is selected) -->
+      <div class="form-group" *ngIf="userRole === 'Admin'">
+        <label for="adminCode">Admin Code: <span class="required">*</span></label>
+        <input
+          id="adminCode"
+          type="text"
+          name="adminCode"
+          [(ngModel)]="adminCode"
+          #adminCodeField="ngModel"
+          required
+          placeholder="Enter the admin code"
+        />
+        <div *ngIf="adminCodeField.invalid && adminCodeField.touched" class="error">
+          <div *ngIf="adminCodeField.errors?.required">Admin code is required.</div>
+        </div>
+      </div>
+
       <!-- Register Button -->
       <button type="submit" [disabled]="registerForm.invalid">Register</button>
     </form>

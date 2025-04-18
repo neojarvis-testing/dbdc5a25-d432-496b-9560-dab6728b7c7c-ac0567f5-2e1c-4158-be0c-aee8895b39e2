@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2'; // SweetAlert2 library for popups
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-registration',
@@ -16,6 +17,7 @@ export class RegistrationComponent implements OnInit {
   confirmPassword: string = '';
   mobileNumber: string = '';
   userRole: string = '';
+  adminCode: string = ''; // New field for admin code
   
   // Password visibility toggles
   passwordFieldType: string = 'password';
@@ -32,6 +34,14 @@ export class RegistrationComponent implements OnInit {
       Swal.fire('Error', 'Passwords do not match', 'error');
       return;
     }
+
+    // Check if admin code is required and valid.
+    const validAdminCode = 'Adminkey'; // Replace with your actual admin code
+    if (this.userRole === 'Admin' && this.adminCode !== validAdminCode) {
+      Swal.fire('Error', 'Invalid admin code', 'error');
+      return;
+    }
+
     // Proceed with registration.
     this.completeRegistration();
   }

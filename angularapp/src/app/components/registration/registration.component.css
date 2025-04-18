@@ -18,22 +18,24 @@ body {
   justify-content: center;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .registration-container {
-  width: 90%;
+  width: 80%;
   max-width: 400px;
   padding: 40px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  margin-top: 40px; /* Add margin to create space */
 }
 
 .registration-container h1 {
   font-weight: 900;
   font-size: 2rem;
-  color: #1DA1F2;
+  color:black;
   margin-bottom: 20px;
 }
 
