@@ -19,8 +19,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let announcement of filteredAnnouncements; let i = index">
-        <td>{{ i + 1 }}</td>
+      <tr *ngFor="let announcement of paginatedAnnouncements; let i = index">
+        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
         <td>{{ announcement.Title }}</td>
         <td>{{ announcement.Content }}</td>
         <td>{{ announcement.Category }}</td>
@@ -38,6 +38,13 @@
     </tbody>
   </table>
 
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button *ngFor="let page of [].constructor(totalPages); let i = index" (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+
   <!-- Delete Confirmation Popup -->
   <div class="popup" *ngIf="showDeletePopup">
     <div class="popup-content">
@@ -47,4 +54,3 @@
     </div>
   </div>
 </div>
-

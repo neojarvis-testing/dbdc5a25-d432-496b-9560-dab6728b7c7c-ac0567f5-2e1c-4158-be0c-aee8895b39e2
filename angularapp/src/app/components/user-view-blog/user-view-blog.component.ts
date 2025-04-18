@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Router } from '@angular/router';
 import { BlogPost } from 'src/app/models/blog-post.model';
 import { BlogPostService } from 'src/app/services/blog-post.service';
@@ -14,6 +13,8 @@ export class UserViewBlogComponent implements OnInit {
   showDeleteConfirm: boolean = false;
   blogToDelete: number | null = null;
   userID = localStorage.getItem('userId');
+  currentPage = 1;
+  itemsPerPage = 5;
 
   constructor(private blogService: BlogPostService, private router: Router) {}
 
@@ -22,19 +23,9 @@ export class UserViewBlogComponent implements OnInit {
   }
 
   loadBlogPosts(): void {
-
-    this.blogService.getAllBlogPosts().subscribe(data=>{
+    this.blogService.getAllBlogPosts().subscribe(data => {
       this.blogPosts = data;
     });
-    // this.blogService.getAllBlogPosts().subscribe({
-    //   next: (data) => {
-    //     console.log("Fetched Blog Posts:", data);
-    //     this.blogPosts = data;
-    //   },
-    //   error: (err) => {
-    //     console.error('Error loading blog posts:', err);
-    //   }
-    // });
   }
 
   confirmDelete(blogId: number): void {
@@ -64,5 +55,19 @@ export class UserViewBlogComponent implements OnInit {
 
   editBlog(blogId: number): void {
     this.router.navigate(['/useraddblog'], { queryParams: { id: blogId } });
+  }
+
+  get paginatedBlogPosts() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.blogPosts.slice(startIndex, endIndex);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.blogPosts.length / this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
   }
 }
