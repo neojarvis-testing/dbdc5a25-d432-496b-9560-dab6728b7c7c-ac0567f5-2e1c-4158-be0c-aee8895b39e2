@@ -2,7 +2,7 @@
 
 /* Style for the navigation bar */
 nav {
-    background-color: rgb(43, 43, 110);
+    background-color: #00bcd4;
     padding: 1em;
     display: flex;
     align-items: right;
@@ -11,7 +11,7 @@ nav {
   
   /* Style for the title */
   nav h1 {
-    color: rgb(111, 19, 111);
+    color: rgb(12, 10, 12);
     font-size: 2em; /* Increased font size */
     font-weight: bold; /* Bolder font */
     margin: 0;
@@ -40,5 +40,8 @@ nav {
   }
   
   nav ul li a:hover {
-    color: #00bcd4;
+    color: rgb(26, 28, 29);
   }
+
+  /* #00bcd4; */ 
+  /* for navbar color */

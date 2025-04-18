@@ -8,19 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-add-blog.component.css']
 })
 export class UserAddBlogComponent implements OnInit {
-  // blogForm!: FormGroup;
-  // errorMessage: string = '';
-  // isEdit: boolean = false; // Toggle for add/edit mode
+  blogForm!: FormGroup;
+  errorMessage: string = '';
+  isEdit: boolean = false; // Toggle for add/edit mode
 
   constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
   
-    // this.blogForm = this.fb.group({
-    //   title: ['', Validators.required],
-    //   content: ['', Validators.required]
-    // });
-    // Pre-populate form if editing (using route data)
+    this.blogForm = this.fb.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required]
+    });
+  
   }
 
   onSubmit() {
