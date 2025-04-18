@@ -38,12 +38,14 @@ export class AuthService {
             const role = this.getUserRoleFromToken(token);
             const userId = this.getUserIdFromToken(token);
             const userName = this.getUserNameFromToken(token);
+            const userEmailAddress = this.getUserEmailFromToken(token);
 
-          localStorage.setItem('userRole', role);
-          localStorage.setItem('userId', userId);
-          localStorage.setItem('userName', userName);
-          this.currentUserRole.next(role);
-
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('userId', userId);
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userEmailAddress', userEmailAddress);
+            this.currentUserRole.next(role);
+          }
           observer.next(response);
           observer.complete();
         },
