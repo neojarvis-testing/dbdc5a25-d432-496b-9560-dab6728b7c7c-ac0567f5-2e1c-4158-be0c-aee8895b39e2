@@ -7,21 +7,26 @@ using System.Text;
 using dotnetapp.Data;
 using dotnetapp.Models;
 using dotnetapp.Services;
- 
+// using dotnetapp.Hubs; // Ensure that ChatHub is available
+
 var builder = WebApplication.CreateBuilder(args);
- 
+
+// Add Controllers
 builder.Services.AddControllers();
+
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("conn")));
- 
+
 // Add Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
- 
-builder.Services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
- 
+
+// Configure JSON options (preserve property names)
+builder.Services.AddMvc().AddJsonOptions(options =>
+    options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
 // Add Authentication - JWT
 builder.Services.AddAuthentication(options =>
 {
@@ -31,7 +36,7 @@ builder.Services.AddAuthentication(options =>
 .AddJwtBearer(options =>
 {
     var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]);
- 
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -42,29 +47,42 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Issuer"],
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
+
+    // Allow SignalR to retrieve the JWT token from the query string.
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
 });
- 
-// Add CORS
+
+// Update CORS policy to allow a specific origin and credentials
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+    {
+        policy.WithOrigins("https://8081-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
+                           "https://8081-ceaeccbebfffaedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io",
+                           "https://8081-cdebaaabaaceadafebfecdebbceacfecbecaeebe.premiumproject.examly.io")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
 });
- 
-// Add Controllers
-builder.Services.AddControllers();
- 
+
 // Swagger + JWT Support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
- 
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -74,7 +92,7 @@ builder.Services.AddSwaggerGen(c =>
         In = ParameterLocation.Header,
         Description = "Enter 'Bearer' followed by a space and your token."
     });
- 
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -86,33 +104,38 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
- 
-// Register Custom Services
+
+// Register custom services
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
- 
+
 builder.Services.AddEndpointsApiExplorer();
- 
+
+// Register SignalR services
+builder.Services.AddSignalR();
+
 var app = builder.Build();
- 
-// Middleware
+
+// Middleware configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
- 
+
 app.UseHttpsRedirection();
- 
-app.UseCors("AllowAll");
- 
+
+// Instead of AllowAll, use the specific CORS policy that includes credentials.
+app.UseCors("AllowSpecificOrigin");
+
 app.UseAuthentication();
 app.UseAuthorization();
- 
-app.MapControllers();
- 
-app.Run();
 
-// done
+app.MapControllers();
+
+// Map SignalR hub endpoint.
+app.MapHub<ChatHub>("/chatHub");
+
+app.Run();

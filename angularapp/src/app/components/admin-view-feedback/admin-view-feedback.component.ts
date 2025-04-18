@@ -72,3 +72,4 @@ export class AdminViewFeedbackComponent implements OnInit {
     return Math.ceil(this.feedbacks.length / this.itemsPerPage);
   }
 }
+
