@@ -1,51 +1,94 @@
-<div class="view-blog">
-  <img src="/assets/image/three.jpg" alt="Background Image" class="background-image">
-  
-  <div class="center-table">
-    <div class="table-container">
-      <h2>Blog Posts</h2>
+<h2>Blog Posts</h2>
+<!-- Toggle Button -->
+<button (click)="toggleView()">
+  {{ isCardView ? 'Show Table View' : 'Show Card View' }}
+</button>
 
-      <table>
-        <thead>
-          <tr>
-            <th>S.No</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let blog of paginatedBlogPosts; let i = index">
-            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-            <td>{{ blog.Title }}</td>
-            <td>{{ blog.Content }}</td>
-            <td>{{ blog.Status }}</td>
-            <td>
-              <button 
-                (click)="editBlog(blog.BlogPostId)" 
-                [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Edit</button>
-              <button 
-                (click)="confirmDelete(blog.BlogPostId)" 
-                [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<!-- TABLE VIEW: Render if not card view -->
+<div *ngIf="!isCardView">
+  <table>
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let blog of paginatedBlogPosts; let i = index">
+        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+        <td>{{ blog.Title }}</td>
+        <!-- Content cell with expandable functionality -->
+        <td (click)="toggleExpand(blog.BlogPostId)" class="content-cell">
+          <div [ngClass]="{'truncated': expandedRow !== blog.BlogPostId}">
+            {{ blog.Content }}
+          </div>
+        </td>
+        <td>{{ blog.Status }}</td>
+        <td>
+          <button (click)="editBlog(blog.BlogPostId); $event.stopPropagation()"
+                  [disabled]="blog.Status === 'Approved' || userID != blog.UserId">
+            Edit
+          </button>
+          <button (click)="confirmDelete(blog.BlogPostId); $event.stopPropagation()"
+                  [disabled]="blog.Status === 'Approved' || userID != blog.UserId">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-      <div class="pagination">
-        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= blogPosts.length">Next</button>
-      </div>
-
-      <!-- Delete Confirmation Popup -->
-      <div class="popup" *ngIf="showDeleteConfirm">
-        <div class="popup-content">
-          <p>Are you sure you want to delete this blog post?</p>
-          <button (click)="deleteConfirmed()">Yes, Delete</button>
-          <button (click)="cancelDelete()">Cancel</button>
-        </div>
-      </div>
+<!-- CARD VIEW: Render if card view is enabled -->
+<div *ngIf="isCardView" class="card-view-container">
+  <div
+    *ngFor="let blog of paginatedBlogPosts"
+    class="card-view"
+    (click)="viewDetails(blog)"
+  >
+    <h3>{{ blog.Title }}</h3>
+    <!-- Show a truncated preview (first 100 characters) -->
+    <p>{{ blog.Content | slice:0:100 }}{{ blog.Content.length > 100 ? '...' : '' }}</p>
+    <p><strong>Status:</strong> {{ blog.Status }}</p>
+    <div class="actions">
+      <button (click)="editBlog(blog.BlogPostId); $event.stopPropagation()"
+              [disabled]="blog.Status === 'Approved' || userID != blog.UserId">
+        Edit
+      </button>
+      <button (click)="confirmDelete(blog.BlogPostId); $event.stopPropagation()"
+              [disabled]="blog.Status === 'Approved' || userID != blog.UserId">
+        Delete
+      </button>
     </div>
+  </div>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= blogPosts.length">
+    Next
+  </button>
+</div>
+
+<!-- Delete Confirmation Popup -->
+<div class="popup" *ngIf="showDeleteConfirm">
+  <div class="popup-content">
+    <p>Are you sure you want to delete this blog post?</p>
+    <button (click)="deleteConfirmed()">Yes, Delete</button>
+    <button (click)="cancelDelete()">Cancel</button>
+  </div>
+</div>
+
+<!-- Details Modal for Card View (Full Blog Details) -->
+<div class="details-modal" *ngIf="selectedBlog">
+  <div class="details-modal-content">
+    <span class="close-button" (click)="closeDetails()">×</span>
+    <h2>{{ selectedBlog.Title }}</h2>
+    <p>{{ selectedBlog.Content }}</p>
+    <p><strong>Status:</strong> {{ selectedBlog.Status }}</p>
   </div>
 </div>

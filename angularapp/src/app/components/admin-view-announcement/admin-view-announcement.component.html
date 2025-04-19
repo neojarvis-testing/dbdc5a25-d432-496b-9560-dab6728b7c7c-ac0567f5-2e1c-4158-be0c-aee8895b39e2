@@ -28,9 +28,9 @@
         <td>{{ announcement.PublishedDate | date: 'short' }}</td>
         <td>{{ announcement.Status }}</td>
         <td>
-          <button (click)="editAnnouncement(announcement.AnnouncementId!)">Edit</button>
-          <button (click)="confirmDelete(announcement.AnnouncementId!)">Delete</button>
-          <button (click)="toggleStatus(announcement)">
+          <button class="edit" (click)="editAnnouncement(announcement.AnnouncementId!)">Edit</button>
+          <button class="delete" (click)="confirmDelete(announcement.AnnouncementId!)">Delete</button>
+          <button class= "toggle"(click)="toggleStatus(announcement)">
             {{ announcement.Status === 'Active' ? 'Mark as Inactive' : 'Mark as Active' }}
           </button>
         </td>
@@ -54,3 +54,5 @@
     </div>
   </div>
 </div>
+
+

@@ -39,11 +39,13 @@ export class AuthService {
             const userId = this.getUserIdFromToken(token);
             const userName = this.getUserNameFromToken(token);
             const userEmailAddress = this.getUserEmailFromToken(token);
+            // const userMobileNumber = this.getUserMobileFromToken(token);
 
             localStorage.setItem('userRole', role);
             localStorage.setItem('userId', userId);
             localStorage.setItem('userName', userName);
             localStorage.setItem('userEmailAddress', userEmailAddress);
+            // localStorage.setItem('userMobile', userMobileNumber);
             this.currentUserRole.next(role);
           }
           observer.next(response);
@@ -93,6 +95,15 @@ export class AuthService {
   getEmailAddress(){
     return localStorage.getItem('userEmailAddress');
   }
+  // getUserMobileFromToken(token:string){
+  //   try {
+  //     const payload = JSON.parse(atob(token.split('.')[1]));
+  //     return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilenumber"];
+  //   } catch (error) {
+  //     console.error("Error decoding token Mobile Number:", error);
+  //     return null;
+  //   }
+  // }
 
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);

@@ -16,6 +16,6 @@ namespace dotnetapp.Models
         public string Username { get; set; }
         public string MobileNumber { get; set; }
         public string UserRole { get; set; } // Admin/User
-
+        
     }
 }

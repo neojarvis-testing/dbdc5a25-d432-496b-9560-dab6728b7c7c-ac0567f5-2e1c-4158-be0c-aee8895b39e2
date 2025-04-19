@@ -15,6 +15,9 @@ export class UserViewBlogComponent implements OnInit {
   userID = localStorage.getItem('userId');
   currentPage = 1;
   itemsPerPage = 5;
+  isCardView: boolean = false; // Toggle for table vs. card view.
+  selectedBlog: BlogPost | null = null; // For showing full details in modal (card view).
+  expandedRow: number | null = null; // For table view: which row is expanded.
 
   constructor(private blogService: BlogPostService, private router: Router) {}
 
@@ -67,7 +70,31 @@ export class UserViewBlogComponent implements OnInit {
     return Math.ceil(this.blogPosts.length / this.itemsPerPage);
   }
 
-  changePage(page: number) {
+  changePage(page: number): void {
     this.currentPage = page;
+  }
+
+  // Toggle between table and card views.
+  toggleView(): void {
+    this.isCardView = !this.isCardView;
+  }
+
+  // For card view modal details.
+  viewDetails(blog: BlogPost): void {
+    this.selectedBlog = blog;
+  }
+
+  closeDetails(): void {
+    this.selectedBlog = null;
+  }
+
+  // Toggle expansion for the content cell in table view.
+  toggleExpand(blogId: number): void {
+    // If the row is already expanded, collapse it; otherwise, expand this one.
+    if (this.expandedRow === blogId) {
+      this.expandedRow = null;
+    } else {
+      this.expandedRow = blogId;
+    }
   }
 }

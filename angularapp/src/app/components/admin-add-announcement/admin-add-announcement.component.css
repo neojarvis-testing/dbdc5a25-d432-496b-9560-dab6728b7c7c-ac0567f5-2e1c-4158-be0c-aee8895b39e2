@@ -41,6 +41,13 @@ h2 {
   font-weight: bold;
 }
 
+.form-group label {
+  margin-left: 50px; /* Shift labels to the left */
+  margin-bottom: 20px; /* Space between label and input */
+  display: block;
+  font-size: 14px;
+}
+
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -48,6 +55,7 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
 .form-buttons {

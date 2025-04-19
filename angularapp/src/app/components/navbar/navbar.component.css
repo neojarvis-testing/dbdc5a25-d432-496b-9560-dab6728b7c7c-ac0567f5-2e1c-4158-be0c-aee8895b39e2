@@ -1,22 +1,25 @@
-
-
 /* Style for the navigation bar */
+
+
+
+
+
 nav {
-    background-color: #333;
-    padding: 2em;
-    display: flex;
-    align-items: right;
-    justify-content: space-between;
-  }
-  
-  /* Style for the title */
-  nav h1 {
-    color: white;
-    font-size: 2em; /* Increased font size */
-    font-weight: bold; /* Bolder font */
-    margin: 0;
-    gap: 35px;
-    font-family: 'League Spartan', sans-serif
+  background-color: #333;
+  padding: 0.7em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Style for the title */
+nav h1 {
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  flex-grow: 1;
 }
 
 /* Style for the list of links */
@@ -25,19 +28,53 @@ nav ul {
   display: flex;
   margin: 0;
   padding: 0;
+  font-weight: bold;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  
 }
 
 /* Style for each list item */
 nav ul li {
   margin-right: 1em;
+  position: relative;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  display: inline-block;
+  height: 35px;
+  padding-top: 15px;
+  background: transparent;
+  z-index: 2;
+  text-transform: uppercase;
+  transition: 0.3s ease-in-out;
 }
 
 /* Style for the links */
 nav ul li a {
   color: white;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 1.2em;
+  font-weight: bold;
   transition: color 0.3s;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+nav ul li a:before {
+  display: inline-block;
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  transition: 0.3s ease-in-out;
+  opacity: 1;
+  color: #FFABAB;
+  overflow: hidden;
+  max-width: 0%;
+  max-height: 0%;
+}
+
+nav ul li:hover a:before {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 nav ul li a:hover {
@@ -46,7 +83,7 @@ nav ul li a:hover {
 
 /* Hamburger Menu Styling */
 .hamburger-menu {
-  display: none; /* Hidden on desktops */
+  display: none;
   flex-direction: column;
   cursor: pointer;
 }
@@ -72,55 +109,39 @@ nav ul li a:hover {
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
-  /* Hide nav-links by default on mobile */
   nav ul {
     display: none;
     flex-direction: column;
     background: rgb(43, 43, 110);
     position: absolute;
-    top: 70px; /* Adjust this value if needed */
+    top: 70px;
     right: 0;
     width: 100%;
     padding: 1rem 0;
     border-radius: 0 0 10px 10px;
     z-index: 999;
   }
-  
-  /* When active, show the menu */
+
   nav ul.active {
     display: flex;
   }
-  
+
   .hamburger-menu {
     display: flex;
-    margin: 0;
-    padding: 0;
-    font-size: 1.5em; /* Increased font size */
-    font-family: 'League Spartan', sans-serif
   }
-  
+
   nav ul li {
     margin: 10px 0;
     text-align: center;
     width: 100%;
   }
-  
-  /* Style for the links */
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-    transition: color 0.3s;
-    font-weight: bold; /* Bolder font */
 
+  nav ul li a {
+    font-size: 1em;
+    font-weight: bold;
   }
-  
+
   nav ul li a:hover {
     color: #7E99A3;
   }
-
-  /* #00bcd4; */ 
-  /* for navbar color */
 }
-/* 
-#202121 */

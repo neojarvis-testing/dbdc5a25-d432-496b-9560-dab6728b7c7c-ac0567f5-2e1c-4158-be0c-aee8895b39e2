@@ -1,4 +1,21 @@
-/* Container for the table */
+/* Container and Header */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #b0bec5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.container h2 {
+  color: black;
+  margin: 20px 0;
+  font-size: 30px;
+}
+
 .table-window {
   width: 80%;
   max-width: 800px;
@@ -21,19 +38,19 @@ table {
 
 th, td {
   padding: 12px;
-  border: 1px solid #cfd8dc;
+  border: 1px solid grey;
   text-align: left;
 }
 
 th {
-  background-color: #00796b; /* Teal color */
+  background-color: #333; /* Teal color */
   color: white;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 td {
-  background-color: #e0f2f1;
+  background-color: whitesmoke;
 }
 
 /* Action Buttons */
@@ -42,9 +59,24 @@ button {
   padding: 6px 12px;
   border: none;
   cursor: pointer;
-  background-color: #007bff;
   color: white;
   border-radius: 4px;
+}
+
+button.approve {
+  background-color: green;
+}
+
+button.reject {
+  background-color: red;
+}
+
+button.approve:hover{
+  background-color: lightgreen;
+}
+
+button.reject:hover{
+  background-color: lightcoral;
 }
 
 button[disabled] {

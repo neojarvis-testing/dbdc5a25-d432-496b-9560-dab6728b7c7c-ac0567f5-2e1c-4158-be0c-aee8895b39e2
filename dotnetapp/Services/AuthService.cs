@@ -181,7 +181,8 @@ namespace dotnetapp.Services
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, customUser.UserId.ToString()),
-                new Claim(ClaimTypes.Role, role.FirstOrDefault())
+                new Claim(ClaimTypes.Role, role.FirstOrDefault()),
+                // new Claim(ClaimTypes.MobileNumber, user.MobileNumber)
             };
 
             var token = GenerateToken(claims);
