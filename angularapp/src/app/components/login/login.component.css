@@ -6,6 +6,7 @@ body {
   height: 100vh;
   margin: 0;
   background-color: #f0f0f0; /* Light grey background */
+  
 }
 
 .login-background {
@@ -16,11 +17,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  
 }
 
 .login-container {
   background-color: #ffffff;
-  padding: 40px 80px;
+  padding: 50px 70px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
@@ -117,4 +120,12 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: #ff4757;
+}
+.otp-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+
 }
