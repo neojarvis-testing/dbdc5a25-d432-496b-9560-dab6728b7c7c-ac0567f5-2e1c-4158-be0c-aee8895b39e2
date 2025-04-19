@@ -20,6 +20,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { FaqComponent } from './components/faq/faq.component';
 
 
+
 const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:'login',component:LoginComponent},

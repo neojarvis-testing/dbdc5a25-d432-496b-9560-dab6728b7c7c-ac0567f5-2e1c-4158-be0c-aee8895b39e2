@@ -1,17 +1,22 @@
+
+
 /* Style for the navigation bar */
 nav {
-  background-color: rgb(65, 65, 68);
-  padding: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Style for the title */
-nav h1 {
-  color: white;
-  font-size: 1.5em;
-  margin: 0;
+    background-color: #202121;
+    padding: 2em;
+    display: flex;
+    align-items: right;
+    justify-content: space-between;
+  }
+  
+  /* Style for the title */
+  nav h1 {
+    color: white;
+    font-size: 2em; /* Increased font size */
+    font-weight: bold; /* Bolder font */
+    margin: 0;
+    gap: 35px;
+    font-family: 'League Spartan', sans-serif
 }
 
 /* Style for the list of links */
@@ -88,6 +93,10 @@ nav ul li a:hover {
   
   .hamburger-menu {
     display: flex;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em; /* Increased font size */
+    font-family: 'League Spartan', sans-serif
   }
   
   nav ul li {
@@ -95,4 +104,21 @@ nav ul li a:hover {
     text-align: center;
     width: 100%;
   }
+  
+  /* Style for the links */
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s;
+    font-weight: bold; /* Bolder font */
+
+  }
+  
+  nav ul li a:hover {
+    color: #7E99A3;
+  }
+
+  /* #00bcd4; */ 
+  /* for navbar color */
 }
