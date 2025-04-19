@@ -2,7 +2,7 @@
 
 /* Style for the navigation bar */
 nav {
-    background-color: #202121;
+    background-color: #333;
     padding: 2em;
     display: flex;
     align-items: right;
@@ -122,3 +122,5 @@ nav ul li a:hover {
   /* #00bcd4; */ 
   /* for navbar color */
 }
+/* 
+#202121 */
