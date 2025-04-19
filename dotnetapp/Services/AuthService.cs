@@ -122,7 +122,7 @@ namespace dotnetapp.Services
             var user = new ApplicationUser
             {
                 UserName = model.Username,
-                Email = model.Email,
+                Email = model.Email
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -182,7 +182,6 @@ namespace dotnetapp.Services
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, customUser.UserId.ToString()),
                 new Claim(ClaimTypes.Role, role.FirstOrDefault()),
-                // new Claim(ClaimTypes.MobileNumber, user.MobileNumber)
             };
 
             var token = GenerateToken(claims);

@@ -61,6 +61,7 @@ namespace dotnetapp.Controllers
             return BadRequest(new { Message = responseMessage });
         }
 
+
         // Endpoint to verify the registration OTP and complete registration.
         [HttpPost("verify-registration-otp")]
         public async Task<IActionResult> VerifyRegistrationOtp([FromBody] OtpModel model)
