@@ -48,36 +48,34 @@
         </div>
 
         <!-- Password Field -->
- 
-<div class="form-group">
-  <label for="password">Password: <span class="required">*</span></label>
-  <div class="password-container">
-    <input
-      [type]="passwordFieldType"
-      id="password"
-      name="password"
-      [(ngModel)]="password"
-      #passwordField="ngModel"
-      required
-      minlength="6"
-      pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$"
-      placeholder="Enter your password"
-    />
-    <i
-      class="fa"
-      [ngClass]="passwordFieldType === 'password' ? 'fa-eye-slash' : 'fa-eye'"
-      (click)="togglePasswordVisibility('password')"
-    ></i>
-  </div>
-  <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
-    <div *ngIf="passwordField.errors?.required">Password is required.</div>
-    <div *ngIf="passwordField.errors?.minlength">Password must be at least 6 characters long.</div>
-    <div *ngIf="passwordField.errors?.pattern">
-      Password must include letters, numbers and special characters.
-    </div>
-  </div>
-</div>
-
+        <div class="form-group">
+          <label for="password">Password: <span class="required">*</span></label>
+          <div class="password-container">
+            <input
+              [type]="passwordFieldType"
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              #passwordField="ngModel"
+              required
+              minlength="6"
+              pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*]).{6,}$"
+              placeholder="Enter your password"
+            />
+            <i
+              class="fa"
+              [ngClass]="passwordFieldType === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+              (click)="togglePasswordVisibility('password')"
+            ></i>
+          </div>
+          <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+            <div *ngIf="passwordField.errors?.required">Password is required.</div>
+            <div *ngIf="passwordField.errors?.minlength">Password must be at least 6 characters long.</div>
+            <div *ngIf="passwordField.errors?.pattern">
+              Password must include letters, numbers and special characters.
+            </div>
+          </div>
+        </div>
 
         <!-- Confirm Password Field -->
         <div class="form-group">
@@ -104,27 +102,26 @@
           </div>
         </div>
 
-       <!-- Mobile Number Field -->
-<div class="form-group">
-  <label for="mobileNumber">Mobile Number: <span class="required">*</span></label>
-  <input
-    id="mobileNumber"
-    type="text"
-    name="mobileNumber"
-    [(ngModel)]="mobileNumber"
-    #mobileNumberField="ngModel"
-    required
-    pattern="^[0-9]{10}$"
-    placeholder="Enter your 10-digit mobile number"
-  />
-  <div *ngIf="mobileNumberField.invalid && mobileNumberField.touched" class="error">
-    <div *ngIf="mobileNumberField.errors?.required">Mobile number is required.</div>
-    <div *ngIf="mobileNumberField.errors?.pattern">
-      Please enter a valid 10-digit mobile number.
-    </div>
-  </div>
-</div>
-
+        <!-- Mobile Number Field -->
+        <div class="form-group">
+          <label for="mobileNumber">Mobile Number: <span class="required">*</span></label>
+          <input
+            id="mobileNumber"
+            type="text"
+            name="mobileNumber"
+            [(ngModel)]="mobileNumber"
+            #mobileNumberField="ngModel"
+            required
+            pattern="^[0-9]{10}$"
+            placeholder="Enter your 10-digit mobile number"
+          />
+          <div *ngIf="mobileNumberField.invalid && mobileNumberField.touched" class="error">
+            <div *ngIf="mobileNumberField.errors?.required">Mobile number is required.</div>
+            <div *ngIf="mobileNumberField.errors?.pattern">
+              Please enter a valid 10-digit mobile number.
+            </div>
+          </div>
+        </div>
 
         <!-- Role Dropdown -->
         <div class="form-group">
@@ -142,6 +139,23 @@
           </select>
           <div *ngIf="roleField.invalid && roleField.touched" class="error">
             <div *ngIf="roleField.errors?.required">Role is required.</div>
+          </div>
+        </div>
+
+        <!-- Admin Code Field (only visible if role is Admin) -->
+        <div class="form-group" *ngIf="userRole === 'Admin'">
+          <label for="adminCode">Admin Code: <span class="required">*</span></label>
+          <input
+            id="adminCode"
+            type="text"
+            name="adminCode"
+            [(ngModel)]="adminCode"
+            #adminCodeField="ngModel"
+            required
+            placeholder="Enter the admin code"
+          />
+          <div *ngIf="adminCodeField.invalid && adminCodeField.touched" class="error">
+            <div *ngIf="adminCodeField.errors?.required">Admin code is required.</div>
           </div>
         </div>
 

@@ -3,30 +3,43 @@
   <div class="login-container">
     <h2>Login</h2>
     <!-- Email and Password Form -->
-    <form (ngSubmit)="login()" novalidate>
-      <label for="email">Email:</label>
-      <input 
-        type="email" 
-        id="email" 
-        [(ngModel)]="user.Email" 
-        name="email" 
-        placeholder="Enter your email" 
-        required 
-        (input)="resetLoginError()" />
+    <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+      <div class="form-group">
+        <label for="email" class="bold-label">Email*</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="user.Email" 
+          name="email" 
+          placeholder="Enter your email" 
+          required 
+          #emailField="ngModel"
+          (input)="resetLoginError()" />
+        <div *ngIf="emailField.invalid && emailField.touched" class="error">
+          <div *ngIf="emailField.errors?.required">Email is required.</div>
+          <div *ngIf="emailField.errors?.email">Please enter a valid email address.</div>
+        </div>
+      </div>
 
-      <label for="password">Password:</label>
-      <input 
-        type="password" 
-        id="password" 
-        [(ngModel)]="user.Password" 
-        name="password" 
-        placeholder="Enter your password" 
-        required 
-        (input)="resetLoginError()" />
+      <div class="form-group">
+        <label for="password" class="bold-label">Password*</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="user.Password" 
+          name="password" 
+          placeholder="Enter your password" 
+          required 
+          #passwordField="ngModel"
+          (input)="resetLoginError()" />
+        <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+          <div *ngIf="passwordField.errors?.required">Password is required.</div>
+        </div>
+      </div>
 
       <button 
         type="submit" 
-        [disabled]="!user.Email || !user.Password || !validateEmail(user.Email)"
+        [disabled]="!loginForm.valid"
         class="submit-button">
         Login
       </button>
@@ -39,7 +52,6 @@
   <div class="otp-container">
     <h2>Enter OTP</h2>
     <form (ngSubmit)="verifyOtp()">
-      <!-- <label for="otp">OTP:</label> -->
       <input 
         type="text" 
         id="otp" 
@@ -52,4 +64,3 @@
     </form>
   </div>
 </div>
-
