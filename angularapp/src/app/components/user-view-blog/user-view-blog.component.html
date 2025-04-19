@@ -1,43 +1,51 @@
-<h2>Blog Posts</h2>
+<div class="view-blog">
+  <img src="/assets/image/three.jpg" alt="Background Image" class="background-image">
+  
+  <div class="center-table">
+    <div class="table-container">
+      <h2>Blog Posts</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>S.No</th>
-      <th>Title</th>
-      <th>Content</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let blog of paginatedBlogPosts; let i = index">
-      <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-      <td>{{ blog.Title }}</td>
-      <td>{{ blog.Content }}</td>
-      <td>{{ blog.Status }}</td>
-      <td>
-        <button 
-          (click)="editBlog(blog.BlogPostId)" 
-          [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Edit</button>
-        <button 
-          (click)="confirmDelete(blog.BlogPostId)" 
-          [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+      <table>
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let blog of paginatedBlogPosts; let i = index">
+            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td>{{ blog.Title }}</td>
+            <td>{{ blog.Content }}</td>
+            <td>{{ blog.Status }}</td>
+            <td>
+              <button 
+                (click)="editBlog(blog.BlogPostId)" 
+                [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Edit</button>
+              <button 
+                (click)="confirmDelete(blog.BlogPostId)" 
+                [disabled]="blog.Status === 'Approved' || userID != blog.UserId ">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-<div class="pagination">
-  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= blogPosts.length">Next</button>
-</div>
+      <div class="pagination">
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= blogPosts.length">Next</button>
+      </div>
 
-<!-- Delete Confirmation Popup -->
-<div class="popup" *ngIf="showDeleteConfirm">
-  <div class="popup-content">
-    <p>Are you sure you want to delete this blog post?</p>
-    <button (click)="deleteConfirmed()">Yes, Delete</button>
-    <button (click)="cancelDelete()">Cancel</button>
+      <!-- Delete Confirmation Popup -->
+      <div class="popup" *ngIf="showDeleteConfirm">
+        <div class="popup-content">
+          <p>Are you sure you want to delete this blog post?</p>
+          <button (click)="deleteConfirmed()">Yes, Delete</button>
+          <button (click)="cancelDelete()">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
