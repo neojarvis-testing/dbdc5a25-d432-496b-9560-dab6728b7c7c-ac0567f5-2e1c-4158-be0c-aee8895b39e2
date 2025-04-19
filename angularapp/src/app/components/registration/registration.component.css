@@ -17,6 +17,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
+  
 }
  
 .register-background {
@@ -28,6 +29,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  
 }
  
 .registration-container {
@@ -123,6 +125,8 @@ button {
   width: 100%;
   max-width: 400px;
   text-align: center;
+  margin-top: 15px;
+  
 }
  
 .otp-container form {
