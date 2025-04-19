@@ -8,7 +8,6 @@ body {
   height: 100vh;
   margin: 0;
   background-color: #f0f0f0; /* Light grey background */
-  
 }
 
 .login-background {
@@ -19,8 +18,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  
 }
 
 .login-container {
@@ -28,16 +25,19 @@ body {
   padding: 50px 70px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-weight: bold;
 }
 
 h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #333333;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 input[type="email"], input[type="password"] {
@@ -123,11 +123,19 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #ff4757;
 }
-.otp-wrapper{
+
+.otp-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-top: 80px;
+}
 
+/* Error message styling */
+.error {
+  color: red;
+  font-size: 0.875em;
+  text-align: left;
+  margin-top: 5px;
 }
