@@ -1,6 +1,6 @@
 <div class="login-background" style="background-image: url('/assets/login.png');" *ngIf="!otpVerificationRequired">
   <app-chat></app-chat>
-   <div class="login-container">
+  <div class="login-container">
     <h2>Login</h2>
     <!-- Email and Password Form -->
     <form (ngSubmit)="login()" novalidate>
@@ -39,7 +39,7 @@
   <div class="otp-container">
     <h2>Enter OTP</h2>
     <form (ngSubmit)="verifyOtp()">
-      <label for="otp">OTP:</label>
+      <!-- <label for="otp">OTP:</label> -->
       <input 
         type="text" 
         id="otp" 
@@ -52,3 +52,4 @@
     </form>
   </div>
 </div>
+
