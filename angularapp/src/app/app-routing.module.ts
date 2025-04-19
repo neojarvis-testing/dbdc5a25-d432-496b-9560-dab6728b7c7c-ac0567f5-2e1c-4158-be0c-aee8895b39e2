@@ -18,6 +18,7 @@ import { UserViewFeedbackComponent } from './components/user-view-feedback/user-
 import { AuthGuard } from './components/authguard/auth.guard';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { FaqComponent } from './components/faq/faq.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
   {path:'usereditblog',component:UserViewBlogComponent,canActivate:[AuthGuard],data:{role:'User'}},
   {path:'userdeleteblog',component:UserViewBlogComponent,canActivate:[AuthGuard],data:{role:'User'}},
   {path:'userviewfeedback',component:UserViewFeedbackComponent,canActivate:[AuthGuard], data: {role: 'User'}},
+  {path:'footer',component:FooterComponent},
   {path:'faq',component:FaqComponent},
   { path: 'error', component: ErrorComponent },
   // { path: '**', redirectTo: '/error?code=404' },
