@@ -111,3 +111,22 @@
 .social-icon i:hover {
   color: #ccc;
 }
+
+
+.btn-small {
+   display: inline-block;
+   padding: 10px 20px;
+   font-size: 14px;
+   color: #fff;
+   background-color: #cd7d0c;
+   border: none;
+   border-radius: 5px;  
+   align-self: center; 
+   margin-top: 20px; 
+   text-decoration: none;
+   transition: background-color 0.3s ease;
+  }
+  
+  .btn-small:hover {
+   background-color: #e8a15a;
+  }
