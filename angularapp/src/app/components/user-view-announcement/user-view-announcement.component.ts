@@ -10,6 +10,8 @@ import { Announcement } from 'src/app/models/announcement.model';
 export class UserViewAnnouncementComponent implements OnInit {
   announcements: Announcement[] = [];
   searchQuery = '';
+  currentPage = 1;
+  itemsPerPage = 5;
 
   constructor(private announcementService: AnnouncementService) { }
 
@@ -27,5 +29,15 @@ export class UserViewAnnouncementComponent implements OnInit {
     return this.announcements.filter(announcement =>
       announcement.Title.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+  }
+
+  get paginatedAnnouncements() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredAnnouncements.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
   }
 }

@@ -1,17 +1,18 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dotnetapp.Models;
 using dotnetapp.Data;
-using dotnetapp.Controllers;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
- 
+using Microsoft.Extensions.Configuration;
+
 namespace dotnetapp.Services
 {
     public class AuthService : IAuthService
@@ -21,85 +22,235 @@ namespace dotnetapp.Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
-        public AuthService(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ApplicationDbContext context)
+        private readonly IEmailService _emailService;
+
+        // Use static thread-safe dictionaries so that they persist across AuthService instances
+        private static readonly ConcurrentDictionary<string, (string otp, DateTime expiry)> _otpStore =
+            new ConcurrentDictionary<string, (string, DateTime)>();
+
+        private static readonly ConcurrentDictionary<string, User> _pendingRegistrations =
+            new ConcurrentDictionary<string, User>();
+
+        public AuthService(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration,
+            ApplicationDbContext context,
+            IEmailService emailService)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _configuration = configuration;
             _context = context;
+            _emailService = emailService;
         }
-        public async Task<(int, string)> Registration(User model, string role)
+
+        // ---------------------------
+        // Registration Flow with OTP
+        // ---------------------------
+
+        // STEP 1: Send OTP when the user registers.
+        public async Task<(int, string)> SendRegistrationOtp(User model)
         {
             var foundUser = await _userManager.FindByEmailAsync(model.Email);
             if (foundUser != null)
             {
-                Console.WriteLine("User already exists");
+                Console.WriteLine($"[Registration OTP] User already exists for email: {model.Email}");
                 return (0, "User already exists");
             }
+
+            // Normalize email (trimmed and lowercased).
+            var normalizedEmail = model.Email.Trim().ToLower();
+
+            // Generate a 6-digit OTP and set a 5-minute expiration (stored in UTC).
+            var otp = new Random().Next(100000, 999999).ToString();
+            var expiry = DateTime.UtcNow.AddMinutes(5);
+
+            // Store OTP and pending registration details.
+            _otpStore[normalizedEmail] = (otp, expiry);
+            _pendingRegistrations[normalizedEmail] = model;
+
+            // Log with expiration shown in local time.
+            Console.WriteLine($"[Registration OTP] For '{normalizedEmail}', storing OTP '{otp}' with expiry {expiry.ToLocalTime()}");
+
+            // Send the OTP via email.
+            await _emailService.SendEmailAsync(model.Email, "Your Registration OTP",
+                $"Your OTP for registration is: {otp}. It is valid for 5 minutes.");
+
+            return (1, "OTP sent successfully.");
+        }
+
+        // STEP 2: Verify the registration OTP and complete the registration.
+        public async Task<(int, string)> VerifyRegistrationOtp(string email, string otp)
+        {
+            var normalizedEmail = email.Trim().ToLower();
+
+            if (!_otpStore.TryGetValue(normalizedEmail, out var storedTuple))
+            {
+                Console.WriteLine($"[Registration OTP] Not found for '{normalizedEmail}'");
+                return (0, "OTP expired or not found");
+            }
+
+            var (storedOtp, expiry) = storedTuple;
+
+            // Log stored OTP details (convert expiry to local time for clarity)
+            Console.WriteLine($"[Registration OTP] For '{normalizedEmail}': Stored OTP = '{storedOtp}', Expiry = {expiry.ToLocalTime()}, Submitted OTP = '{otp}'");
+
+            if (DateTime.UtcNow > expiry)
+            {
+                Console.WriteLine($"[Registration OTP] OTP expired for '{normalizedEmail}'");
+                _otpStore.TryRemove(normalizedEmail, out _);
+                _pendingRegistrations.TryRemove(normalizedEmail, out _);
+                return (0, "OTP expired. Please request a new one.");
+            }
+
+            if (storedOtp != otp)
+            {
+                Console.WriteLine($"[Registration OTP] OTP mismatch for '{normalizedEmail}'");
+                return (0, "Invalid OTP");
+            }
+
+            if (!_pendingRegistrations.TryGetValue(normalizedEmail, out var model))
+            {
+                Console.WriteLine($"[Registration OTP] No pending registration for '{normalizedEmail}'");
+                return (0, "No pending registration found");
+            }
+
+            // Create the ASP.NET Identity user.
             var user = new ApplicationUser
             {
                 UserName = model.Username,
                 Email = model.Email,
             };
             var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                if (!await _roleManager.RoleExistsAsync(role))
-                {
-                    await _roleManager.CreateAsync(new IdentityRole(role));
-                }
-                await _userManager.AddToRoleAsync(user, role);
-                var customUser = new User
-                {
-                    Username = model.Username,
-                    Email = model.Email,
-                    MobileNumber = model.MobileNumber,
-                    Password = model.Password,
-                    UserRole = model.UserRole
-                };
-                _context.Users.Add(customUser);
-                await _context.SaveChangesAsync();
-                return (1, "User created successfully!");
+                Console.WriteLine($"[Registration OTP] User creation failed for '{normalizedEmail}'");
+                return (0, "User creation failed! Please check user details and try again.");
             }
-            else if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
+
+            if (!await _roleManager.RoleExistsAsync(model.UserRole))
             {
-                return (0, "User already exists");
+                await _roleManager.CreateAsync(new IdentityRole(model.UserRole));
             }
-            return (0, "User creation failed! Please check user details and try again.");
+            await _userManager.AddToRoleAsync(user, model.UserRole);
+
+            // Add custom user record.
+            var customUser = new User
+            {
+                Username = model.Username,
+                Email = model.Email,
+                MobileNumber = model.MobileNumber,
+                Password = model.Password,
+                UserRole = model.UserRole
+            };
+            _context.Users.Add(customUser);
+            await _context.SaveChangesAsync();
+
+            _pendingRegistrations.TryRemove(normalizedEmail, out _);
+            _otpStore.TryRemove(normalizedEmail, out _);
+
+            Console.WriteLine($"[Registration OTP] User created successfully for '{normalizedEmail}'");
+            return (1, "User created successfully!");
         }
-        
+
+        // -------------------
+        // Login Flow with OTP
+        // -------------------
+
+        // Standard login to generate a JWT token.
         public async Task<(int, string)> Login(LoginModel model)
         {
-            Console.WriteLine(model.Email);
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if(user == null)
+            if (user == null)
             {
-                Console.WriteLine("Invalid email");
-                return(0, "Invalid email");
+                Console.WriteLine($"[Login] Invalid email: {model.Email}");
+                return (0, "Invalid email");
             }
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, lockoutOnFailure: false);
-            if(result.Succeeded)
+            var customUser = _context.Users.FirstOrDefault(u => u.Email == model.Email);
+            if (customUser == null)
             {
-                var customUser = _context.Users.FirstOrDefault(u => u.Email == model.Email);
-                var role = await _userManager.GetRolesAsync(user);
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.NameIdentifier, customUser.UserId.ToString()),
-                    new Claim(ClaimTypes.Role, role.FirstOrDefault())
-                };
-                var token = GenerateToken(claims);
-                return (1, token);
+                Console.WriteLine($"[Login] User not found in the database: {model.Email}");
+                return (0, "User not found in the database");
             }
-            return (0, "Invalid Password");
+            var role = await _userManager.GetRolesAsync(user);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, customUser.UserId.ToString()),
+                new Claim(ClaimTypes.Role, role.FirstOrDefault())
+            };
+
+            var token = GenerateToken(claims);
+            Console.WriteLine($"[Login] JWT token generated for '{model.Email}'");
+            return (1, token);
         }
- 
- 
+
+        // Send OTP for login.
+        public async Task<(int, string)> SendOtp(LoginModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                Console.WriteLine($"[Login OTP] Invalid email: {model.Email}");
+                return (0, "Invalid email");
+            }
+            var normalizedEmail = model.Email.Trim().ToLower();
+            var otp = new Random().Next(100000, 999999).ToString();
+            var expiry = DateTime.UtcNow.AddMinutes(5);
+            _otpStore[normalizedEmail] = (otp, expiry);
+
+            Console.WriteLine($"[Login OTP] For '{normalizedEmail}', storing OTP '{otp}' with expiry {expiry.ToLocalTime()}");
+
+            // Send OTP via email.
+            await _emailService.SendEmailAsync(model.Email, "Your OTP for Login",
+                $"Your OTP for login is: {otp}. It is valid for 5 minutes.");
+            return (1, "OTP sent successfully.");
+        }
+
+        // Verify OTP for login.
+        public async Task<(int, string)> VerifyOtp(string email, string otp)
+        {
+            var normalizedEmail = email.Trim().ToLower();
+
+            if (_otpStore.TryGetValue(normalizedEmail, out var storedTuple))
+            {
+                var (storedOtp, expiry) = storedTuple;
+                Console.WriteLine($"[Login OTP] For '{normalizedEmail}': Stored OTP = '{storedOtp}', Expiry = {expiry.ToLocalTime()}, Submitted OTP = '{otp}'");
+
+                if (DateTime.UtcNow > expiry)
+                {
+                    Console.WriteLine($"[Login OTP] OTP expired for '{normalizedEmail}'");
+                    _otpStore.TryRemove(normalizedEmail, out _);
+                    return (0, "OTP expired. Please request a new one.");
+                }
+
+                if (storedOtp == otp)
+                {
+                    Console.WriteLine($"[Login OTP] OTP verified successfully for '{normalizedEmail}'");
+                    _otpStore.TryRemove(normalizedEmail, out _);
+                    return (1, "OTP verified successfully.");
+                }
+                else
+                {
+                    Console.WriteLine($"[Login OTP] OTP mismatch for '{normalizedEmail}'");
+                    return (0, "Invalid OTP");
+                }
+            }
+            Console.WriteLine($"[Login OTP] OTP not found or expired for '{normalizedEmail}'");
+            return (0, "OTP not found or expired.");
+        }
+
+        // ------------------------
+        // Token Generation Helper
+        // ------------------------
         private string GenerateToken(IEnumerable<Claim> claims)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var SecKey = _configuration["JWT:SecretKey"];
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],

@@ -16,6 +16,10 @@ export class AdminViewAnnouncementComponent implements OnInit {
   announcementToDelete: number | null = null;
   successMessage: string = '';
 
+  // Pagination properties
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+
   constructor(
     private announcementService: AnnouncementService,
     private router: Router
@@ -38,6 +42,7 @@ export class AdminViewAnnouncementComponent implements OnInit {
     this.filteredAnnouncements = this.announcements.filter(a =>
       a.Title.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
+    this.currentPage = 1; // Reset to first page on search
   }
 
   editAnnouncement(id: number): void {
@@ -81,5 +86,19 @@ export class AdminViewAnnouncementComponent implements OnInit {
         }
       }
     });
+  }
+
+  // Pagination methods
+  get paginatedAnnouncements(): Announcement[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredAnnouncements.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredAnnouncements.length / this.itemsPerPage);
   }
 }
