@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,6 +17,7 @@ export class RegistrationComponent implements OnInit {
   confirmPassword: string = '';
   mobileNumber: string = '';
   userRole: string = '';
+  adminCode: string = ''; // New field for admin code
 
   // OTP state
   otpSent: boolean = false;
@@ -36,6 +38,15 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
+    if (this.userRole === 'Admin') {
+      const correctAdminCode = environment.Akey; // Hardc oded admin code
+      if (this.adminCode !== correctAdminCode) {
+        Swal.fire('Error', 'Invalid admin code', 'error');
+        return;
+      }
+    }
+    
+
     // Normalize email to ensure consistency
     const normalizedEmail = this.email.trim().toLowerCase();
 
@@ -45,7 +56,8 @@ export class RegistrationComponent implements OnInit {
       Email: normalizedEmail,
       Password: this.password,
       MobileNumber: this.mobileNumber,
-      UserRole: this.userRole
+      UserRole: this.userRole,
+      AdminCode: this.adminCode // Include admin code in registration data
     };
 
     console.log('Submitting registration data:', registrationData);
