@@ -54,6 +54,7 @@ import { FaqComponent } from './components/faq/faq.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule, 
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule
