@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
       }
     });
   }
- 
+ // this will initialize the value 
   ngOnInit(): void {
     this.userRole = localStorage.getItem('userRole');
     this.isLoggedIn = !!this.userRole;
