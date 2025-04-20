@@ -10,7 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 // Define the AppComponent class
 export class AppComponent implements OnInit {
-  title:'angularapp';
+  title:'angularapp';// The title property used in the template
   isLoggedIn = false;
   userRole: string | null = null;
  
