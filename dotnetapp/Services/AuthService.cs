@@ -24,7 +24,7 @@ namespace dotnetapp.Services
         private readonly ApplicationDbContext _context;
         private readonly IEmailService _emailService;
 
-        // Use static thread-safe dictionaries so that they persist across AuthService instances
+        // Use thread-safe dictionaries for in-memory OTP and pending registration storage.
         private static readonly ConcurrentDictionary<string, (string otp, DateTime expiry)> _otpStore =
             new ConcurrentDictionary<string, (string, DateTime)>();
 
@@ -47,13 +47,14 @@ namespace dotnetapp.Services
             _emailService = emailService;
         }
 
-        // ---------------------------
-        // Registration Flow with OTP
-        // ---------------------------
+        // ----------------------------------------------------
+        // Registration Flow with OTP (Send and Verify OTP)
+        // ----------------------------------------------------
 
-        // STEP 1: Send OTP when the user registers.
+        // STEP 1: Send an OTP when the user registers.
         public async Task<(int, string)> SendRegistrationOtp(User model)
         {
+            // Check if a user with the provided email already exists.
             var foundUser = await _userManager.FindByEmailAsync(model.Email);
             if (foundUser != null)
             {
@@ -61,10 +62,10 @@ namespace dotnetapp.Services
                 return (0, "User already exists");
             }
 
-            // Normalize email (trimmed and lowercased).
+            // Normalize the email.
             var normalizedEmail = model.Email.Trim().ToLower();
 
-            // Generate a 6-digit OTP and set a 5-minute expiration (stored in UTC).
+            // Generate a 6-digit OTP and set a 5-minute expiration (UTC).
             var otp = new Random().Next(100000, 999999).ToString();
             var expiry = DateTime.UtcNow.AddMinutes(5);
 
@@ -72,8 +73,8 @@ namespace dotnetapp.Services
             _otpStore[normalizedEmail] = (otp, expiry);
             _pendingRegistrations[normalizedEmail] = model;
 
-            // Log a generic message without exposing the OTP details.
-            Console.WriteLine($"[Registration OTP] OTP generated and stored for '{normalizedEmail}' with expiry at {expiry.ToLocalTime()}.");
+            // Log a generic message without exposing OTP details.
+            Console.WriteLine($"[Registration OTP] OTP generated for '{normalizedEmail}' with expiry at {expiry.ToLocalTime()}.");
 
             // Send the OTP via email.
             await _emailService.SendEmailAsync(model.Email, "Your Registration OTP",
@@ -95,11 +96,9 @@ namespace dotnetapp.Services
 
             // Destructure the stored tuple.
             var (storedOtp, expiry) = storedTuple;
-
-            // Log a generic message without exposing sensitive OTP values.
             Console.WriteLine($"[Registration OTP] OTP verification attempt for '{normalizedEmail}'.");
 
-            // Check if OTP is expired.
+            // Check for OTP expiry.
             if (DateTime.UtcNow > expiry)
             {
                 Console.WriteLine($"[Registration OTP] OTP expired for '{normalizedEmail}'.");
@@ -108,7 +107,7 @@ namespace dotnetapp.Services
                 return (0, "OTP expired. Please request a new one.");
             }
 
-            // Compare the submitted OTP without logging the actual values.
+            // Compare the stored OTP with the submitted OTP.
             if (storedOtp != otp)
             {
                 Console.WriteLine($"[Registration OTP] OTP mismatch for '{normalizedEmail}'.");
@@ -127,6 +126,7 @@ namespace dotnetapp.Services
                 UserName = model.Username,
                 Email = model.Email
             };
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -134,14 +134,14 @@ namespace dotnetapp.Services
                 return (0, "User creation failed! Please check user details and try again.");
             }
 
-            // Ensure role exists, then assign it.
+            // Ensure the role exists before assigning it.
             if (!await _roleManager.RoleExistsAsync(model.UserRole))
             {
                 await _roleManager.CreateAsync(new IdentityRole(model.UserRole));
             }
             await _userManager.AddToRoleAsync(user, model.UserRole);
 
-            // Add custom user record in your application-specific database.
+            // Add a custom user record in your application-specific database.
             var customUser = new User
             {
                 Username = model.Username,
@@ -161,9 +161,9 @@ namespace dotnetapp.Services
             return (1, "User created successfully!");
         }
 
-        // -------------------
-        // Login Flow with OTP
-        // -------------------
+        // -------------------------------------
+        // Login Flow with OTP and Password Check
+        // -------------------------------------
 
         // Standard login to generate a JWT token.
         public async Task<(int, string)> Login(LoginModel model)
@@ -174,12 +174,14 @@ namespace dotnetapp.Services
                 Console.WriteLine($"[Login] Invalid email: {model.Email}");
                 return (0, "Invalid email");
             }
+
             var customUser = _context.Users.FirstOrDefault(u => u.Email == model.Email);
             if (customUser == null)
             {
                 Console.WriteLine($"[Login] User not found in the database: {model.Email}");
                 return (0, "User not found in the database");
             }
+
             var role = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
@@ -194,7 +196,7 @@ namespace dotnetapp.Services
             return (1, token);
         }
 
-        // Send OTP for login.
+        // Send OTP for login – only after verifying the user's password.
         public async Task<(int, string)> SendOtp(LoginModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -203,12 +205,20 @@ namespace dotnetapp.Services
                 Console.WriteLine($"[Login OTP] Invalid email: {model.Email}");
                 return (0, "Invalid email");
             }
+
+            // Validate the user's password using SignInManager.
+            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            if (!signInResult.Succeeded)
+            {
+                Console.WriteLine($"[Login OTP] Invalid password for '{model.Email}'.");
+                return (0, "Invalid password");
+            }
+
             var normalizedEmail = model.Email.Trim().ToLower();
             var otp = new Random().Next(100000, 999999).ToString();
             var expiry = DateTime.UtcNow.AddMinutes(5);
             _otpStore[normalizedEmail] = (otp, expiry);
 
-            // Log a generic message without exposing the OTP itself.
             Console.WriteLine($"[Login OTP] OTP generated for '{normalizedEmail}' with expiry at {expiry.ToLocalTime()}.");
 
             // Send the OTP via email.
@@ -250,15 +260,16 @@ namespace dotnetapp.Services
             return (0, "OTP not found or expired.");
         }
 
-        // ------------------------
-        // Token Generation Helper
-        // ------------------------
+        // -----------------------------
+        // Helper: Token Generation
+        // -----------------------------
         private string GenerateToken(IEnumerable<Claim> claims)
         {
-            // WARNING: Ensure that the JWT secret key is obtained from a secure source (such as an environment variable or secret manager)
+            // WARNING: Ensure that the JWT secret key is obtained from a secure source (e.g., an environment variable or a secret manager)
             var secretKey = _configuration["JWT:SecretKey"];
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Issuer"],
@@ -266,6 +277,7 @@ namespace dotnetapp.Services
                 expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds
             );
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
