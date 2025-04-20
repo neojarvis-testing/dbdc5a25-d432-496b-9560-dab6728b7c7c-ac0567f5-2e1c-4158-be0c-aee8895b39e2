@@ -1,6 +1,7 @@
-<div class="login-background" style="background-image: url('/assets/login.png');" *ngIf="!otpVerificationRequired">
-  <app-chat></app-chat>
-  <div class="login-container">
+<!-- Parent container with the shared background -->
+<div class="login-background" style="background-image: url('/assets/login.png');">
+  <!-- Login Form (shown when OTP is not required) -->
+  <div *ngIf="!otpVerificationRequired" class="login-container">
     <h2>Login</h2>
     <!-- Email and Password Form -->
     <form (ngSubmit)="login(loginForm)" #loginForm="ngForm" novalidate>
@@ -55,28 +56,28 @@
       Don't have an account? <a routerLink="/register">Register Here</a>
     </p>
   </div>
-</div>
 
-<!-- OTP Verification Form -->
-<div class="otp-wrapper" *ngIf="otpVerificationRequired">
-  <div class="otp-container">
-    <h2>Enter OTP</h2>
-    <form (ngSubmit)="verifyOtp()">
-      <input 
-        type="text" 
-        id="otp" 
-        [(ngModel)]="userOtp" 
-        name="otp" 
-        placeholder="Enter the OTP sent to your email" 
-        required
-        (input)="resetLoginError()" />
+  <!-- OTP Verification Form (shown when OTP is required) -->
+  <div *ngIf="otpVerificationRequired" class="otp-wrapper">
+    <div class="otp-container">
+      <h2>Enter OTP</h2>
+      <form (ngSubmit)="verifyOtp()">
+        <input 
+          type="text" 
+          id="otp" 
+          [(ngModel)]="userOtp" 
+          name="otp" 
+          placeholder="Enter the OTP sent to your email" 
+          required
+          (input)="resetLoginError()" />
 
-      <!-- Error message for OTP -->
-      <div *ngIf="loginError" class="error">
-        {{ loginError }}
-      </div>
+        <!-- Error message for OTP -->
+        <div *ngIf="loginError" class="error">
+          {{ loginError }}
+        </div>
 
-      <button type="submit" class="submit-button">Verify OTP</button>
-    </form>
+        <button type="submit" class="submit-button">Verify OTP</button>
+      </form>
+    </div>
   </div>
 </div>
