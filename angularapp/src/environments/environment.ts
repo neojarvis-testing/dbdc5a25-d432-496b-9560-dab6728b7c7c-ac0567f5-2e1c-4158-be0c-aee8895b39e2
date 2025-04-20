@@ -4,6 +4,8 @@
  
 export const environment = {
     production: false,
+    apiUrl: 'https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080',
+    //use this 
     Akey:'AA3B4C'
   };
    
