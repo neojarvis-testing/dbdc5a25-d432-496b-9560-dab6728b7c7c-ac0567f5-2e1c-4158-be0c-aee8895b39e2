@@ -25,13 +25,25 @@ export class LoginComponent implements OnInit {
 
   // Called when the login form is submitted (for email and password).
   login(loginForm: any): void {
-    // Trigger validation for the form
+    // Validate the form fields.
     if (!loginForm.valid) {
       this.loginError = 'Please fill in all required fields correctly.';
       return;
     }
 
-    // Request an OTP from the backend.
+    // Validate email with our helper.
+    if (!this.validateEmail(this.user.Email)) {
+      this.loginError = 'Invalid email format';
+      return;
+    }
+
+    // Validate password. In this example, we require a minimum of 6 characters.
+    if (!this.user.Password || this.user.Password.trim().length < 6) {
+      this.loginError = 'Password must be at least 6 characters long';
+      return;
+    }
+
+    // If validations pass, request an OTP for login.
     this.authService.requestLoginOtp(this.user).subscribe(
       response => {
         console.log('OTP sent successfully', response);
@@ -42,6 +54,7 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.error('Error requesting OTP', error);
+        // The API error message—such as "Invalid password"—will be passed back in error.error?.Message
         this.loginError = error.error?.Message || 'Failed to send OTP. Please try again.';
       }
     );
@@ -74,18 +87,18 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  // Resets the login error message
+  // Resets the login error message.
   resetLoginError(): void {
     this.loginError = null;
     this.loginSuccess = false;
   }
 
-  // Navigates to the registration page
+  // Navigates to the registration page.
   register(): void {
     this.router.navigate(['/register']);
   }
 
-  // Validates email format
+  // Validates email format.
   validateEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);
