@@ -63,7 +63,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #e63946; /* Darker red on hover */
+  background-color: #ff7043; /* Darker red on hover */
 }
 
 p {
