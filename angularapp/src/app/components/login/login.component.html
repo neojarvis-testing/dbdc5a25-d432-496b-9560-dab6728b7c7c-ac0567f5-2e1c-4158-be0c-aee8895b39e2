@@ -3,7 +3,7 @@
   <div class="login-container">
     <h2>Login</h2>
     <!-- Email and Password Form -->
-    <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+    <form (ngSubmit)="login(loginForm)" #loginForm="ngForm" novalidate>
       <div class="form-group">
         <label for="email" class="bold-label">Email*</label>
         <input 
@@ -13,9 +13,10 @@
           name="email" 
           placeholder="Enter your email" 
           required 
+          email
           #emailField="ngModel"
           (input)="resetLoginError()" />
-        <div *ngIf="emailField.invalid && emailField.touched" class="error">
+        <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="error">
           <div *ngIf="emailField.errors?.required">Email is required.</div>
           <div *ngIf="emailField.errors?.email">Please enter a valid email address.</div>
         </div>
@@ -32,18 +33,27 @@
           required 
           #passwordField="ngModel"
           (input)="resetLoginError()" />
-        <div *ngIf="passwordField.invalid && passwordField.touched" class="error">
+        <div *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)" class="error">
           <div *ngIf="passwordField.errors?.required">Password is required.</div>
         </div>
       </div>
 
+      <!-- Show validation error messages -->
+      <div *ngIf="loginError" class="error">
+        {{ loginError }}
+      </div>
+
       <button 
         type="submit" 
-        [disabled]="!loginForm.valid"
         class="submit-button">
         Login
       </button>
     </form>
+    
+    <!-- Register prompt -->
+    <p class="register-prompt">
+      Don't have an account? <a routerLink="/register">Register Here</a>
+    </p>
   </div>
 </div>
 
@@ -58,7 +68,13 @@
         [(ngModel)]="userOtp" 
         name="otp" 
         placeholder="Enter the OTP sent to your email" 
-        required />
+        required
+        (input)="resetLoginError()" />
+
+      <!-- Error message for OTP -->
+      <div *ngIf="loginError" class="error">
+        {{ loginError }}
+      </div>
 
       <button type="submit" class="submit-button">Verify OTP</button>
     </form>

@@ -17,19 +17,20 @@ export class LoginComponent implements OnInit {
 
   // New properties for OTP verification
   otpVerificationRequired: boolean = false;  // Controls whether to show OTP form
-  userOtp: string = '';                        // Holds the OTP entered by the user
+  userOtp: string = '';                      // Holds the OTP entered by the user
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 
   // Called when the login form is submitted (for email and password).
-  login(): void {
-    // Validate that the required fields are provided.
-    if (!this.user.Email || !this.user.Password) {
-      this.loginError = 'Please provide both email and password';
+  login(loginForm: any): void {
+    // Trigger validation for the form
+    if (!loginForm.valid) {
+      this.loginError = 'Please fill in all required fields correctly.';
       return;
     }
+
     // Request an OTP from the backend.
     this.authService.requestLoginOtp(this.user).subscribe(
       response => {
@@ -73,15 +74,18 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // Resets the login error message
   resetLoginError(): void {
     this.loginError = null;
     this.loginSuccess = false;
   }
 
+  // Navigates to the registration page
   register(): void {
     this.router.navigate(['/register']);
   }
 
+  // Validates email format
   validateEmail(email: string): boolean {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailRegex.test(email);
