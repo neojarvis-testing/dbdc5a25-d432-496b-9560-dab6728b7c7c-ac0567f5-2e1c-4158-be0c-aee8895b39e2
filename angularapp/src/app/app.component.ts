@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
  // Define the component decorator with its metadata
 @Component({ // The component's CSS element selector
-  selector: 'app-root',
+  selector: 'app-root',// The location of the component's template file
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
