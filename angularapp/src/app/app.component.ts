@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
  // Define the component decorator with its metadata
-@Component({
+@Component({ // The component's CSS element selector
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
