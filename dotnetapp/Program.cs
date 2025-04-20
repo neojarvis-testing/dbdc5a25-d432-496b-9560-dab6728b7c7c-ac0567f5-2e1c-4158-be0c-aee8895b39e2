@@ -7,9 +7,22 @@ using System.Text;
 using dotnetapp.Data;
 using dotnetapp.Models;
 using dotnetapp.Services;
-// using dotnetapp.Hubs; // Ensure that ChatHub is available
+using System;
+using System.IO;
+using log4net;
+
+
+var logger = LogManager.GetLogger(typeof(Program));
+logger.Info("Application started - testing log creation.");
+
+// At the very start of your Main method, add:
+Console.WriteLine("Current working directory: " + Directory.GetCurrentDirectory());
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add log4net support (ensure the log4net.config file is in your project root)
+builder.Logging.AddLog4Net(".config/log4net.config");
+
 
 // Add Controllers
 builder.Services.AddControllers();
@@ -64,7 +77,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Update CORS policy to allow a specific origin and credentials
+// Update CORS policy to allow specific origins and credentials
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", policy =>
@@ -111,12 +124,10 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register custom services
 builder.Services.AddTransient<IAuthService, AuthService>();
-// services.AddSingleton<IAuthService, AuthService>();
 builder.Services.AddTransient<AnnouncementService>();
 builder.Services.AddTransient<BlogPostService>();
 builder.Services.AddScoped<FeedbackService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
-
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -134,7 +145,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Instead of AllowAll, use the specific CORS policy that includes credentials.
+// Use the specific CORS policy defined above
 app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
