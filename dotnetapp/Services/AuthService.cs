@@ -72,8 +72,8 @@ namespace dotnetapp.Services
             _otpStore[normalizedEmail] = (otp, expiry);
             _pendingRegistrations[normalizedEmail] = model;
 
-            // Log with expiration shown in local time.
-            Console.WriteLine($"[Registration OTP] For '{normalizedEmail}', storing OTP '{otp}' with expiry {expiry.ToLocalTime()}");
+            // Log a generic message without exposing the OTP details.
+            Console.WriteLine($"[Registration OTP] OTP generated and stored for '{normalizedEmail}' with expiry at {expiry.ToLocalTime()}.");
 
             // Send the OTP via email.
             await _emailService.SendEmailAsync(model.Email, "Your Registration OTP",
@@ -89,32 +89,35 @@ namespace dotnetapp.Services
 
             if (!_otpStore.TryGetValue(normalizedEmail, out var storedTuple))
             {
-                Console.WriteLine($"[Registration OTP] Not found for '{normalizedEmail}'");
+                Console.WriteLine($"[Registration OTP] OTP not found for '{normalizedEmail}'.");
                 return (0, "OTP expired or not found");
             }
 
+            // Destructure the stored tuple.
             var (storedOtp, expiry) = storedTuple;
 
-            // Log stored OTP details (convert expiry to local time for clarity)
-            Console.WriteLine($"[Registration OTP] For '{normalizedEmail}': Stored OTP = '{storedOtp}', Expiry = {expiry.ToLocalTime()}, Submitted OTP = '{otp}'");
+            // Log a generic message without exposing sensitive OTP values.
+            Console.WriteLine($"[Registration OTP] OTP verification attempt for '{normalizedEmail}'.");
 
+            // Check if OTP is expired.
             if (DateTime.UtcNow > expiry)
             {
-                Console.WriteLine($"[Registration OTP] OTP expired for '{normalizedEmail}'");
+                Console.WriteLine($"[Registration OTP] OTP expired for '{normalizedEmail}'.");
                 _otpStore.TryRemove(normalizedEmail, out _);
                 _pendingRegistrations.TryRemove(normalizedEmail, out _);
                 return (0, "OTP expired. Please request a new one.");
             }
 
+            // Compare the submitted OTP without logging the actual values.
             if (storedOtp != otp)
             {
-                Console.WriteLine($"[Registration OTP] OTP mismatch for '{normalizedEmail}'");
+                Console.WriteLine($"[Registration OTP] OTP mismatch for '{normalizedEmail}'.");
                 return (0, "Invalid OTP");
             }
 
             if (!_pendingRegistrations.TryGetValue(normalizedEmail, out var model))
             {
-                Console.WriteLine($"[Registration OTP] No pending registration for '{normalizedEmail}'");
+                Console.WriteLine($"[Registration OTP] No pending registration for '{normalizedEmail}'.");
                 return (0, "No pending registration found");
             }
 
@@ -127,17 +130,18 @@ namespace dotnetapp.Services
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                Console.WriteLine($"[Registration OTP] User creation failed for '{normalizedEmail}'");
+                Console.WriteLine($"[Registration OTP] User creation failed for '{normalizedEmail}'.");
                 return (0, "User creation failed! Please check user details and try again.");
             }
 
+            // Ensure role exists, then assign it.
             if (!await _roleManager.RoleExistsAsync(model.UserRole))
             {
                 await _roleManager.CreateAsync(new IdentityRole(model.UserRole));
             }
             await _userManager.AddToRoleAsync(user, model.UserRole);
 
-            // Add custom user record.
+            // Add custom user record in your application-specific database.
             var customUser = new User
             {
                 Username = model.Username,
@@ -149,10 +153,11 @@ namespace dotnetapp.Services
             _context.Users.Add(customUser);
             await _context.SaveChangesAsync();
 
+            // Remove the temporary OTP and pending registration details.
             _pendingRegistrations.TryRemove(normalizedEmail, out _);
             _otpStore.TryRemove(normalizedEmail, out _);
 
-            Console.WriteLine($"[Registration OTP] User created successfully for '{normalizedEmail}'");
+            Console.WriteLine($"[Registration OTP] User '{normalizedEmail}' created successfully.");
             return (1, "User created successfully!");
         }
 
@@ -181,12 +186,11 @@ namespace dotnetapp.Services
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, customUser.UserId.ToString()),
-                new Claim(ClaimTypes.Role, role.FirstOrDefault()),
-                // new Claim(ClaimTypes.MobileNumber, user.MobileNumber)
+                new Claim(ClaimTypes.Role, role.FirstOrDefault() ?? "User"),
             };
 
             var token = GenerateToken(claims);
-            Console.WriteLine($"[Login] JWT token generated for '{model.Email}'");
+            Console.WriteLine($"[Login] JWT token generated for '{model.Email}'.");
             return (1, token);
         }
 
@@ -204,9 +208,10 @@ namespace dotnetapp.Services
             var expiry = DateTime.UtcNow.AddMinutes(5);
             _otpStore[normalizedEmail] = (otp, expiry);
 
-            Console.WriteLine($"[Login OTP] For '{normalizedEmail}', storing OTP '{otp}' with expiry {expiry.ToLocalTime()}");
+            // Log a generic message without exposing the OTP itself.
+            Console.WriteLine($"[Login OTP] OTP generated for '{normalizedEmail}' with expiry at {expiry.ToLocalTime()}.");
 
-            // Send OTP via email.
+            // Send the OTP via email.
             await _emailService.SendEmailAsync(model.Email, "Your OTP for Login",
                 $"Your OTP for login is: {otp}. It is valid for 5 minutes.");
             return (1, "OTP sent successfully.");
@@ -220,28 +225,28 @@ namespace dotnetapp.Services
             if (_otpStore.TryGetValue(normalizedEmail, out var storedTuple))
             {
                 var (storedOtp, expiry) = storedTuple;
-                Console.WriteLine($"[Login OTP] For '{normalizedEmail}': Stored OTP = '{storedOtp}', Expiry = {expiry.ToLocalTime()}, Submitted OTP = '{otp}'");
+                Console.WriteLine($"[Login OTP] Received OTP verification attempt for '{normalizedEmail}'.");
 
                 if (DateTime.UtcNow > expiry)
                 {
-                    Console.WriteLine($"[Login OTP] OTP expired for '{normalizedEmail}'");
+                    Console.WriteLine($"[Login OTP] OTP expired for '{normalizedEmail}'.");
                     _otpStore.TryRemove(normalizedEmail, out _);
                     return (0, "OTP expired. Please request a new one.");
                 }
 
                 if (storedOtp == otp)
                 {
-                    Console.WriteLine($"[Login OTP] OTP verified successfully for '{normalizedEmail}'");
+                    Console.WriteLine($"[Login OTP] OTP verified successfully for '{normalizedEmail}'.");
                     _otpStore.TryRemove(normalizedEmail, out _);
                     return (1, "OTP verified successfully.");
                 }
                 else
                 {
-                    Console.WriteLine($"[Login OTP] OTP mismatch for '{normalizedEmail}'");
+                    Console.WriteLine($"[Login OTP] OTP mismatch for '{normalizedEmail}'.");
                     return (0, "Invalid OTP");
                 }
             }
-            Console.WriteLine($"[Login OTP] OTP not found or expired for '{normalizedEmail}'");
+            Console.WriteLine($"[Login OTP] OTP not found or expired for '{normalizedEmail}'.");
             return (0, "OTP not found or expired.");
         }
 
@@ -250,8 +255,9 @@ namespace dotnetapp.Services
         // ------------------------
         private string GenerateToken(IEnumerable<Claim> claims)
         {
-            var SecKey = _configuration["JWT:SecretKey"];
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecKey));
+            // WARNING: Ensure that the JWT secret key is obtained from a secure source (such as an environment variable or secret manager)
+            var secretKey = _configuration["JWT:SecretKey"];
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:Issuer"],
