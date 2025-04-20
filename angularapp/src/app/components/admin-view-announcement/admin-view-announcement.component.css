@@ -143,6 +143,14 @@ button.toggle:hover {
   text-align: center;
 }
 
+.pop-btn{
+  background-color: red;
+  margin-right: 10px; 
+}
+
+.pop-btnn{
+  background-color: blue;
+}
 /* Pagination Controls */
 .pagination {
   text-align: center;
