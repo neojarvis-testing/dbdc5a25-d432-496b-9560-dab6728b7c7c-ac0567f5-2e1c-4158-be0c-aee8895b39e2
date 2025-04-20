@@ -22,7 +22,7 @@ describe('UserViewFeedbackComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserViewFeedbackComponent);
     component = fixture.componentInstance;// Get component instance
-    fixture.detectChanges();
+    fixture.detectChanges();// Trigger initial data binding and change detection
   });
 
   fit('Frontend_should_create_user_view_feedback_component', () => {
