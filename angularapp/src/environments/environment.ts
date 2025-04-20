@@ -4,8 +4,8 @@
  
 export const environment = {
     production: false,
-     apiUrl: 'https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/',
-            
+    apiUrl: 'https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080',
+    //use this 
     Akey:'AA3B4C'
   };
    
@@ -17,5 +17,4 @@ export const environment = {
    * on performance if an error is thrown.
    */
 
-  // https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080',
 
