@@ -23,6 +23,7 @@ export class UserViewFeedbackComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFeedbacks();
+    // this function will load when component is loaded 
   }
 
   loadFeedbacks(): void {
