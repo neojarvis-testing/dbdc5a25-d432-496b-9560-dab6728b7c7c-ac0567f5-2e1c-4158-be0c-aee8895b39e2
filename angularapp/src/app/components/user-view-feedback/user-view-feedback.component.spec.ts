@@ -21,7 +21,7 @@ describe('UserViewFeedbackComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserViewFeedbackComponent);
-    component = fixture.componentInstance;
+    component = fixture.componentInstance;// Get component instance
     fixture.detectChanges();
   });
 
