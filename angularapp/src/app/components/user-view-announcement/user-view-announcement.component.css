@@ -19,19 +19,27 @@ h1 {
 }
 
 input[type="text"] {
-  width: 100%;
+  width: 70%;
   padding: 12px;
-  margin: 12px 0;
+  margin: 12px auto;
+  display: block;
   box-sizing: border-box;
+  
 }
 
 table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
+
 }
 
 table, th, td {
   border: 1px solid black;
+  margin: 0 auto; 
+  
+background-color: #ffffff; /* Set the background color to white */
+
+
 }
 
 th, td {
@@ -108,5 +116,7 @@ th {
       text-align: left;
   }
 }
+
+
 
 

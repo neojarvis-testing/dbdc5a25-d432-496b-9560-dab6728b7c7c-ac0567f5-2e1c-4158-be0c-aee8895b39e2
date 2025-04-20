@@ -1,7 +1,7 @@
-/* Basic styling for the component */
 .view-feedback {
   padding: 2rem;
   font-family: 'Barlow Condensed', sans-serif;
+  position: relative; /* Ensure the container is positioned relative to the background image */
 }
 
 h1 {
@@ -12,7 +12,7 @@ h1 {
 }
 
 .background-image {
-  position: absolute;
+  position: fixed; /* Fix the image to the viewport */
   top: 0;
   left: 0;
   width: 100%;
@@ -20,6 +20,7 @@ h1 {
   object-fit: cover; /* Make the image cover the entire screen */
   z-index: -1; /* Place the image behind the content */
 }
+
 .error-message {
   color: #e74c3c; /* Red for error messages */
   margin-bottom: 1rem;
@@ -35,6 +36,8 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1rem;
+  background-color: white; /* Make the table background white */
+  opacity: 1; /* Ensure the table is not transparent */
 }
 
 .feed-table th, .feed-table td {

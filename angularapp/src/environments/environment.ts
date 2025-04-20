@@ -4,7 +4,8 @@
  
 export const environment = {
     production: false,
-    apiUrl: 'https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080',
+     apiUrl: 'https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080/',
+            
     Akey:'AA3B4C'
   };
    
@@ -15,3 +16,6 @@ export const environment = {
    * This import should be commented out in production mode because it will have a negative impact
    * on performance if an error is thrown.
    */
+
+  // https://ide-dedadddddbafecbafcedadafebfecdebbceacfecbecaeebe.premiumproject.examly.io/proxy/8080',
+

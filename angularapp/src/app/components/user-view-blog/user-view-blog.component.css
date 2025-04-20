@@ -1,3 +1,16 @@
+/* Remove margin and padding from body to eliminate white space */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Center the title */
+.title {
+  text-align: center;
+  margin-top: 0;
+  padding-top: 20px;
+}
+
 /* Table styles remain unchanged */
 table {
   width: 100%;
@@ -29,7 +42,7 @@ th {
 }
 
 /* General button styling */
-button {
+.button {
   margin-right: 8px;
   padding: 6px 12px;
   border: none;
@@ -115,6 +128,7 @@ button[disabled] {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+  position: relative; /* Added to position the background image */
 }
 
 /* CARD VIEW STYLES */
