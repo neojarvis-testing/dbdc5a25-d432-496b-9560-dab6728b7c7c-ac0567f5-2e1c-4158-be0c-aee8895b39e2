@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SonarQubeTestProject>false</SonarQubeTestProject>
   </PropertyGroup>
 
   <!-- Include the log4net configuration file so it gets copied to the output directory -->
