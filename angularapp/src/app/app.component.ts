@@ -14,6 +14,8 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   userRole: string | null = null;
  
+    // Constructor for the AppComponent class
+
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
