@@ -31,6 +31,6 @@ describe('UserViewFeedbackComponent', () => {
 // Test case to check if the component contains the 'My Feedback' heading
   fit('Frontend_should_contain_my_feedback_heading_in_the_user_view_feedback_component', () => {
     const componentHTML = fixture.debugElement.nativeElement.outerHTML;
-    expect(componentHTML).toContain('My Feedback');
+    expect(componentHTML).toContain('My Feedback');// Assert that the HTML contains 'My Feedback'
   });
 });
