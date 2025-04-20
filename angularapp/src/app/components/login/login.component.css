@@ -114,25 +114,61 @@ p {
   color: #555555;
   margin-top: 20px; /* Adds space between the paragraph and previous elements */
 }
-
-.otp-container {
-  background-color: #ffffff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+.otp-wrapper, .otp-container {
+  margin-top: 20px;
 }
 
 .otp-wrapper {
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  margin-top: 80px;
 }
 
+.otp-container {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.otp-container form {
+  margin-top: 15px;
+}
+
+.otp-container label {
+  font-weight: bold;
+}
+
+.otp-container input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.otp-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-items: center;
+}
+
+.otp-container button:hover {
+  background-color: lightskyblue;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .login-container {
@@ -156,8 +192,8 @@ p {
   p {
     font-size: 12px;
   }
-
 }
+
 .register-prompt {
   font-size: 14px;
   color: #555555; /* Matches label styling */
