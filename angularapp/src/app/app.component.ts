@@ -5,7 +5,7 @@ import { Router, NavigationEnd } from '@angular/router';
 @Component({ // The component's CSS element selector
   selector: 'app-root',// The location of the component's template file
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css']// The location of the component's private CSS 
 })
 export class AppComponent implements OnInit {
   title:'angularapp';
