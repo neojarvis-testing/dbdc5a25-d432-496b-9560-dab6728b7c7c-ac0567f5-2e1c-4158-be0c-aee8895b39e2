@@ -16,7 +16,7 @@ describe('UserViewFeedbackComponent', () => {
       imports: [ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, FormsModule],
       declarations: [ UserViewFeedbackComponent ]
     })
-    .compileComponents();
+    .compileComponents();// Compile the components
   });
 
   beforeEach(() => {
