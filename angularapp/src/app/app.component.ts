@@ -7,6 +7,8 @@ import { Router, NavigationEnd } from '@angular/router';
   templateUrl: './app.component.html',// The location of the component's template file
   styleUrls: ['./app.component.css']// The location of the component's private CSS 
 })
+
+// Define the AppComponent class
 export class AppComponent implements OnInit {
   title:'angularapp';
   isLoggedIn = false;
