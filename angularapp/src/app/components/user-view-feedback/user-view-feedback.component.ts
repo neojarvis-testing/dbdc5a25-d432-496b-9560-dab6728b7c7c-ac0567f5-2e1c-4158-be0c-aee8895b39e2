@@ -21,8 +21,10 @@ export class UserViewFeedbackComponent implements OnInit {
 
   constructor(private feedbackService: FeedbackService, private authService: AuthService, private router: Router) {}
 
+  // This is an angular hook and it executed when there is any changes in input fields .
   ngOnInit(): void {
     this.loadFeedbacks();
+    // this function will load when component is loaded 
   }
 
   loadFeedbacks(): void {

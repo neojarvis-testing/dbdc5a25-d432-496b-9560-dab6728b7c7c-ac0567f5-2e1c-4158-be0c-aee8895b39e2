@@ -81,7 +81,7 @@ button {
   padding: 12px 0;
   border: none;
   border-radius: 6px;
-  background-color: #ff6b6b;
+  background-color: #007bff;
   color: #fff;
   font-size: 16px;
   font-weight: bold;
@@ -91,13 +91,13 @@ button {
 }
 
 button:disabled {
-  background-color: #ffcccc;
+  background-color:skyblue;
   opacity: 0.8;
   cursor: not-allowed;
 }
 
 button:hover:not(:disabled) {
-  background-color: #ff4757;
+  background-color:#007bff;
 }
 
 /* OTP view styling */

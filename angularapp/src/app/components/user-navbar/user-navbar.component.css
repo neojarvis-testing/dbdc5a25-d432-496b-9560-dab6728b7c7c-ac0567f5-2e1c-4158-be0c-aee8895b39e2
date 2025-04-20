@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
- 
+
 /* Global Reset */
 * {
   margin: 0;
@@ -194,7 +193,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px white;
   text-align: center;
-  font-size: 30px;
+  font-size: 20px;
 }
  
 .modal-content button {

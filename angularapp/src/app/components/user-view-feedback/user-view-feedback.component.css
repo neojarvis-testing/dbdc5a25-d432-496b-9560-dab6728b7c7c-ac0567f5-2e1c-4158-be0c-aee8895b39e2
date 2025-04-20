@@ -1,11 +1,11 @@
 .view-feedback {
   padding: 2rem;
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   position: relative; /* Ensure the container is positioned relative to the background image */
 }
 
 h1 {
-  font-family: 'Edu AU VIC WA NT Arrows', cursive;
+  font-family: 'Times New Roman', Times, serif;
   color: #333;
   margin-bottom: 1rem;
   text-align: center;
