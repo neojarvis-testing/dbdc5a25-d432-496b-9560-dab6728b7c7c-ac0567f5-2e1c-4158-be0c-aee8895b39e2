@@ -25,7 +25,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { FaqComponent } from './components/faq/faq.component';
-
+import { AgGridModule } from 'ag-grid-angular'; 
 
 @NgModule({
   declarations: [
@@ -57,7 +57,8 @@ import { FaqComponent } from './components/faq/faq.component';
     FormsModule, 
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AgGridModule
   ],
   providers: [],
   bootstrap: [AppComponent]
